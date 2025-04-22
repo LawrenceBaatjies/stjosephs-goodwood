@@ -1,0 +1,171 @@
+
+import React from "react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
+
+const About = () => {
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Navbar />
+      <main className="flex-grow">
+        {/* Hero Section */}
+        <div className="relative bg-church-navy text-white py-16">
+          <div 
+            className="absolute inset-0 bg-cover bg-center"
+            style={{ 
+              backgroundImage: "url('https://images.unsplash.com/photo-1477513231469-e2c348a58e91?q=80&w=2070&auto=format&fit=crop')", 
+              opacity: "0.3" 
+            }}
+          />
+          <div className="container mx-auto px-4 relative z-10">
+            <div className="max-w-3xl mx-auto text-center">
+              <h1 className="text-4xl md:text-5xl font-bold mb-6">About Our Parish</h1>
+              <p className="text-xl font-light">
+                Learning about our history, mission, and community
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* History Section */}
+        <section className="py-16 bg-white">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              <h2 className="text-3xl font-bold text-church-navy mb-8">Our History</h2>
+              
+              <div className="prose prose-lg max-w-none">
+                <p>
+                  St Joseph's Parish in Goodwood was established in 1909 to serve the growing Catholic population in the area. 
+                  The foundation stone of our beautiful church was laid on March 19, 1909, the Feast of St Joseph.
+                </p>
+                
+                <p>
+                  Over the past century, our parish has been blessed with dedicated priests, religious, and parishioners 
+                  who have built a vibrant faith community. What began as a small church has grown into a parish with 
+                  various ministries and outreach programs serving the wider Goodwood community.
+                </p>
+                
+                <p>
+                  Our church building features beautiful stained glass windows depicting various saints and biblical scenes, 
+                  which were installed in the 1950s. The church underwent significant renovations in the 1980s to preserve its 
+                  architectural integrity while meeting the needs of modern worship.
+                </p>
+                
+                <p>
+                  Today, St Joseph's continues the tradition of faith, service, and community that has characterized 
+                  our parish from the beginning.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Mission & Values */}
+        <section className="py-16 bg-church-gray">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              <h2 className="text-3xl font-bold text-church-navy mb-8">Our Mission & Values</h2>
+              
+              <div className="prose prose-lg max-w-none">
+                <h3 className="text-2xl font-semibold mb-4">Mission Statement</h3>
+                <p>
+                  St Joseph's Parish is a welcoming Catholic community committed to growing in faith, hope, and love. 
+                  Inspired by the example of our patron saint, we strive to serve God and one another through worship, 
+                  education, and charitable works.
+                </p>
+                
+                <h3 className="text-2xl font-semibold mt-8 mb-4">Our Values</h3>
+                
+                <ul>
+                  <li>
+                    <strong>Faith</strong> – We are committed to living and sharing the Gospel of Jesus Christ and the teachings of the Catholic Church.
+                  </li>
+                  <li>
+                    <strong>Community</strong> – We foster a sense of belonging where all are welcomed, respected, and supported.
+                  </li>
+                  <li>
+                    <strong>Service</strong> – Following Christ's example, we serve others with compassion and generosity.
+                  </li>
+                  <li>
+                    <strong>Stewardship</strong> – We responsibly care for and share the gifts God has entrusted to us.
+                  </li>
+                  <li>
+                    <strong>Tradition</strong> – We honor our Catholic heritage while being open to the movement of the Holy Spirit in our time.
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Parish Team */}
+        <section className="py-16 bg-white">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto">
+              <h2 className="text-3xl font-bold text-church-navy mb-8">Our Parish Team</h2>
+              
+              <div className="space-y-8">
+                {/* Parish Priest */}
+                <div className="flex flex-col md:flex-row gap-8 items-start">
+                  <div className="w-full md:w-1/4">
+                    <div className="aspect-square bg-gray-200 rounded-full overflow-hidden">
+                      <img 
+                        src="https://images.unsplash.com/photo-1594608661623-aa0bd3a69799?q=80&w=1974&auto=format&fit=crop" 
+                        alt="Father John Smith"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  </div>
+                  <div className="w-full md:w-3/4">
+                    <h3 className="text-2xl font-semibold text-church-navy">Fr. John Smith</h3>
+                    <p className="text-church-red font-medium mb-4">Parish Priest</p>
+                    <div className="prose">
+                      <p>
+                        Father John has been the parish priest at St Joseph's since 2018. He was ordained in 2005 and has 
+                        served in several parishes across the Archdiocese of Adelaide. Fr. John has a particular interest 
+                        in youth ministry and social justice.
+                      </p>
+                      <p>
+                        "I am blessed to serve in such a vibrant and welcoming community. St Joseph's has a rich history 
+                        and a bright future as we continue to grow in faith together."
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Parish Secretary */}
+                <div className="flex flex-col md:flex-row gap-8 items-start">
+                  <div className="w-full md:w-1/4">
+                    <div className="aspect-square bg-gray-200 rounded-full overflow-hidden">
+                      <img 
+                        src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=1974&auto=format&fit=crop" 
+                        alt="Mrs. Sarah Johnson"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  </div>
+                  <div className="w-full md:w-3/4">
+                    <h3 className="text-2xl font-semibold text-church-navy">Mrs. Sarah Johnson</h3>
+                    <p className="text-church-red font-medium mb-4">Parish Secretary</p>
+                    <div className="prose">
+                      <p>
+                        Sarah has been the parish secretary for over 10 years. She manages the day-to-day operations of the 
+                        parish office, coordinates bookings for parish facilities, and assists with parish communications.
+                      </p>
+                      <p>
+                        Sarah is available in the parish office Tuesday through Friday from 9:00 AM to 3:00 PM.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+      <Footer />
+    </div>
+  );
+};
+
+export default About;

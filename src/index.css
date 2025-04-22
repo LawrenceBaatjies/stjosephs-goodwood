@@ -3,6 +3,15 @@
 @tailwind utilities;
 
 @layer base {
+  /* Custom font families */
+  html {
+    font-family: 'Open Sans', sans-serif;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', serif;
+  }
+
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
