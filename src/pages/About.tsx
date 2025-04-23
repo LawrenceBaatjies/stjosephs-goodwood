@@ -27,34 +27,46 @@ const About = () => {
           </div>
         </div>
 
-        {/* History Section */}
-        <section className="py-16 bg-white">
+        {/* History Section with Image */}
+        <section className="py-16 bg-white" id="history">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl font-bold text-church-navy mb-8">Our History</h2>
+              <h2 className="text-3xl font-bold text-[#d4a760] mb-8">Our History</h2>
               
-              <div className="prose prose-lg max-w-none">
-                <p>
-                  St Joseph's Parish in Goodwood was established in 1909 to serve the growing Catholic population in the area. 
-                  The foundation stone of our beautiful church was laid on March 19, 1909, the Feast of St Joseph.
-                </p>
+              <div className="flex flex-col md:flex-row gap-8">
+                <div className="md:w-2/3 prose prose-lg max-w-none">
+                  <p>
+                    St Joseph's Parish in Goodwood was established in 1909 to serve the growing Catholic population in the area. 
+                    The foundation stone of our beautiful church was laid on March 19, 1909, the Feast of St Joseph.
+                  </p>
+                  
+                  <p>
+                    Over the past century, our parish has been blessed with dedicated priests, religious, and parishioners 
+                    who have built a vibrant faith community. What began as a small church has grown into a parish with 
+                    various ministries and outreach programs serving the wider Goodwood community.
+                  </p>
+                  
+                  <p>
+                    Our church building features beautiful stained glass windows depicting various saints and biblical scenes, 
+                    which were installed in the 1950s. The church underwent significant renovations in the 1980s to preserve its 
+                    architectural integrity while meeting the needs of modern worship.
+                  </p>
+                  
+                  <p>
+                    Today, St Joseph's continues the tradition of faith, service, and community that has characterized 
+                    our parish from the beginning.
+                  </p>
+                </div>
                 
-                <p>
-                  Over the past century, our parish has been blessed with dedicated priests, religious, and parishioners 
-                  who have built a vibrant faith community. What began as a small church has grown into a parish with 
-                  various ministries and outreach programs serving the wider Goodwood community.
-                </p>
-                
-                <p>
-                  Our church building features beautiful stained glass windows depicting various saints and biblical scenes, 
-                  which were installed in the 1950s. The church underwent significant renovations in the 1980s to preserve its 
-                  architectural integrity while meeting the needs of modern worship.
-                </p>
-                
-                <p>
-                  Today, St Joseph's continues the tradition of faith, service, and community that has characterized 
-                  our parish from the beginning.
-                </p>
+                <div className="md:w-1/3">
+                  <div className="rounded-lg overflow-hidden shadow-lg h-full">
+                    <img 
+                      src="https://images.unsplash.com/photo-1438032005730-c779502df480?q=80&w=1974&auto=format&fit=crop" 
+                      alt="St Joseph's Church Historical Photo"
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -64,7 +76,7 @@ const About = () => {
         <section className="py-16 bg-church-gray">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl font-bold text-church-navy mb-8">Our Mission & Values</h2>
+              <h2 className="text-3xl font-bold text-[#d4a760] mb-8">Our Mission & Values</h2>
               
               <div className="prose prose-lg max-w-none">
                 <h3 className="text-2xl font-semibold mb-4">Mission Statement</h3>
@@ -102,7 +114,7 @@ const About = () => {
         <section className="py-16 bg-white">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl font-bold text-church-navy mb-8">Our Parish Team</h2>
+              <h2 className="text-3xl font-bold text-[#d4a760] mb-8">Our Parish Team</h2>
               
               <div className="space-y-8">
                 {/* Parish Priest */}
@@ -117,7 +129,7 @@ const About = () => {
                     </div>
                   </div>
                   <div className="w-full md:w-3/4">
-                    <h3 className="text-2xl font-semibold text-church-navy">Fr. John Smith</h3>
+                    <h3 className="text-2xl font-semibold text-[#d4a760]">Fr. John Smith</h3>
                     <p className="text-church-red font-medium mb-4">Parish Priest</p>
                     <div className="prose">
                       <p>
@@ -145,7 +157,7 @@ const About = () => {
                     </div>
                   </div>
                   <div className="w-full md:w-3/4">
-                    <h3 className="text-2xl font-semibold text-church-navy">Mrs. Sarah Johnson</h3>
+                    <h3 className="text-2xl font-semibold text-[#d4a760]">Mrs. Sarah Johnson</h3>
                     <p className="text-church-red font-medium mb-4">Parish Secretary</p>
                     <div className="prose">
                       <p>

@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -53,7 +54,7 @@ export default {
 					foreground: 'hsl(var(--card-foreground))'
 				},
                 church: {
-                    red: '#8B1E3F',
+                    red: '#d4a760',  // Updated to light goldish red
                     gold: '#E8C547',
                     navy: '#1D3557',
                     light: '#FFFFFF',
