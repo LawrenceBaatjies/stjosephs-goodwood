@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import { Phone, Mail, MapPin } from "lucide-react";
@@ -28,12 +29,10 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Quick Links - Updated Structure */}
-          <div className="space-y-6">
+          {/* Quick Links - Simplified to match main nav */}
+          <div>
             <h3 className="text-xl font-semibold mb-4 text-church-gold">Quick Links</h3>
-            
-            {/* Main Links */}
-            <div className="space-y-2">
+            <nav className="space-y-2">
               <Link to="/" className="block hover:text-church-gold transition-colors">
                 Home
               </Link>
@@ -43,79 +42,25 @@ const Footer = () => {
               <Link to="/mass-times" className="block hover:text-church-gold transition-colors">
                 Mass Times
               </Link>
-            </div>
-
-            {/* Sacraments Section */}
-            <div>
-              <h4 className="text-sm uppercase tracking-wider text-church-gold mb-2">Sacraments</h4>
-              <div className="grid grid-cols-2 gap-2 text-sm">
-                <Link to="/sacraments/baptism" className="hover:text-church-gold transition-colors">
-                  Baptism
-                </Link>
-                <Link to="/sacraments/confirmation" className="hover:text-church-gold transition-colors">
-                  Confirmation
-                </Link>
-                <Link to="/sacraments/marriage" className="hover:text-church-gold transition-colors">
-                  Marriage
-                </Link>
-                <Link to="/sacraments/rcia" className="hover:text-church-gold transition-colors">
-                  RCIA
-                </Link>
-              </div>
-            </div>
-
-            {/* Liturgical Seasons */}
-            <div>
-              <h4 className="text-sm uppercase tracking-wider text-church-gold mb-2">Seasons</h4>
-              <div className="grid grid-cols-2 gap-2 text-sm">
-                <Link to="/seasons/ordinary-time" className="hover:text-church-gold transition-colors">
-                  Ordinary Time
-                </Link>
-                <Link to="/seasons/advent" className="hover:text-church-gold transition-colors">
-                  Advent
-                </Link>
-                <Link to="/seasons/christmastide" className="hover:text-church-gold transition-colors">
-                  Christmastide
-                </Link>
-                <Link to="/seasons/lent" className="hover:text-church-gold transition-colors">
-                  Lent
-                </Link>
-                <Link to="/seasons/triduum" className="hover:text-church-gold transition-colors">
-                  Triduum
-                </Link>
-                <Link to="/seasons/eastertide" className="hover:text-church-gold transition-colors">
-                  Eastertide
-                </Link>
-                <Link to="/seasons/catholic-prayers" className="hover:text-church-gold transition-colors">
-                  Catholic Prayers
-                </Link>
-              </div>
-            </div>
-
-            {/* Additional Links */}
-            <div className="grid grid-cols-2 gap-2 text-sm">
-              <Link to="/gallery" className="hover:text-church-gold transition-colors">
+              <Link to="/sacraments" className="block hover:text-church-gold transition-colors">
+                Sacraments
+              </Link>
+              <Link to="/seasons" className="block hover:text-church-gold transition-colors">
+                Seasons
+              </Link>
+              <Link to="/gallery" className="block hover:text-church-gold transition-colors">
                 Gallery
               </Link>
-              <Link to="/notices" className="hover:text-church-gold transition-colors">
+              <Link to="/notices" className="block hover:text-church-gold transition-colors">
                 Notices
               </Link>
-              <Link to="/calendar" className="hover:text-church-gold transition-colors">
+              <Link to="/calendar" className="block hover:text-church-gold transition-colors">
                 Calendar
               </Link>
-              <Link to="/contact" className="hover:text-church-gold transition-colors">
+              <Link to="/contact" className="block hover:text-church-gold transition-colors">
                 Contact
               </Link>
-              <Link to="/faq" className="hover:text-church-gold transition-colors">
-                FAQ
-              </Link>
-              <Link to="/registration" className="hover:text-church-gold transition-colors">
-                Registration
-              </Link>
-              <Link to="/donation" className="hover:text-church-gold transition-colors">
-                Donation
-              </Link>
-            </div>
+            </nav>
           </div>
 
           {/* Mass Times Section */}
