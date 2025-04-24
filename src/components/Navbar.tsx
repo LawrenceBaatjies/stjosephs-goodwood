@@ -10,7 +10,6 @@ const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState<string>("");
   const [showPopup, setShowPopup] = useState(false);
-  const [popupHidden, setPopupHidden] = useState(false);
 
   useEffect(() => {
     const updateTime = () => {
@@ -24,33 +23,16 @@ const Navbar = () => {
     return () => clearInterval(interval);
   }, []);
 
-  // EDGE popup logic
+  // Edge popup timer - show for 3 seconds after triggered
   useEffect(() => {
-    const popupCycle = () => {
-      if (!popupHidden) {
-        setShowPopup(true);
-        setTimeout(() => {
-          setShowPopup(false);
-          setPopupHidden(true);
-          setTimeout(() => {
-            setPopupHidden(false);
-          }, 30000); // Hide for 30 seconds
-        }, 5000); // Show for 5 seconds
-      }
-    };
-
-    // Initial cycle
-    popupCycle();
-
-    // Set up recurring cycle
-    const cycleInterval = setInterval(() => {
-      if (!popupHidden) {
-        popupCycle();
-      }
-    }, 35000); // Total cycle time (5s show + 30s hide)
-
-    return () => clearInterval(cycleInterval);
-  }, [popupHidden]);
+    if (showPopup) {
+      const timer = setTimeout(() => {
+        setShowPopup(false);
+      }, 3000);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [showPopup]);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
