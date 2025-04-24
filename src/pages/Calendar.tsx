@@ -2,17 +2,16 @@ import React, { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
-import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { CalendarPlus, Download, Mail, AlertTriangle } from "lucide-react";
-import { format } from "date-fns";
-import { supabase, isSupabaseConfigured } from "@/lib/supabase-client";
-import { toast } from "@/components/ui/use-toast";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { AlertTriangle } from "lucide-react";
+import { toast } from "@/components/ui/use-toast";
+import { supabase, isSupabaseConfigured } from "@/lib/supabase-client";
+import CalendarHeader from "@/components/calendar/CalendarHeader";
+import EventList from "@/components/calendar/EventList";
+import AddEventForm from "@/components/calendar/AddEventForm";
+import SubscribeModal from "@/components/calendar/SubscribeModal";
+import type { Event } from "@/types/calendar";
 
 const sampleEvents = [
   { id: 1, title: "Sunday Mass", date: new Date(2025, 4, 4), time: "09:00", category: "Mass" },
@@ -22,21 +21,6 @@ const sampleEvents = [
   { id: 5, title: "Baptism Service", date: new Date(2025, 4, 17), time: "12:00", category: "Sacrament" },
   { id: 6, title: "Food Pantry Distribution", date: new Date(2025, 4, 20), time: "10:00", category: "Outreach" },
 ];
-
-interface Event {
-  id: number;
-  title: string;
-  date: Date;
-  time: string;
-  category: string;
-  description?: string;
-}
-
-interface Subscriber {
-  id: string;
-  email: string;
-  created_at: string;
-}
 
 const Calendar = () => {
   const [date, setDate] = useState<Date>(new Date());
@@ -187,9 +171,7 @@ const Calendar = () => {
           .from('calendar_subscribers')
           .insert([{ email: email.toLowerCase() }]);
 
-        if (error) {
-          throw error;
-        }
+        if (error) throw error;
 
         setIsSubscriber(true);
         localStorage.setItem('calendarSubscriberEmail', email.toLowerCase());
@@ -209,20 +191,6 @@ const Calendar = () => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const downloadCalendar = () => {
-    toast({
-      title: "Download Started",
-      description: "Your calendar is being downloaded as a PDF.",
-    });
-  };
-
-  const sendCalendarByEmail = () => {
-    toast({
-      title: "Email Sent",
-      description: "The calendar has been sent to your email.",
-    });
   };
 
   const isDateWithEvents = (date: Date) => {
@@ -275,14 +243,6 @@ const Calendar = () => {
               <p className="text-xl font-light">
                 Stay updated with all upcoming events and activities
               </p>
-              {!isSubscriber && (
-                <Button 
-                  onClick={() => setShowSubscribeForm(true)}
-                  className="mt-6"
-                >
-                  Subscribe for Full Access
-                </Button>
-              )}
             </div>
           </div>
         </div>
@@ -292,27 +252,10 @@ const Calendar = () => {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
               <div className="lg:col-span-7">
                 <Card className="p-6">
-                  <div className="flex justify-between items-center mb-6">
-                    <h2 className="text-2xl font-bold text-[#d4a760]">Parish Events</h2>
-                    <div className="flex gap-2">
-                      {isSubscriber ? (
-                        <>
-                          <Button variant="outline" onClick={downloadCalendar}>
-                            <Download className="h-4 w-4 mr-2" />
-                            Download PDF
-                          </Button>
-                          <Button variant="outline" onClick={sendCalendarByEmail}>
-                            <Mail className="h-4 w-4 mr-2" />
-                            Email Calendar
-                          </Button>
-                        </>
-                      ) : (
-                        <Button onClick={() => setShowSubscribeForm(true)}>
-                          Subscribe for More
-                        </Button>
-                      )}
-                    </div>
-                  </div>
+                  <CalendarHeader 
+                    isSubscriber={isSubscriber}
+                    onShowSubscribe={() => setShowSubscribeForm(true)}
+                  />
                   
                   <CalendarComponent
                     mode="single"
@@ -339,90 +282,14 @@ const Calendar = () => {
                     {selectedDate ? format(selectedDate, "MMMM dd, yyyy") : "Select a date"}
                   </h2>
                   
-                  {eventsForSelectedDate.length > 0 ? (
-                    <div className="space-y-4">
-                      {eventsForSelectedDate.map((event) => (
-                        <div key={event.id} className="p-4 rounded-lg bg-gray-50">
-                          <div className="flex items-center justify-between mb-2">
-                            <h3 className="font-semibold text-lg">{event.title}</h3>
-                            <span className="text-sm bg-gray-200 px-2 py-1 rounded-full text-gray-700">
-                              {event.category}
-                            </span>
-                          </div>
-                          <p className="text-gray-700 mb-2">Time: {event.time}</p>
-                          {event.description && <p className="text-gray-600">{event.description}</p>}
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <p className="text-gray-500 text-center py-6">No events scheduled for this date.</p>
-                  )}
+                  <EventList events={eventsForSelectedDate} />
 
                   {isSubscriber && selectedDate && (
-                    <div className="mt-6 pt-6 border-t border-gray-200">
-                      <h3 className="text-xl font-semibold mb-4">Add New Event</h3>
-                      <div className="space-y-4">
-                        <div>
-                          <Label htmlFor="event-title">Event Title</Label>
-                          <Input
-                            id="event-title"
-                            value={newEvent.title}
-                            onChange={(e) => setNewEvent({...newEvent, title: e.target.value})}
-                            placeholder="Enter event title"
-                          />
-                        </div>
-                        
-                        <div>
-                          <Label htmlFor="event-time">Time</Label>
-                          <Input
-                            id="event-time"
-                            value={newEvent.time}
-                            onChange={(e) => setNewEvent({...newEvent, time: e.target.value})}
-                            placeholder="HH:MM"
-                          />
-                        </div>
-                        
-                        <div>
-                          <Label htmlFor="event-category">Category</Label>
-                          <Select 
-                            value={newEvent.category} 
-                            onValueChange={(value) => setNewEvent({...newEvent, category: value})}
-                          >
-                            <SelectTrigger id="event-category">
-                              <SelectValue placeholder="Select category" />
-                            </SelectTrigger>
-                            <SelectContent>
-                              <SelectItem value="Mass">Mass</SelectItem>
-                              <SelectItem value="Liturgy">Liturgy</SelectItem>
-                              <SelectItem value="Sacrament">Sacrament</SelectItem>
-                              <SelectItem value="Meeting">Meeting</SelectItem>
-                              <SelectItem value="Outreach">Outreach</SelectItem>
-                              <SelectItem value="Music">Music</SelectItem>
-                              <SelectItem value="Other">Other</SelectItem>
-                            </SelectContent>
-                          </Select>
-                        </div>
-                        
-                        <div>
-                          <Label htmlFor="event-description">Description (Optional)</Label>
-                          <Input
-                            id="event-description"
-                            value={newEvent.description}
-                            onChange={(e) => setNewEvent({...newEvent, description: e.target.value})}
-                            placeholder="Enter event description"
-                          />
-                        </div>
-
-                        <Button 
-                          onClick={addEvent} 
-                          className="w-full"
-                          disabled={!newEvent.title || !newEvent.time}
-                        >
-                          <CalendarPlus className="h-4 w-4 mr-2" />
-                          Add Event
-                        </Button>
-                      </div>
-                    </div>
+                    <AddEventForm
+                      newEvent={newEvent}
+                      onEventChange={setNewEvent}
+                      onAddEvent={addEvent}
+                    />
                   )}
                 </Card>
               </div>
@@ -430,39 +297,15 @@ const Calendar = () => {
           </div>
         </section>
 
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-8 max-w-md w-full">
-            <h3 className="text-2xl font-bold mb-4 text-[#d4a760]">Subscribe to Calendar</h3>
-            <p className="mb-6">
-              Subscribe to unlock premium features:
-            </p>
-            <ul className="list-disc pl-6 mb-6 space-y-2">
-              <li>Add events to the parish calendar</li>
-              <li>Download calendar as PDF</li>
-              <li>Receive email notifications of upcoming events</li>
-              <li>Edit and manage your events</li>
-            </ul>
-            
-            <div className="mb-4">
-              <Label htmlFor="subscribe-email">Email Address</Label>
-              <Input 
-                id="subscribe-email"
-                type="email"
-                placeholder="your@email.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="mt-1"
-              />
-            </div>
-            
-            <div className="flex justify-end space-x-3">
-              <Button variant="outline" onClick={() => setShowSubscribeForm(false)} disabled={loading}>Cancel</Button>
-              <Button onClick={handleSubscribe} disabled={loading || !email}>
-                {loading ? "Processing..." : "Subscribe Now"}
-              </Button>
-            </div>
-          </div>
-        </div>
+        {showSubscribeForm && (
+          <SubscribeModal
+            email={email}
+            onEmailChange={setEmail}
+            onSubscribe={handleSubscribe}
+            onClose={() => setShowSubscribeForm(false)}
+            loading={loading}
+          />
+        )}
       </main>
       <Footer />
     </div>
