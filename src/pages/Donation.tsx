@@ -1,5 +1,5 @@
 
-import React from "react";
+import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -20,13 +20,14 @@ import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const donationFormSchema = z.object({
   amount: z.string().min(1, "Please select or enter an amount"),
   donationType: z.enum(["one-time", "monthly"], {
     required_error: "Please select a donation type",
   }),
-  paymentMethod: z.enum(["card", "direct-debit", "paypal"], {
+  paymentMethod: z.enum(["card"], {
     required_error: "Please select a payment method",
   }),
   firstName: z.string().min(2, "First name must be at least 2 characters"),
@@ -36,6 +37,8 @@ const donationFormSchema = z.object({
 });
 
 const Donation = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  
   const form = useForm<z.infer<typeof donationFormSchema>>({
     resolver: zodResolver(donationFormSchema),
     defaultValues: {
@@ -49,13 +52,35 @@ const Donation = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof donationFormSchema>) {
-    console.log(values);
-    toast({
-      title: "Thank you for your donation!",
-      description: "Your generous contribution helps support our parish mission.",
-    });
-    // In a real app, this would redirect to a payment processor
+  async function onSubmit(values: z.infer<typeof donationFormSchema>) {
+    try {
+      setIsSubmitting(true);
+
+      const { amount, donationType, email, firstName, lastName } = values;
+
+      const { data, error } = await supabase.functions.invoke('create-donation-checkout', {
+        body: { amount, donationType, email, firstName, lastName }
+      });
+
+      if (error) {
+        throw new Error(error.message);
+      }
+
+      if (data?.url) {
+        window.location.href = data.url;
+      } else {
+        throw new Error("No checkout URL returned");
+      }
+    } catch (error) {
+      console.error("Donation error:", error);
+      toast({
+        title: "Error processing donation",
+        description: "There was a problem processing your donation. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -116,11 +141,11 @@ const Donation = () => {
                             name="amount"
                             render={({ field }) => (
                               <FormItem>
-                                <FormLabel>Donation Amount</FormLabel>
+                                <FormLabel>Donation Amount (ZAR)</FormLabel>
                                 <FormControl>
                                   <div className="space-y-4">
                                     <div className="grid grid-cols-3 gap-3">
-                                      {["25", "50", "100", "250", "500", "1000"].map((amount) => (
+                                      {["100", "250", "500", "1000", "2500", "5000"].map((amount) => (
                                         <Button
                                           key={amount}
                                           type="button"
@@ -128,18 +153,18 @@ const Donation = () => {
                                           onClick={() => form.setValue("amount", amount)}
                                           className={`w-full ${field.value === amount ? 'bg-[#d4a760] hover:bg-[#c9965a]' : ''}`}
                                         >
-                                          ${amount}
+                                          R{amount}
                                         </Button>
                                       ))}
                                     </div>
                                     <div className="relative">
-                                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+                                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">R</span>
                                       <Input
                                         placeholder="Other amount"
                                         className="pl-8"
                                         {...field}
                                         onChange={(e) => {
-                                          // Only allow numbers
+                                          // Only allow numbers and decimal points
                                           if (/^\d*\.?\d*$/.test(e.target.value) || e.target.value === '') {
                                             field.onChange(e);
                                           }
@@ -200,8 +225,6 @@ const Donation = () => {
                                   </FormControl>
                                   <SelectContent>
                                     <SelectItem value="card">Credit/Debit Card</SelectItem>
-                                    <SelectItem value="direct-debit">Direct Debit</SelectItem>
-                                    <SelectItem value="paypal">PayPal</SelectItem>
                                   </SelectContent>
                                 </Select>
                                 <FormMessage />
@@ -274,7 +297,13 @@ const Donation = () => {
                             />
                           </div>
                           
-                          <Button type="submit" className="w-full">Proceed to Payment</Button>
+                          <Button 
+                            type="submit" 
+                            className="w-full" 
+                            disabled={isSubmitting}
+                          >
+                            {isSubmitting ? "Processing..." : "Proceed to Payment"}
+                          </Button>
                         </form>
                       </Form>
                     </CardContent>
@@ -296,7 +325,7 @@ const Donation = () => {
                         <div className="bg-gray-50 p-3 rounded-md mt-2">
                           <p className="text-sm">Account Name: St Joseph's Catholic Church</p>
                           <p className="text-sm">Bank: Example Bank</p>
-                          <p className="text-sm">BSB: 123-456</p>
+                          <p className="text-sm">Branch Code: 123456</p>
                           <p className="text-sm">Account: 12345678</p>
                           <p className="text-sm">Reference: Donation - [Your Name]</p>
                         </div>

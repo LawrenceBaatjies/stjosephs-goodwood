@@ -16,6 +16,7 @@ import Calendar from "./pages/Calendar";
 import FAQ from "./pages/FAQ";
 import Registration from "./pages/Registration";
 import Donation from "./pages/Donation";
+import DonationSuccess from "./pages/DonationSuccess";
 import BaptismPage from "./pages/sacraments/BaptismPage";
 import ConfirmationPage from "./pages/sacraments/ConfirmationPage";
 import MarriagePage from "./pages/sacraments/MarriagePage";
@@ -53,6 +54,7 @@ const App = () => (
           <Route path="/faq" element={<FAQ />} />
           <Route path="/registration" element={<Registration />} />
           <Route path="/donation" element={<Donation />} />
+          <Route path="/donation-success" element={<DonationSuccess />} />
           <Route path="/edge" element={<EdgePage />} />
           <Route path="/newsletters" element={<NewslettersPage />} />
           <Route path="/our-lady-rosary" element={<OurLadyRosary />} />
