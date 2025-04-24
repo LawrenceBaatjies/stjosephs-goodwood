@@ -8,12 +8,18 @@ const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 // Check if the required environment variables are set
 if (!supabaseUrl || !supabaseKey) {
   console.error(
-    'Missing Supabase environment variables. Please make sure VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY are set.'
+    'Missing Supabase environment variables. Please make sure VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY are set in your Supabase project settings.'
   );
 }
 
 // Create a single supabase client for interacting with your database
+// Use a placeholder URL if not available to prevent runtime errors
 export const supabase = createClient(
-  supabaseUrl || '',
-  supabaseKey || ''
+  supabaseUrl || 'https://placeholder-url.supabase.co',
+  supabaseKey || 'placeholder-key'
 );
+
+// Export a function to check if Supabase is properly configured
+export const isSupabaseConfigured = () => {
+  return !!supabaseUrl && !!supabaseKey;
+};

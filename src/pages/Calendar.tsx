@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -9,12 +8,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { CalendarPlus, Download, Mail } from "lucide-react";
+import { CalendarPlus, Download, Mail, AlertTriangle } from "lucide-react";
 import { format } from "date-fns";
-import { supabase } from "@/lib/supabase-client";
+import { supabase, isSupabaseConfigured } from "@/lib/supabase-client";
 import { toast } from "@/components/ui/use-toast";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
-// Sample events for demonstration
 const sampleEvents = [
   { id: 1, title: "Sunday Mass", date: new Date(2025, 4, 4), time: "09:00", category: "Mass" },
   { id: 2, title: "Choir Practice", date: new Date(2025, 4, 6), time: "18:30", category: "Music" },
@@ -55,8 +54,8 @@ const Calendar = () => {
     category: "Other",
     description: ""
   });
+  const [supabaseConfigured, setSupabaseConfigured] = useState<boolean>(true);
 
-  // Check if user is already subscribed based on email in localStorage
   useEffect(() => {
     const checkSubscription = async () => {
       const savedEmail = localStorage.getItem('calendarSubscriberEmail');
@@ -83,7 +82,6 @@ const Calendar = () => {
     checkSubscription();
   }, []);
 
-  // Get events for selected date
   useEffect(() => {
     if (selectedDate) {
       const filteredEvents = events.filter(
@@ -97,6 +95,10 @@ const Calendar = () => {
       setEventsForSelectedDate([]);
     }
   }, [selectedDate, events]);
+
+  useEffect(() => {
+    setSupabaseConfigured(isSupabaseConfigured());
+  }, []);
 
   const handleDateSelect = (newDate: Date | undefined) => {
     setSelectedDate(newDate);
@@ -114,14 +116,10 @@ const Calendar = () => {
       description: newEvent.description
     };
     
-    // In a real app, we would save to Supabase here
     try {
-      // For demo purposes, we're just adding to local state
-      // A real implementation would save to Supabase
       setEvents(prev => [...prev, newEventObj]);
       setEventsForSelectedDate(prev => [...prev, newEventObj]);
       
-      // Reset form
       setNewEvent({
         title: "",
         time: "",
@@ -155,16 +153,28 @@ const Calendar = () => {
 
     setLoading(true);
 
+    if (!supabaseConfigured) {
+      toast({
+        variant: "destructive",
+        title: "Configuration Error",
+        description: "Supabase is not properly configured. Please check your environment variables.",
+      });
+      setLoading(false);
+      return;
+    }
+
     try {
-      // Check if email already exists
-      const { data: existingSubscriber } = await supabase
+      const { data: existingSubscriber, error: fetchError } = await supabase
         .from('calendar_subscribers')
         .select('*')
         .eq('email', email.toLowerCase())
         .single();
 
+      if (fetchError && fetchError.code !== 'PGRST116') {
+        throw fetchError;
+      }
+
       if (existingSubscriber) {
-        // If already subscribed, just update the UI
         setIsSubscriber(true);
         localStorage.setItem('calendarSubscriberEmail', email.toLowerCase());
         setShowSubscribeForm(false);
@@ -173,7 +183,6 @@ const Calendar = () => {
           description: "You're already subscribed to the calendar service.",
         });
       } else {
-        // Add new subscriber
         const { data, error } = await supabase
           .from('calendar_subscribers')
           .insert([{ email: email.toLowerCase() }]);
@@ -203,7 +212,6 @@ const Calendar = () => {
   };
 
   const downloadCalendar = () => {
-    // In a real app, this would generate and download a PDF
     toast({
       title: "Download Started",
       description: "Your calendar is being downloaded as a PDF.",
@@ -211,7 +219,6 @@ const Calendar = () => {
   };
 
   const sendCalendarByEmail = () => {
-    // In a real app, this would send the calendar by email
     toast({
       title: "Email Sent",
       description: "The calendar has been sent to your email.",
@@ -243,7 +250,17 @@ const Calendar = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <main className="flex-grow">
-        {/* Hero Section */}
+        {!supabaseConfigured && (
+          <Alert variant="destructive" className="mx-auto my-4 max-w-4xl">
+            <AlertTriangle className="h-4 w-4" />
+            <AlertTitle>Configuration Error</AlertTitle>
+            <AlertDescription>
+              Supabase environment variables are missing. Some features may not work properly.
+              Please make sure VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY are set in your Supabase project settings.
+            </AlertDescription>
+          </Alert>
+        )}
+        
         <div className="relative bg-church-navy text-white py-16">
           <div 
             className="absolute inset-0 bg-cover bg-center"
@@ -270,11 +287,9 @@ const Calendar = () => {
           </div>
         </div>
 
-        {/* Calendar Section */}
         <section className="py-16 bg-white">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-              {/* Calendar */}
               <div className="lg:col-span-7">
                 <Card className="p-6">
                   <div className="flex justify-between items-center mb-6">
@@ -318,7 +333,6 @@ const Calendar = () => {
                 </Card>
               </div>
 
-              {/* Events for Selected Date */}
               <div className="lg:col-span-5">
                 <Card className="p-6">
                   <h2 className="text-2xl font-bold text-[#d4a760] mb-6">
@@ -344,7 +358,6 @@ const Calendar = () => {
                     <p className="text-gray-500 text-center py-6">No events scheduled for this date.</p>
                   )}
 
-                  {/* Add Event Form (only visible to subscribers) */}
                   {isSubscriber && selectedDate && (
                     <div className="mt-6 pt-6 border-t border-gray-200">
                       <h3 className="text-xl font-semibold mb-4">Add New Event</h3>
@@ -417,42 +430,39 @@ const Calendar = () => {
           </div>
         </section>
 
-        {/* Subscribe Popup */}
-        {showSubscribeForm && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-            <div className="bg-white rounded-lg p-8 max-w-md w-full">
-              <h3 className="text-2xl font-bold mb-4 text-[#d4a760]">Subscribe to Calendar</h3>
-              <p className="mb-6">
-                Subscribe to unlock premium features:
-              </p>
-              <ul className="list-disc pl-6 mb-6 space-y-2">
-                <li>Add events to the parish calendar</li>
-                <li>Download calendar as PDF</li>
-                <li>Receive email notifications of upcoming events</li>
-                <li>Edit and manage your events</li>
-              </ul>
-              
-              <div className="mb-4">
-                <Label htmlFor="subscribe-email">Email Address</Label>
-                <Input 
-                  id="subscribe-email"
-                  type="email"
-                  placeholder="your@email.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="mt-1"
-                />
-              </div>
-              
-              <div className="flex justify-end space-x-3">
-                <Button variant="outline" onClick={() => setShowSubscribeForm(false)} disabled={loading}>Cancel</Button>
-                <Button onClick={handleSubscribe} disabled={loading || !email}>
-                  {loading ? "Processing..." : "Subscribe Now"}
-                </Button>
-              </div>
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-8 max-w-md w-full">
+            <h3 className="text-2xl font-bold mb-4 text-[#d4a760]">Subscribe to Calendar</h3>
+            <p className="mb-6">
+              Subscribe to unlock premium features:
+            </p>
+            <ul className="list-disc pl-6 mb-6 space-y-2">
+              <li>Add events to the parish calendar</li>
+              <li>Download calendar as PDF</li>
+              <li>Receive email notifications of upcoming events</li>
+              <li>Edit and manage your events</li>
+            </ul>
+            
+            <div className="mb-4">
+              <Label htmlFor="subscribe-email">Email Address</Label>
+              <Input 
+                id="subscribe-email"
+                type="email"
+                placeholder="your@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="mt-1"
+              />
+            </div>
+            
+            <div className="flex justify-end space-x-3">
+              <Button variant="outline" onClick={() => setShowSubscribeForm(false)} disabled={loading}>Cancel</Button>
+              <Button onClick={handleSubscribe} disabled={loading || !email}>
+                {loading ? "Processing..." : "Subscribe Now"}
+              </Button>
             </div>
           </div>
-        )}
+        </div>
       </main>
       <Footer />
     </div>
