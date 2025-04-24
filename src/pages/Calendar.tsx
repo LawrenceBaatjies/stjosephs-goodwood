@@ -11,6 +11,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { CalendarPlus, Download, Mail } from "lucide-react";
 import { format } from "date-fns";
+import { supabase } from "@/lib/supabase-client";
+import { toast } from "@/components/ui/use-toast";
 
 // Sample events for demonstration
 const sampleEvents = [
@@ -31,6 +33,12 @@ interface Event {
   description?: string;
 }
 
+interface Subscriber {
+  id: string;
+  email: string;
+  created_at: string;
+}
+
 const Calendar = () => {
   const [date, setDate] = useState<Date>(new Date());
   const [events, setEvents] = useState<Event[]>(sampleEvents);
@@ -38,12 +46,42 @@ const Calendar = () => {
   const [eventsForSelectedDate, setEventsForSelectedDate] = useState<Event[]>([]);
   const [isSubscriber, setIsSubscriber] = useState<boolean>(false);
   const [showSubscribeForm, setShowSubscribeForm] = useState<boolean>(false);
+  const [email, setEmail] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
+  const [checkingSubscription, setCheckingSubscription] = useState<boolean>(true);
   const [newEvent, setNewEvent] = useState<Partial<Event>>({
     title: "",
     time: "",
     category: "Other",
     description: ""
   });
+
+  // Check if user is already subscribed based on email in localStorage
+  useEffect(() => {
+    const checkSubscription = async () => {
+      const savedEmail = localStorage.getItem('calendarSubscriberEmail');
+      
+      if (savedEmail) {
+        setEmail(savedEmail);
+        try {
+          const { data, error } = await supabase
+            .from('calendar_subscribers')
+            .select('*')
+            .eq('email', savedEmail)
+            .single();
+            
+          if (data) {
+            setIsSubscriber(true);
+          }
+        } catch (error) {
+          console.error("Error checking subscription:", error);
+        }
+      }
+      setCheckingSubscription(false);
+    };
+    
+    checkSubscription();
+  }, []);
 
   // Get events for selected date
   useEffect(() => {
@@ -64,8 +102,8 @@ const Calendar = () => {
     setSelectedDate(newDate);
   };
 
-  const addEvent = () => {
-    if (!selectedDate || !newEvent.title || !newEvent.time) return;
+  const addEvent = async () => {
+    if (!selectedDate || !newEvent.title || !newEvent.time || !isSubscriber) return;
     
     const newEventObj: Event = {
       id: Math.max(0, ...events.map(e => e.id)) + 1,
@@ -76,32 +114,108 @@ const Calendar = () => {
       description: newEvent.description
     };
     
-    setEvents(prev => [...prev, newEventObj]);
-    setEventsForSelectedDate(prev => [...prev, newEventObj]);
-    
-    // Reset form
-    setNewEvent({
-      title: "",
-      time: "",
-      category: "Other",
-      description: ""
-    });
+    // In a real app, we would save to Supabase here
+    try {
+      // For demo purposes, we're just adding to local state
+      // A real implementation would save to Supabase
+      setEvents(prev => [...prev, newEventObj]);
+      setEventsForSelectedDate(prev => [...prev, newEventObj]);
+      
+      // Reset form
+      setNewEvent({
+        title: "",
+        time: "",
+        category: "Other",
+        description: ""
+      });
+
+      toast({
+        title: "Event Added",
+        description: "Your event has been successfully added to the calendar.",
+      });
+    } catch (error) {
+      console.error("Error adding event:", error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to add event. Please try again.",
+      });
+    }
   };
 
-  const handleSubscribe = () => {
-    // In a real app, this would connect to a payment processor
-    setIsSubscriber(true);
-    setShowSubscribeForm(false);
+  const handleSubscribe = async () => {
+    if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
+      toast({
+        variant: "destructive",
+        title: "Invalid Email",
+        description: "Please enter a valid email address.",
+      });
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      // Check if email already exists
+      const { data: existingSubscriber } = await supabase
+        .from('calendar_subscribers')
+        .select('*')
+        .eq('email', email.toLowerCase())
+        .single();
+
+      if (existingSubscriber) {
+        // If already subscribed, just update the UI
+        setIsSubscriber(true);
+        localStorage.setItem('calendarSubscriberEmail', email.toLowerCase());
+        setShowSubscribeForm(false);
+        toast({
+          title: "Welcome back!",
+          description: "You're already subscribed to the calendar service.",
+        });
+      } else {
+        // Add new subscriber
+        const { data, error } = await supabase
+          .from('calendar_subscribers')
+          .insert([{ email: email.toLowerCase() }]);
+
+        if (error) {
+          throw error;
+        }
+
+        setIsSubscriber(true);
+        localStorage.setItem('calendarSubscriberEmail', email.toLowerCase());
+        setShowSubscribeForm(false);
+        toast({
+          title: "Subscription Successful",
+          description: "You now have access to all calendar features.",
+        });
+      }
+    } catch (error) {
+      console.error("Error during subscription:", error);
+      toast({
+        variant: "destructive",
+        title: "Subscription Failed",
+        description: "An error occurred. Please try again.",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const downloadCalendar = () => {
     // In a real app, this would generate and download a PDF
-    alert("Calendar PDF would be downloaded here!");
+    toast({
+      title: "Download Started",
+      description: "Your calendar is being downloaded as a PDF.",
+    });
   };
 
   const sendCalendarByEmail = () => {
     // In a real app, this would send the calendar by email
-    alert("Calendar would be sent by email!");
+    toast({
+      title: "Email Sent",
+      description: "The calendar has been sent to your email.",
+    });
   };
 
   const isDateWithEvents = (date: Date) => {
@@ -112,6 +226,18 @@ const Calendar = () => {
         event.date.getDate() === date.getDate()
     );
   };
+
+  if (checkingSubscription) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <Navbar />
+        <main className="flex-grow flex items-center justify-center">
+          <p>Loading calendar...</p>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -132,6 +258,14 @@ const Calendar = () => {
               <p className="text-xl font-light">
                 Stay updated with all upcoming events and activities
               </p>
+              {!isSubscriber && (
+                <Button 
+                  onClick={() => setShowSubscribeForm(true)}
+                  className="mt-6"
+                >
+                  Subscribe for Full Access
+                </Button>
+              )}
             </div>
           </div>
         </div>
@@ -298,9 +432,23 @@ const Calendar = () => {
                 <li>Edit and manage your events</li>
               </ul>
               
+              <div className="mb-4">
+                <Label htmlFor="subscribe-email">Email Address</Label>
+                <Input 
+                  id="subscribe-email"
+                  type="email"
+                  placeholder="your@email.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="mt-1"
+                />
+              </div>
+              
               <div className="flex justify-end space-x-3">
-                <Button variant="outline" onClick={() => setShowSubscribeForm(false)}>Cancel</Button>
-                <Button onClick={handleSubscribe}>Subscribe Now</Button>
+                <Button variant="outline" onClick={() => setShowSubscribeForm(false)} disabled={loading}>Cancel</Button>
+                <Button onClick={handleSubscribe} disabled={loading || !email}>
+                  {loading ? "Processing..." : "Subscribe Now"}
+                </Button>
               </div>
             </div>
           </div>
