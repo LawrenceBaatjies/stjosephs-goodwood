@@ -9,7 +9,7 @@ const Hero = () => {
       <div 
         className="absolute inset-0 bg-cover bg-center"
         style={{ 
-          backgroundImage: "url('https://images.unsplash.com/photo-1590939650263-75dfed18f6a9?q=80&w=2070&auto=format&fit=crop')", 
+          backgroundImage: "url('https://adct.org.za/wp-content/uploads/2018/01/St-Joseph-Goodwood-Church-Hall.jpg')", 
           opacity: "0.3" 
         }}
       />
@@ -21,7 +21,7 @@ const Hero = () => {
             Welcome to St Joseph's Catholic Church
           </h1>
           <p className="text-xl md:text-2xl mb-8 font-light">
-            A vibrant Catholic community serving Goodwood and surrounding areas
+            "Come to me, all of you who are weary and loaded down with burdens, and I will give you rest." Matthew 11:28
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link

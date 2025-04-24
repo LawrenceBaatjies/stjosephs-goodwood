@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
-import { Phone, Mail, MapPin } from "lucide-react";
+import { Phone, Mail, MapPin, Facebook, Instagram } from "lucide-react";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -9,7 +9,7 @@ const Footer = () => {
   return (
     <footer className="bg-church-navy text-white">
       <div className="container mx-auto py-12 px-4 md:px-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Contact Information */}
           <div>
             <h3 className="text-xl font-semibold mb-4 text-church-gold">Contact Us</h3>
@@ -27,9 +27,19 @@ const Footer = () => {
                 <span>stjosephgoodwood@archd.adelaide.catholic.org.au</span>
               </li>
             </ul>
+            
+            {/* Social Media Links */}
+            <div className="mt-6 flex space-x-4">
+              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-church-gold transition-colors">
+                <Facebook className="h-6 w-6" />
+              </a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-church-gold transition-colors">
+                <Instagram className="h-6 w-6" />
+              </a>
+            </div>
           </div>
 
-          {/* Quick Links - Simplified to match main nav */}
+          {/* Quick Links - Main Navigation Links Only */}
           <div>
             <h3 className="text-xl font-semibold mb-4 text-church-gold">Quick Links</h3>
             <nav className="space-y-2">
@@ -42,10 +52,10 @@ const Footer = () => {
               <Link to="/mass-times" className="block hover:text-church-gold transition-colors">
                 Mass Times
               </Link>
-              <Link to="/sacraments" className="block hover:text-church-gold transition-colors">
+              <Link to="/sacraments/baptism" className="block hover:text-church-gold transition-colors">
                 Sacraments
               </Link>
-              <Link to="/seasons" className="block hover:text-church-gold transition-colors">
+              <Link to="/seasons/ordinary-time" className="block hover:text-church-gold transition-colors">
                 Seasons
               </Link>
               <Link to="/gallery" className="block hover:text-church-gold transition-colors">
@@ -54,8 +64,14 @@ const Footer = () => {
               <Link to="/notices" className="block hover:text-church-gold transition-colors">
                 Notices
               </Link>
+              <Link to="/newsletters" className="block hover:text-church-gold transition-colors">
+                Newsletters
+              </Link>
               <Link to="/calendar" className="block hover:text-church-gold transition-colors">
                 Calendar
+              </Link>
+              <Link to="/edge" className="block hover:text-church-gold transition-colors">
+                EDGE Youth
               </Link>
               <Link to="/contact" className="block hover:text-church-gold transition-colors">
                 Contact
@@ -93,13 +109,27 @@ const Footer = () => {
               </li>
             </ul>
           </div>
+          
+          {/* Sister Parish */}
+          <div>
+            <h3 className="text-xl font-semibold mb-4 text-church-gold">Sister Parish</h3>
+            <Link to="/our-lady-rosary" className="block mb-3 font-bold text-church-gold hover:text-white transition-colors">
+              OUR LADY OF THE ROSARY
+            </Link>
+            <p className="text-sm text-gray-300">
+              RUYTERWACHT sister parish located in the northern suburbs of Cape Town. Visit our page to learn more about this community.
+            </p>
+            <Link to="/our-lady-rosary" className="mt-3 inline-block px-4 py-2 bg-church-red hover:bg-opacity-90 text-white rounded">
+              Learn More
+            </Link>
+          </div>
         </div>
 
         {/* Copyright Section */}
         <div className="mt-12 pt-4 border-t border-gray-700 text-center text-sm">
           <p>© {currentYear} St Joseph's Catholic Church, Goodwood. All rights reserved.</p>
           <p className="mt-2 text-gray-400">
-            Part of the Catholic Archdiocese of Adelaide
+            Part of the Catholic Archdiocese of Cape Town
           </p>
         </div>
       </div>

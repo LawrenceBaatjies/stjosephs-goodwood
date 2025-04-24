@@ -27,6 +27,10 @@ import LentPage from "./pages/seasons/LentPage";
 import TriduumPage from "./pages/seasons/TriduumPage";
 import EastertidePage from "./pages/seasons/EastertidePage";
 import CatholicPrayersPage from "./pages/seasons/CatholicPrayersPage";
+import SafeguardingPolicy from "./pages/about/SafeguardingPolicy";
+import EdgePage from "./pages/EdgePage";
+import NewslettersPage from "./pages/NewslettersPage";
+import OurLadyRosary from "./pages/OurLadyRosary";
 
 const queryClient = new QueryClient();
 
@@ -40,6 +44,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/about" element={<About />} />
+          <Route path="/about/safeguarding" element={<SafeguardingPolicy />} />
           <Route path="/mass-times" element={<MassTimesPage />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/notices" element={<Notices />} />
@@ -48,6 +53,9 @@ const App = () => (
           <Route path="/faq" element={<FAQ />} />
           <Route path="/registration" element={<Registration />} />
           <Route path="/donation" element={<Donation />} />
+          <Route path="/edge" element={<EdgePage />} />
+          <Route path="/newsletters" element={<NewslettersPage />} />
+          <Route path="/our-lady-rosary" element={<OurLadyRosary />} />
           
           {/* Sacrament Pages */}
           <Route path="/sacraments/baptism" element={<BaptismPage />} />
