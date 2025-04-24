@@ -12,6 +12,7 @@ import EventList from "@/components/calendar/EventList";
 import AddEventForm from "@/components/calendar/AddEventForm";
 import SubscribeModal from "@/components/calendar/SubscribeModal";
 import type { Event } from "@/types/calendar";
+import { format } from "date-fns";
 
 const sampleEvents = [
   { id: 1, title: "Sunday Mass", date: new Date(2025, 4, 4), time: "09:00", category: "Mass" },
