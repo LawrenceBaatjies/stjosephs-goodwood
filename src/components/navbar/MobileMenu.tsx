@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import { Calendar, Home } from "lucide-react";
@@ -8,7 +9,7 @@ interface MobileMenuProps {
   setShowPopup: (show: boolean) => void;
 }
 
-const MobileMenu = ({ isMenuOpen, toggleMenu, setShowPopup }: MobileMenuProps) => {
+const MobileMenu = ({ isMenuOpen, toggleMenu }: MobileMenuProps) => {
   if (!isMenuOpen) return null;
 
   return (
@@ -104,18 +105,6 @@ const MobileMenu = ({ isMenuOpen, toggleMenu, setShowPopup }: MobileMenuProps) =
           >
             <Calendar size={18} className="mr-2" />
             <span>Calendar</span>
-          </Link>
-          
-          <Link
-            to="/edge"
-            className="text-gray-800 hover:text-[#d4a760] py-2 transition-colors flex items-center border-t border-gray-200 pt-2"
-            onClick={() => {
-              setShowPopup(true);
-              toggleMenu();
-            }}
-          >
-            <span className="font-bold bg-church-red text-white px-2 py-1 rounded mr-2">EDGE</span>
-            <span>Youth Ministry</span>
           </Link>
         </nav>
       </div>
