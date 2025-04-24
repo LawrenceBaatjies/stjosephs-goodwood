@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
-import { Calendar, Home } from "lucide-react";
+import { Calendar, Home, Clock } from "lucide-react";
 
 interface MobileMenuProps {
   isMenuOpen: boolean;
@@ -35,10 +35,11 @@ const MobileMenu = ({ isMenuOpen, toggleMenu }: MobileMenuProps) => {
           
           <Link
             to="/mass-times"
-            className="text-gray-800 hover:text-[#d4a760] py-2 transition-colors border-t border-gray-200 pt-2"
+            className="text-gray-800 hover:text-[#d4a760] py-2 transition-colors border-t border-gray-200 pt-2 flex items-center"
             onClick={toggleMenu}
           >
-            Mass Times
+            <Clock size={18} className="mr-2" />
+            <span>Mass Times</span>
           </Link>
           
           <div className="border-t border-gray-200 pt-2">
@@ -72,21 +73,13 @@ const MobileMenu = ({ isMenuOpen, toggleMenu }: MobileMenuProps) => {
             Gallery
           </Link>
           
-          <Link
-            to="/notices"
-            className="text-gray-800 hover:text-[#d4a760] py-2 transition-colors border-t border-gray-200 pt-2"
-            onClick={toggleMenu}
-          >
-            Notices
-          </Link>
-          
-          <Link
-            to="/newsletters"
-            className="text-gray-800 hover:text-[#d4a760] py-2 transition-colors border-t border-gray-200 pt-2"
-            onClick={toggleMenu}
-          >
-            Newsletters
-          </Link>
+          <div className="border-t border-gray-200 pt-2">
+            <p className="font-medium text-gray-800 mb-1">Notices</p>
+            <ul className="pl-4 space-y-2">
+              <li><Link to="/notices" className="text-gray-700 hover:text-[#d4a760]" onClick={toggleMenu}>Parish Notices</Link></li>
+              <li><Link to="/newsletters" className="text-gray-700 hover:text-[#d4a760]" onClick={toggleMenu}>Newsletters</Link></li>
+            </ul>
+          </div>
 
           <div className="border-t border-gray-200 pt-2">
             <p className="font-medium text-gray-800 mb-1">Contact</p>

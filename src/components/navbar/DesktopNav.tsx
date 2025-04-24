@@ -1,11 +1,11 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
+import { Home, Calendar, Clock } from "lucide-react";
 import {
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
@@ -13,8 +13,8 @@ import {
 const DesktopNav = ({ setShowPopup }: { setShowPopup: (show: boolean) => void }) => {
   return (
     <nav className="hidden md:flex items-center space-x-6">
-      <Link to="/" className="text-gray-800 hover:text-[#d4a760] text-base">
-        Home
+      <Link to="/" className="text-gray-800 hover:text-[#d4a760]">
+        <Home size={24} />
       </Link>
 
       <NavigationMenu>
@@ -31,8 +31,8 @@ const DesktopNav = ({ setShowPopup }: { setShowPopup: (show: boolean) => void })
         </NavigationMenuList>
       </NavigationMenu>
 
-      <Link to="/mass-times" className="text-gray-800 hover:text-[#d4a760] text-base">
-        Mass Times
+      <Link to="/mass-times" className="text-gray-800 hover:text-[#d4a760]">
+        <Clock size={24} />
       </Link>
 
       <NavigationMenu>
@@ -74,13 +74,19 @@ const DesktopNav = ({ setShowPopup }: { setShowPopup: (show: boolean) => void })
         Gallery
       </Link>
 
-      <Link to="/notices" className="text-gray-800 hover:text-[#d4a760] text-base">
-        Notices
-      </Link>
-
-      <Link to="/newsletters" className="text-gray-800 hover:text-[#d4a760] text-base">
-        Newsletters
-      </Link>
+      <NavigationMenu>
+        <NavigationMenuList>
+          <NavigationMenuItem>
+            <NavigationMenuTrigger className="text-gray-800 hover:text-[#d4a760] text-base bg-transparent">Notices</NavigationMenuTrigger>
+            <NavigationMenuContent className="bg-white min-w-[200px]">
+              <div className="p-2">
+                <Link to="/notices" className="block px-4 py-2 hover:bg-gray-100 text-gray-700">Parish Notices</Link>
+                <Link to="/newsletters" className="block px-4 py-2 hover:bg-gray-100 text-gray-700">Newsletters</Link>
+              </div>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
 
       <NavigationMenu>
         <NavigationMenuList>
@@ -98,8 +104,8 @@ const DesktopNav = ({ setShowPopup }: { setShowPopup: (show: boolean) => void })
         </NavigationMenuList>
       </NavigationMenu>
 
-      <Link to="/calendar" className="text-gray-800 hover:text-[#d4a760] text-base">
-        Calendar
+      <Link to="/calendar" className="text-gray-800 hover:text-[#d4a760]">
+        <Calendar size={24} />
       </Link>
     </nav>
   );
