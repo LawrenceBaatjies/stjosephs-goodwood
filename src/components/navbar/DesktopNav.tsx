@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { Home, Calendar, Clock } from "lucide-react";
@@ -9,13 +8,28 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const DesktopNav = ({ setShowPopup }: { setShowPopup: (show: boolean) => void }) => {
   return (
     <nav className="hidden md:flex items-center space-x-6">
-      <Link to="/" className="text-gray-800 hover:text-[#d4a760]">
-        <Home size={24} />
-      </Link>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Link to="/" className="text-gray-800 hover:text-[#d4a760]">
+              <Home size={24} />
+            </Link>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Home</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
 
       <NavigationMenu>
         <NavigationMenuList>
@@ -31,9 +45,18 @@ const DesktopNav = ({ setShowPopup }: { setShowPopup: (show: boolean) => void })
         </NavigationMenuList>
       </NavigationMenu>
 
-      <Link to="/mass-times" className="text-gray-800 hover:text-[#d4a760]">
-        <Clock size={24} />
-      </Link>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Link to="/mass-times" className="text-gray-800 hover:text-[#d4a760]">
+              <Clock size={24} />
+            </Link>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Mass Times</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
 
       <NavigationMenu>
         <NavigationMenuList>
@@ -104,9 +127,18 @@ const DesktopNav = ({ setShowPopup }: { setShowPopup: (show: boolean) => void })
         </NavigationMenuList>
       </NavigationMenu>
 
-      <Link to="/calendar" className="text-gray-800 hover:text-[#d4a760]">
-        <Calendar size={24} />
-      </Link>
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Link to="/calendar" className="text-gray-800 hover:text-[#d4a760]">
+              <Calendar size={24} />
+            </Link>
+          </TooltipTrigger>
+          <TooltipContent>
+            <p>Calendar</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
     </nav>
   );
 };
