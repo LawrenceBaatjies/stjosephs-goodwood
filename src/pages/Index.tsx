@@ -27,9 +27,9 @@ const Index = () => {
           aria-label="EDGE Youth Ministry"
         >
           <img 
-            src="/edge-youth-logo.png" 
+            src="/lovable-uploads/fd6f3ebd-f16f-4da8-bdb5-f0bbd56fa428.png"
             alt="EDGE Youth" 
-            className="h-14 w-14 rounded-full shadow-lg transition-transform hover:-translate-y-1"
+            className="h-16 w-16 rounded-full shadow-lg transition-transform hover:-translate-y-1"
           />
         </Link>
       </main>
