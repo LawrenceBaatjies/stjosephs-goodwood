@@ -9,7 +9,7 @@ const Hero = () => {
       <div 
         className="absolute inset-0 bg-cover bg-center"
         style={{ 
-          backgroundImage: "url('https://adct.org.za/wp-content/uploads/2018/01/St-Joseph-Goodwood-Church-Hall.jpg')", 
+          backgroundImage: "url('/st-joseph-church-front.jpg')", 
           opacity: "0.3" 
         }}
       />

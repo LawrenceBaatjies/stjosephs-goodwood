@@ -20,12 +20,17 @@ const Index = () => {
         <FeaturedEvents />
         <ParishGroups />
         
-        {/* Floating EDGE Button */}
+        {/* Floating EDGE Button with Image */}
         <Link
           to="/edge"
-          className="fixed bottom-6 right-6 bg-church-red hover:bg-opacity-90 text-white px-6 py-3 rounded-full shadow-lg transition-transform hover:-translate-y-1 z-50"
+          className="fixed bottom-6 right-6 z-50"
+          aria-label="EDGE Youth Ministry"
         >
-          EDGE Youth
+          <img 
+            src="/edge-youth-logo.png" 
+            alt="EDGE Youth" 
+            className="h-14 w-14 rounded-full shadow-lg transition-transform hover:-translate-y-1"
+          />
         </Link>
       </main>
       <Footer />
