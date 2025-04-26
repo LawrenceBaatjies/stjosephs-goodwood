@@ -13,7 +13,6 @@ if (!supabaseUrl || !supabaseKey) {
 }
 
 // Create a single supabase client for interacting with your database
-// Use a placeholder URL if not available to prevent runtime errors
 export const supabase = createClient(
   supabaseUrl || 'https://placeholder-url.supabase.co',
   supabaseKey || 'placeholder-key'
