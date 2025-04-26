@@ -39,44 +39,25 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Quick Links - Main Navigation Links Only */}
+          {/* Quick Links - Stacked in two columns */}
           <div>
             <h3 className="text-xl font-semibold mb-4 text-church-gold">Quick Links</h3>
-            <nav className="space-y-2">
-              <Link to="/" className="block hover:text-church-gold transition-colors">
-                Home
-              </Link>
-              <Link to="/about" className="block hover:text-church-gold transition-colors">
-                About
-              </Link>
-              <Link to="/mass-times" className="block hover:text-church-gold transition-colors">
-                Mass Times
-              </Link>
-              <Link to="/sacraments/baptism" className="block hover:text-church-gold transition-colors">
-                Sacraments
-              </Link>
-              <Link to="/seasons/ordinary-time" className="block hover:text-church-gold transition-colors">
-                Seasons
-              </Link>
-              <Link to="/gallery" className="block hover:text-church-gold transition-colors">
-                Gallery
-              </Link>
-              <Link to="/notices" className="block hover:text-church-gold transition-colors">
-                Notices
-              </Link>
-              <Link to="/newsletters" className="block hover:text-church-gold transition-colors">
-                Newsletters
-              </Link>
-              <Link to="/calendar" className="block hover:text-church-gold transition-colors">
-                Calendar
-              </Link>
-              <Link to="/edge" className="block hover:text-church-gold transition-colors">
-                EDGE Youth
-              </Link>
-              <Link to="/contact" className="block hover:text-church-gold transition-colors">
-                Contact
-              </Link>
-            </nav>
+            <div className="grid grid-cols-2 gap-2">
+              <div>
+                <Link to="/" className="block hover:text-church-gold transition-colors mb-1">Home</Link>
+                <Link to="/about" className="block hover:text-church-gold transition-colors mb-1">About</Link>
+                <Link to="/mass-times" className="block hover:text-church-gold transition-colors mb-1">Mass Times</Link>
+                <Link to="/sacraments/baptism" className="block hover:text-church-gold transition-colors mb-1">Sacraments</Link>
+                <Link to="/seasons/ordinary-time" className="block hover:text-church-gold transition-colors mb-1">Seasons</Link>
+              </div>
+              <div>
+                <Link to="/gallery" className="block hover:text-church-gold transition-colors mb-1">Gallery</Link>
+                <Link to="/notices" className="block hover:text-church-gold transition-colors mb-1">Notices</Link>
+                <Link to="/newsletters" className="block hover:text-church-gold transition-colors mb-1">Newsletters</Link>
+                <Link to="/calendar" className="block hover:text-church-gold transition-colors mb-1">Calendar</Link>
+                <Link to="/edge" className="block hover:text-church-gold transition-colors mb-1">EDGE Youth</Link>
+              </div>
+            </div>
           </div>
 
           {/* Mass Times Section */}
