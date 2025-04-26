@@ -16,15 +16,15 @@ const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-start">
                 <MapPin className="mr-2 h-5 w-5 text-church-gold shrink-0 mt-0.5" />
-                <span>21 Albert Street, Goodwood SA 5034</span>
+                <span>30 Anderson Street Goodwood 74604</span>
               </li>
               <li className="flex items-center">
                 <Phone className="mr-2 h-5 w-5 text-church-gold shrink-0" />
-                <span>(08) 8272 1988</span>
+                <span>(27+)  21 591 2229.</span>
               </li>
               <li className="flex items-center">
                 <Mail className="mr-2 h-5 w-5 text-church-gold shrink-0" />
-                <span>stjosephgoodwood@archd.adelaide.catholic.org.au</span>
+                <span>stjosephgoodwood@gmail.com</span>
               </li>
             </ul>
             
