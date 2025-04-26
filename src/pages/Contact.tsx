@@ -78,7 +78,7 @@ const Contact = () => {
                       <Mail className="h-6 w-6 text-church-red shrink-0 mt-1 mr-4" />
                       <div>
                         <h3 className="text-xl font-semibold mb-2">Email</h3>
-                        <p className="text-gray-700 break-words">stjosephgoodwood@archd.adelaide.catholic.org.au</p>
+                        <p className="text-gray-700 break-words">stjosephgoodwood@</p>
                       </div>
                     </div>
                   </div>
