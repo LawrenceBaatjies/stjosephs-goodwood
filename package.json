@@ -1,5 +1,5 @@
 {
-  "name": "vite_react_shadcn_ts",
+  "name": "st-joseph-goodwood",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -80,5 +80,21 @@
     "typescript": "^5.5.3",
     "typescript-eslint": "^8.0.1",
     "vite": "^5.4.1"
-  }
+  },
+  "description": "st-joseph-goodwood",
+  "main": "eslint.config.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LawrenceBaatjies/stjosephs-goodwood.git"
+  },
+  "keywords": [
+    "chatloic",
+    "church"
+  ],
+  "author": "cybernetix lab",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LawrenceBaatjies/stjosephs-goodwood/issues"
+  },
+  "homepage": "https://github.com/LawrenceBaatjies/stjosephs-goodwood#readme"
 }

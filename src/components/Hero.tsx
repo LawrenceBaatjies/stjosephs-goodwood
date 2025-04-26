@@ -9,8 +9,8 @@ const Hero = () => {
       <div 
         className="absolute inset-0 bg-cover bg-center"
         style={{ 
-          backgroundImage: "url('/lovable-uploads/9b87e777-609b-43e3-af11-bfef130739a9.png')", 
-          opacity: "0.3" 
+          backgroundImage: "url('public/lovable-uploads/hero-image.png')", 
+          opacity: "0.4" 
         }}
       />
       
@@ -18,6 +18,7 @@ const Hero = () => {
       <div className="container mx-auto px-4 py-20 md:py-32 relative z-10">
         <div className="max-w-3xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
+            
             Welcome to St Joseph's Catholic Church
           </h1>
           <p className="text-xl md:text-2xl mb-8 font-light">
