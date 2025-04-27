@@ -13,7 +13,7 @@ const About = () => {
           <div 
             className="absolute inset-0 bg-cover bg-center"
             style={{ 
-              backgroundImage: "url('https://images.unsplash.com/photo-1477513231469-e2c348a58e91?q=80&w=2070&auto=format&fit=crop')", 
+              backgroundImage: "url('public/lovable-uploads/about-us.jpg')", 
               opacity: "0.3" 
             }}
           />
@@ -36,7 +36,7 @@ const About = () => {
               <div className="flex flex-col md:flex-row gap-8">
                 <div className="md:w-2/3 prose prose-lg max-w-none">
                   <p>
-                    St Joseph's Parish in Goodwood was established in 1909 to serve the growing Catholic population in the area. 
+                    St Joseph's Parish in Goodwood was (Blessed & Opened 1948; Dedicated 2008) to serve the growing Catholic population in the area. 
                     The foundation stone of our beautiful church was laid on March 19, 1909, the Feast of St Joseph.
                   </p>
                   
@@ -61,7 +61,7 @@ const About = () => {
                 <div className="md:w-1/3">
                   <div className="rounded-lg overflow-hidden shadow-lg h-full">
                     <img 
-                      src="https://images.unsplash.com/photo-1438032005730-c779502df480?q=80&w=1974&auto=format&fit=crop" 
+                      src="public\lovable-uploads\about-us.jpg" 
                       alt="St Joseph's Church Historical Photo"
                       className="w-full h-full object-cover"
                     />
