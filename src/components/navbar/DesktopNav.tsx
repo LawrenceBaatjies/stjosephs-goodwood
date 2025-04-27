@@ -16,6 +16,12 @@ import {
 } from "@/components/ui/tooltip";
 
 const DesktopNav = ({ setShowPopup }: { setShowPopup: (show: boolean) => void }) => {
+  const [openMenu, setOpenMenu] = React.useState<string | null>(null);
+
+  const handleMenuClick = (menuName: string) => {
+    setOpenMenu(openMenu === menuName ? null : menuName);
+  };
+
   return (
     <nav className="hidden md:flex items-center space-x-6">
       <TooltipProvider>
@@ -34,7 +40,12 @@ const DesktopNav = ({ setShowPopup }: { setShowPopup: (show: boolean) => void })
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
-            <NavigationMenuTrigger className="text-gray-800 hover:text-[#d4a760] text-base bg-transparent">About</NavigationMenuTrigger>
+            <NavigationMenuTrigger 
+              className="text-gray-800 hover:text-[#d4a760] text-base bg-transparent"
+              onClick={() => handleMenuClick('about')}
+            >
+              About
+            </NavigationMenuTrigger>
             <NavigationMenuContent className="bg-white min-w-[200px]">
               <div className="p-2">
                 <Link to="/about" className="block px-4 py-2 hover:bg-gray-100 text-gray-700">About Us</Link>
@@ -61,7 +72,12 @@ const DesktopNav = ({ setShowPopup }: { setShowPopup: (show: boolean) => void })
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
-            <NavigationMenuTrigger className="text-gray-800 hover:text-[#d4a760] text-base bg-transparent">Seasons</NavigationMenuTrigger>
+            <NavigationMenuTrigger 
+              className="text-gray-800 hover:text-[#d4a760] text-base bg-transparent"
+              onClick={() => handleMenuClick('seasons')}
+            >
+              Seasons
+            </NavigationMenuTrigger>
             <NavigationMenuContent className="bg-white min-w-[200px]">
               <div className="p-2">
                 <Link to="/seasons/ordinary-time" className="block px-4 py-2 hover:bg-gray-100 text-gray-700">Ordinary Time</Link>
