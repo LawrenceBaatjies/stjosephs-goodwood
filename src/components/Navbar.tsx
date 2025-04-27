@@ -39,20 +39,20 @@ const Navbar = () => {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-white shadow-sm">
+    <header className="sticky top-7 z-50 bg-white shadow-sm">
       <div className="container mx-auto flex items-center justify-between py-2 px-4 md:px-6">
         <Logo />
         
         <DesktopNav setShowPopup={setShowPopup} />
 
         {/* Current Time - Desktop */}
-        <div className="hidden md:block text-gray-600 font-medium">
+        <div className="hidden md:block text-church-red -600 font-medium">
           {currentTime}
         </div>
 
         {/* Mobile Menu Button */}
         <div className="md:hidden flex items-center">
-          <div className="mr-4 text-gray-600 font-medium">
+          <div className="mr-4 text-church-red -600 font-medium">
             {currentTime}
           </div>
           <button
