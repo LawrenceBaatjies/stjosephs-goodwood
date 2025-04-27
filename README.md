@@ -1,4 +1,4 @@
-# Welcome to the St.Joseph catholic church website.
+# Welcome to the St.Joseph Catholic Church Website.
 
 ## Project info
 
