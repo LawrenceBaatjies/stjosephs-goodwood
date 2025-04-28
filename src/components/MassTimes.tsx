@@ -27,7 +27,7 @@ const MassTimes = () => {
               </li>
               <li className="flex justify-between items-center pt-1">
                 <span className="font-medium">Sunday</span>
-                <span className="text-gray-600">10:00 AM</span>
+                <span className="text-gray-600">10:30 AM</span>
               </li>
             </ul>
           </div>
