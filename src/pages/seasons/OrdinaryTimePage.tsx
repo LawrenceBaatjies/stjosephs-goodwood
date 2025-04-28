@@ -9,12 +9,12 @@ const OrdinaryTimePage = () => {
       <Navbar />
       <main className="flex-grow">
         {/* Hero Section */}
-        <div className="relative bg-church-navy text-white py-16">
+        <div className="relative bg-church-navy text-white py-60">
           <div 
             className="absolute inset-0 bg-cover bg-center"
             style={{ 
-              backgroundImage: "url('https://images.unsplash.com/photo-1601575930087-f8800cf72a3f?q=80&w=1974&auto=format&fit=crop')", 
-              opacity: "0.3" 
+              backgroundImage: "url('https://plus.unsplash.com/premium_photo-1678305037622-474d23a7d906?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fGNhdGhvbGljfGVufDB8fDB8fHww')", 
+              opacity: "0.4" 
             }}
           />
           <div className="container mx-auto px-4 relative z-10">
