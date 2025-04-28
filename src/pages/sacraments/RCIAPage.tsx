@@ -9,11 +9,11 @@ const RCIAPage = () => {
       <Navbar />
       <main className="flex-grow">
         {/* Hero Section */}
-        <div className="relative bg-church-navy text-white py-16">
+        <div className="relative bg-church-navy text-white py-60">
           <div 
             className="absolute inset-0 bg-cover bg-center"
             style={{ 
-              backgroundImage: "url('https://images.unsplash.com/photo-1608028138208-ad407ff9a906?q=80&w=1974&auto=format&fit=crop')", 
+              backgroundImage: "url('https://images.unsplash.com/photo-1633706202766-748173429f33?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nzl8fGNhdGhvbGljJTIwcGFyeWVyaW5nfGVufDB8fDB8fHww')", 
               opacity: "0.3" 
             }}
           />
