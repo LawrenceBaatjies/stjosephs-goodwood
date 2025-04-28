@@ -21,7 +21,7 @@ const BaptismPage = () => {
           <div 
             className="absolute inset-0 bg-cover bg-center"
             style={{ 
-              backgroundImage: "url('https://images.unsplash.com/photo-1511140973288-19bf21d7e771?q=80&w=2069&auto=format&fit=crop')", 
+              backgroundImage: "url('lovable-uploads/catholic baptism.jpg')", 
               opacity: "0.3" 
             }}
           />
