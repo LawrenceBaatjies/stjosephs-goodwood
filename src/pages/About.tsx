@@ -13,7 +13,7 @@ const About = () => {
           <div 
             className="absolute inset-0 bg-cover bg-center"
             style={{ 
-              backgroundImage: "url('public/lovable-uploads/about-us.jpg')", 
+              backgroundImage: "url('public/lovable-uploads/hero-image.png')", 
               opacity: "0.3" 
             }}
           />
@@ -61,7 +61,7 @@ const About = () => {
                 <div className="md:w-1/3">
                   <div className="rounded-lg overflow-hidden shadow-lg h-full">
                     <img 
-                      src="public\lovable-uploads\about-us.jpg" 
+                      src="public\lovable-uploads\hero-image.png" 
                       alt="St Joseph's Church Historical Photo"
                       className="w-full h-full object-cover"
                     />
@@ -122,18 +122,19 @@ const About = () => {
                   <div className="w-full md:w-1/4">
                     <div className="aspect-square bg-gray-200 rounded-full overflow-hidden">
                       <img 
-                        src="https://images.unsplash.com/photo-1594608661623-aa0bd3a69799?q=80&w=1974&auto=format&fit=crop" 
-                        alt="Father John Smith"
+                        src="lovable-uploads/Fabris-Francesco-1-221x300.jpg" 
+                        alt="Father Francesco Fabris"
                         className="w-full h-full object-cover"
                       />
                     </div>
                   </div>
+                  
                   <div className="w-full md:w-3/4">
-                    <h3 className="text-2xl font-semibold text-[#d4a760]">Fr. John Smith</h3>
+                    <h3 className="text-2xl font-semibold text-[#d4a760]">Fr. Francesco Fabris - (20 May 2016)</h3>
                     <p className="text-church-red font-medium mb-4">Parish Priest</p>
                     <div className="prose">
                       <p>
-                        Father John has been the parish priest at St Joseph's since 2018. He was ordained in 2005 and has 
+                        Fr. Francesco Fabris has been the parish priest at St Joseph's since 2018. He was ordained in 2005 and has 
                         served in several parishes across the Archdiocese of Adelaide. Fr. John has a particular interest 
                         in youth ministry and social justice.
                       </p>
@@ -150,22 +151,24 @@ const About = () => {
                   <div className="w-full md:w-1/4">
                     <div className="aspect-square bg-gray-200 rounded-full overflow-hidden">
                       <img 
-                        src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?q=80&w=1974&auto=format&fit=crop" 
-                        alt="Mrs. Sarah Johnson"
+                        src="lovable-uploads/ludwe-jayiya.jpg" 
+                        alt="Father Ludwe Jayiya"
                         className="w-full h-full object-cover"
                       />
                     </div>
                   </div>
                   <div className="w-full md:w-3/4">
-                    <h3 className="text-2xl font-semibold text-[#d4a760]">Mrs. Sarah Johnson</h3>
-                    <p className="text-church-red font-medium mb-4">Parish Secretary</p>
+                    <h3 className="text-2xl font-semibold text-[#d4a760]">Fr. Ludwe Jayiya - (18 February 2006)</h3>
+                    <p className="text-church-red font-medium mb-4">Chaplain at the Goodwood Prison</p>
                     <div className="prose">
                       <p>
-                        Sarah has been the parish secretary for over 10 years. She manages the day-to-day operations of the 
-                        parish office, coordinates bookings for parish facilities, and assists with parish communications.
+                        Fr. Ludwe Jayiyahas been the parish priest at St Joseph's since 2018. He was ordained in 2005 and has 
+                        served in several parishes across the Archdiocese of Adelaide. Fr. John has a particular interest 
+                        in youth ministry and social justice.
                       </p>
                       <p>
-                        Sarah is available in the parish office Tuesday through Friday from 9:00 AM to 3:00 PM.
+                        "I am blessed to serve in such a vibrant and welcoming community. St Joseph's has a rich history 
+                        and a bright future as we continue to grow in faith together."
                       </p>
                     </div>
                   </div>
@@ -173,6 +176,15 @@ const About = () => {
               </div>
             </div>
           </div>
+          {/* <div className="w-full md:w-1/6 ">
+                    <div className="aspect-square bg-gray-200 rounded-full overflow-hidden">
+                      <img 
+                        src="public\lovable-uploads\hands_icon.svg" 
+                        alt="Father John Smith"
+                        className="w-full h-full object-bottom "
+                      />
+                    </div>
+                  </div> */}
         </section>
       </main>
       <Footer />
