@@ -9,11 +9,11 @@ const About = () => {
       <Navbar />
       <main className="flex-grow">
         {/* Hero Section */}
-        <div className="relative bg-church-navy text-white py-16">
+        <div className="relative bg-church-navy text-white py-60">
           <div 
             className="absolute inset-0 bg-cover bg-center"
             style={{ 
-              backgroundImage: "url('public/lovable-uploads/hero-image.png')", 
+              backgroundImage: "url('public/lovable-uploads/hero2-image.jpg')", 
               opacity: "0.3" 
             }}
           />
