@@ -17,11 +17,11 @@ const BaptismPage = () => {
       <Navbar />
       <main className="flex-grow">
         {/* Hero Section */}
-        <div className="relative bg-church-navy text-white py-16">
+        <div className="relative bg-church-navy text-white py-60">
           <div 
             className="absolute inset-0 bg-cover bg-center"
             style={{ 
-              backgroundImage: "url('lovable-uploads/catholic baptism.jpg')", 
+              backgroundImage: "url('https://images.unsplash.com/photo-1664393487283-bc6204787aeb?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')", 
               opacity: "0.3" 
             }}
           />
@@ -29,7 +29,7 @@ const BaptismPage = () => {
             <div className="max-w-3xl mx-auto text-center">
               <h1 className="text-4xl md:text-5xl font-bold mb-6">Baptism</h1>
               <p className="text-xl font-light">
-                "Go therefore and make disciples of all nations, baptizing them in the name of the Father and of the Son and of the Holy Spirit." - Matthew 28:19
+                <strong>"Go therefore and make disciples of all nations, baptizing them in the name of the Father and of the Son and of the Holy Spirit." - Matthew 28:19</strong>
               </p>
             </div>
           </div>
@@ -74,7 +74,7 @@ const BaptismPage = () => {
                 <div className="md:col-span-5">
                   <div className="rounded-lg overflow-hidden shadow-lg">
                     <img 
-                      src="https://images.unsplash.com/photo-1519677584237-752f8853252e?q=80&w=2070&auto=format&fit=crop" 
+                      src="https://images.unsplash.com/photo-1615610856180-d074f21c2854?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
                       alt="Baptism"
                       className="w-full"
                     />
