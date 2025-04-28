@@ -9,12 +9,12 @@ const MarriagePage = () => {
       <Navbar />
       <main className="flex-grow">
         {/* Hero Section */}
-        <div className="relative bg-church-navy text-white py-16">
+        <div className="relative bg-church-navy text-white py-60">
           <div 
             className="absolute inset-0 bg-cover bg-center"
             style={{ 
-              backgroundImage: "url('https://images.unsplash.com/photo-1528115024996-260f89a10a04?q=80&w=2070&auto=format&fit=crop')", 
-              opacity: "0.3" 
+              backgroundImage: "url('https://images.unsplash.com/photo-1655994621920-a29ba0af49ca?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGNhdGhvbGljJTIwbWFycmlhZ2V8ZW58MHx8MHx8fDA%3D')", 
+              opacity: "0.4" 
             }}
           />
           <div className="container mx-auto px-4 relative z-10">
@@ -31,7 +31,7 @@ const MarriagePage = () => {
         <section className="py-16 bg-white">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl font-bold text-church-red mb-8">About the Sacrament</h2>
+              <h2 className="text-3xl font-bold text-church-red mb-8">The Sacrament of Marriage</h2>
               <div className="prose prose-lg max-w-none">
                 <p>
                   The Sacrament of Marriage is a covenant by which a man and a woman establish between themselves a partnership for their whole life. It is ordered toward the well-being of the spouses and the procreation and education of children.
