@@ -173,12 +173,12 @@ const Notices = () => {
       <Navbar />
       <main className="flex-grow">
         {/* Hero Section */}
-        <div className="relative bg-church-navy text-white py-16">
+        <div className="relative bg-church-navy text-white py-60">
           <div 
             className="absolute inset-0 bg-cover bg-center"
             style={{ 
-              backgroundImage: "url('https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070&auto=format&fit=crop')", 
-              opacity: "0.3" 
+              backgroundImage: "url('https://images.unsplash.com/photo-1569845177077-2a37322a60c7?q=80&w=2024&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')", 
+              opacity: "0.4" 
             }}
           />
           <div className="container mx-auto px-4 relative z-10">
