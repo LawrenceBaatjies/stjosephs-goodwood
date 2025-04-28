@@ -6,6 +6,7 @@ import MassTimesHero from "@/components/mass-times/MassTimesHero";
 import RegularSchedule from "@/components/mass-times/RegularSchedule";
 import ConfessionSection from "@/components/mass-times/ConfessionSection";
 import SpecialCelebrations from "@/components/mass-times/SpecialCelebrations";
+import JubileeYear from "@/components/mass-times/JubileeYear";
 
 const MassTimesPage = () => {
   return (
@@ -16,6 +17,7 @@ const MassTimesPage = () => {
         <RegularSchedule />
         <ConfessionSection />
         <SpecialCelebrations />
+        <JubileeYear />
       </main>
       <Footer />
     </div>

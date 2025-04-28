@@ -5,9 +5,9 @@ import { Link } from "react-router-dom";
 const Logo = () => {
   return (
     <Link to="/" className="flex items-center">
-      <div className="h-10 w-10 md:h-12 md:w-12 mr-3 overflow-hidden rounded-full">
+      <div className="h-12 w-12 md:h-14 md:w-14 mr-3 overflow-hidden rounded-full">
         <img 
-          src="lovable-uploads/logo-image.png"
+          src="/lovable-uploads/logo-image.png"
           alt="St Joseph's Logo" 
           className="h-full w-full object-cover"
           width={210}

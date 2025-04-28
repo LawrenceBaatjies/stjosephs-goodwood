@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -42,14 +41,52 @@ const EdgePage = () => {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Here you would typically send the form data to your backend
-    console.log("Form submitted:", formData);
-    toast({
-      title: "Registration submitted",
-      description: "Your EDGE registration has been received. We'll contact you soon!",
-    });
+    try {
+      const response = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          to: ['f.fabris.za@gmail.com', 'sheshe.hendricks56@gmail.com'],
+          subject: 'New EDGE Registration',
+          html: `
+            <h2>New EDGE Registration Details:</h2>
+            <p><strong>Full Name:</strong> ${formData.fullName}</p>
+            <p><strong>Date of Birth:</strong> ${formData.dateOfBirth}</p>
+            <p><strong>Gender:</strong> ${formData.gender}</p>
+            <p><strong>School:</strong> ${formData.school}</p>
+            <p><strong>Grade:</strong> ${formData.grade}</p>
+            <p><strong>Address:</strong> ${formData.address}</p>
+            <p><strong>Parent Name:</strong> ${formData.parentName}</p>
+            <p><strong>Parent Contact:</strong> ${formData.parentContact}</p>
+            <p><strong>Parent Email:</strong> ${formData.parentEmail}</p>
+            <p><strong>Emergency Contact:</strong> ${formData.emergencyContact}</p>
+            <p><strong>Medical Conditions:</strong> ${formData.medicalConditions}</p>
+            <p><strong>Allergies:</strong> ${formData.allergies}</p>
+            <p><strong>Medications:</strong> ${formData.medications}</p>
+          `
+        })
+      });
+
+      if (response.ok) {
+        toast({
+          title: "Registration submitted",
+          description: "Your EDGE registration has been received. We'll contact you soon!",
+        });
+      } else {
+        throw new Error('Failed to send email');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      toast({
+        title: "Error",
+        description: "There was an error submitting the form. Please try again.",
+        variant: "destructive"
+      });
+    }
   };
 
   return (
@@ -123,9 +160,16 @@ const EdgePage = () => {
           </div>
         </section>
 
-        {/* Registration Form */}
-        <section className="py-12 md:py-16 bg-gray-50">
-          <div className="container mx-auto px-4">
+        {/* Registration Form Section */}
+        <section className="py-12 md:py-16 relative">
+          <div 
+            className="absolute inset-0 bg-cover bg-center z-0"
+            style={{ 
+              backgroundImage: "url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2070&auto=format&fit=crop')",
+              opacity: "0.1"
+            }}
+          />
+          <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-3xl mx-auto">
               <h2 className="text-3xl font-bold text-church-navy mb-6 text-center">EDGE Registration Form</h2>
               <p className="text-center text-gray-600 mb-8">
