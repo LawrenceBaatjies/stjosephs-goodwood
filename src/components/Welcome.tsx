@@ -10,7 +10,7 @@ const Welcome = () => {
           {/* Image */}
           <div className="order-2 md:order-1">
             <img
-              src="https://images.unsplash.com/photo-1601331119788-48febb5670f6?q=80&w=1974&auto=format&fit=crop"
+              src="public\lovable-uploads\about-us.jpg"
               alt="St Joseph's Church Goodwood"
               className="rounded-lg shadow-lg"
             />
