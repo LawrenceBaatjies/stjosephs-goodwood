@@ -13,7 +13,7 @@ const ConfirmationPage = () => {
           <div 
             className="absolute inset-0 bg-cover bg-center"
             style={{ 
-              backgroundImage: "url('https://images.unsplash.com/photo-1589720815356-461ea99a8677?q=80&w=1974&auto=format&fit=crop')", 
+              backgroundImage: "url('lovable-uploads/Confirmation.jpg')", 
               opacity: "0.3" 
             }}
           />
