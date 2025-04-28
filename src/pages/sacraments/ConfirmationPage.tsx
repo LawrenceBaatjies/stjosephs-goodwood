@@ -9,12 +9,12 @@ const ConfirmationPage = () => {
       <Navbar />
       <main className="flex-grow">
         {/* Hero Section */}
-        <div className="relative bg-church-navy text-white py-16">
+        <div className="relative bg-church-navy text-white py-60">
           <div 
             className="absolute inset-0 bg-cover bg-center"
             style={{ 
-              backgroundImage: "url('lovable-uploads/Confirmation.jpg')", 
-              opacity: "0.3" 
+              backgroundImage: "url('https://images.unsplash.com/photo-1531627467965-e9c3dd19209c?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OTF8fGNhdGhvbGljfGVufDB8fDB8fHww')", 
+              opacity: "0.4" 
             }}
           />
           <div className="container mx-auto px-4 relative z-10">
@@ -31,10 +31,10 @@ const ConfirmationPage = () => {
         <section className="py-16 bg-white">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
-              <h2 className="text-3xl font-bold text-church-red mb-8">About the Sacrament</h2>
+              <h2 className="text-3xl font-bold text-church-red mb-8">The Sacrament of Confirmation</h2>
               <div className="prose prose-lg max-w-none">
                 <p>
-                  Confirmation is one of the seven sacraments of the Catholic Church. It is the sacrament that completes baptismal grace. Through Confirmation, the Holy Spirit gives us special strength to spread and defend the faith by word and action as true witnesses of Christ.
+                 Confirmation is one of the seven sacraments of the Catholic Church. It is the sacrament that completes baptismal grace. Through Confirmation, the Holy Spirit gives us special strength to spread and defend the faith by word and action as true witnesses of Christ.
                 </p>
                 <p>
                   In the Sacrament of Confirmation, the baptized person is "sealed with the gift of the Holy Spirit" and is strengthened for service to the Body of Christ. The prophets of the Old Testament foretold that God's Spirit would rest upon the Messiah to sustain his mission. Their prophecy was fulfilled when Jesus the Messiah was conceived by the Spirit and born of the Virgin Mary.
