@@ -126,6 +126,7 @@ const MobileMenu = ({ isMenuOpen, toggleMenu, setShowPopup }: MobileMenuProps) =
             {openSections.includes('notices') && (
               <ul className="pl-4 space-y-2">
                 <li><Link to="/notices" className="block py-2 text-gray-700 hover:text-[#d4a760]" onClick={toggleMenu}>Parish Notices</Link></li>
+                <li><Link to="/bulletins" className="block py-2 text-gray-700 hover:text-[#d4a760]" onClick={toggleMenu}>Parish Bulletins</Link></li>
                 <li><Link to="/newsletters" className="block py-2 text-gray-700 hover:text-[#d4a760]" onClick={toggleMenu}>Newsletters</Link></li>
               </ul>
             )}

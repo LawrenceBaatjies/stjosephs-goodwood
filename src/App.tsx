@@ -12,6 +12,7 @@ import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
 import Gallery from "./pages/Gallery";
 import Notices from "./pages/Notices";
+import BulletinsPage from "./pages/BulletinsPage";
 import Calendar from "./pages/Calendar";
 import FAQ from "./pages/FAQ";
 import Registration from "./pages/Registration";
@@ -49,6 +50,7 @@ const App = () => (
           <Route path="/mass-times" element={<MassTimesPage />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/notices" element={<Notices />} />
+          <Route path="/bulletins" element={<BulletinsPage />} />
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/faq" element={<FAQ />} />

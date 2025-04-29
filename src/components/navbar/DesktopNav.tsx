@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import { Home, Calendar, Clock } from "lucide-react";
@@ -120,6 +121,7 @@ const DesktopNav = ({ setShowPopup }: { setShowPopup: (show: boolean) => void })
             <NavigationMenuContent className="bg-white min-w-[200px]">
               <div className="p-2">
                 <Link to="/notices" className="block px-4 py-2 hover:bg-gray-100 text-gray-700">Parish Notices</Link>
+                <Link to="/bulletins" className="block px-4 py-2 hover:bg-gray-100 text-gray-700">Parish Bulletins</Link>
                 <Link to="/newsletters" className="block px-4 py-2 hover:bg-gray-100 text-gray-700">Newsletters</Link>
               </div>
             </NavigationMenuContent>
