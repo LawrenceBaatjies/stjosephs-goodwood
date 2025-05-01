@@ -133,9 +133,9 @@ const galleryImages: GalleryImage[] = [
   },
   {
     id: 18,
-    src: "https://images.unsplash.com/photo-1605433550550-39204b90a9a5?q=80&w=1974&auto=format&fit=crop",
+    src: "https://scontent.fcpt11-1.fna.fbcdn.net/v/t39.30808-6/491357316_3947336178813340_6278358918561624857_n.jpg?stp=dst-jpg_p110x80_tt6&_nc_cat=109&ccb=1-7&_nc_sid=aa7b47&_nc_eui2=AeENabp0zK-PHFqpG37drjfLykhPVh6stuzKSE9WHqy27Gm9xbQHnfF8thXoP9ldDWw&_nc_ohc=N_C7PmOILmIQ7kNvwEjlROd&_nc_oc=Admtc1MyOnV7UE3rFc99y1Ju2t020VreMZ9voZhYhkKemThKTglQobf85p12muYWICU&_nc_zt=23&_nc_ht=scontent.fcpt11-1.fna&_nc_gid=A3IS1OKKvlz0bRvG4vzoEA&oh=00_AfHBh8ZdhB0-ieYMD6kt7ASkvTR-yPxsWxR0-x0QqTVqIQ&oe=68194FC4",
     alt: "Children's Ministry",
-    description: "Children's ministry session during Sunday School",
+    description: "Children's ministry session during Stations of the Cross",
     category: "Youth"
   },
   {
