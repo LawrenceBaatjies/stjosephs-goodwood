@@ -16,21 +16,21 @@ const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-start">
                 <MapPin className="mr-2 h-5 w-5 text-church-gold shrink-0 mt-0.5" />
-                <span>30 Anderson Street Goodwood 74604</span>
+                <span>30 Anderson Street Goodwood 7460</span>
               </li>
               <li className="flex items-center">
                 <Phone className="mr-2 h-5 w-5 text-church-gold shrink-0" />
-                <span>(27+)  21 591 2229.</span>
+                <span>(+27)  21 591 2229</span>
               </li>
               <li className="flex items-center">
                 <Mail className="mr-2 h-5 w-5 text-church-gold shrink-0" />
-                <span>stjosephgoodwood@gmail.com</span>
+                <span>zxq@telkomsa.net</span>
               </li>
             </ul>
             
             {/* Social Media Links */}
             <div className="mt-6 flex space-x-4">
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-church-gold transition-colors">
+              <a href="https://www.facebook.com/share/g/1DU8XcKKAD/" target="_blank" rel="noopener noreferrer" className="text-white hover:text-church-gold transition-colors">
                 <Facebook className="h-6 w-6" />
               </a>
               <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-church-gold transition-colors">
@@ -55,7 +55,7 @@ const Footer = () => {
                 <Link to="/notices" className="block hover:text-church-gold transition-colors mb-1">Notices</Link>
                 <Link to="/newsletters" className="block hover:text-church-gold transition-colors mb-1">Newsletters</Link>
                 <Link to="/calendar" className="block hover:text-church-gold transition-colors mb-1">Calendar</Link>
-                <Link to="/edge" className="block hover:text-church-gold transition-colors mb-1">EDGE Youth</Link>
+                <Link to="/edge" className="block hover:text-church-gold transition-colors mb-1">EDGE</Link>
               </div>
             </div>
           </div>
@@ -66,11 +66,11 @@ const Footer = () => {
             <ul className="space-y-2">
               <li className="flex justify-between">
                 <span>Saturday Vigil:</span>
-                <span>6:00 PM</span>
+                <span>4:00 PM</span>
               </li>
               <li className="flex justify-between">
                 <span>Sunday:</span>
-                <span>10:00 AM</span>
+                <span>10:30 AM</span>
               </li>
               <li className="flex justify-between">
                 <span>Tuesday:</span>
