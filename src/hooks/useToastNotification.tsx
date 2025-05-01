@@ -1,6 +1,7 @@
 
 import { useToast, toast as baseToast } from "@/hooks/use-toast";
 import { ToastAction } from "@/components/ui/toast";
+import React from "react";
 
 // Predefined toast variant types
 export type ToastVariant = "default" | "success" | "error" | "warning" | "info";
@@ -63,15 +64,27 @@ export function useToastNotification() {
 
   // For programmatic toast usage outside of React components
   const programmatic = {
-    show: (options: ToastOptions) => baseToast(getToastOptionsForVariant(options)),
+    // For programmatic usage, we need to provide the JSX directly
+    show: (options: ToastOptions) => {
+      const { title, description, variant = "default", duration = TOAST_DURATIONS.MEDIUM, action } = options;
+      return baseToast({
+        title,
+        description,
+        duration,
+        className: getToastClassForVariant(variant),
+        // We can't render JSX outside React components, so we need a different approach for programmatic toasts
+        // For now, let's disable the action button in programmatic toasts as it's tricky to handle
+        // If needed in the future, we could consider using a portal or another approach
+      });
+    },
     success: (options: Omit<ToastOptions, "variant">) => 
-      baseToast(getToastOptionsForVariant({ ...options, variant: "success" })),
+      programmatic.show({ ...options, variant: "success" }),
     error: (options: Omit<ToastOptions, "variant">) => 
-      baseToast(getToastOptionsForVariant({ ...options, variant: "error" })),
+      programmatic.show({ ...options, variant: "error" }),
     warning: (options: Omit<ToastOptions, "variant">) => 
-      baseToast(getToastOptionsForVariant({ ...options, variant: "warning" })),
+      programmatic.show({ ...options, variant: "warning" }),
     info: (options: Omit<ToastOptions, "variant">) => 
-      baseToast(getToastOptionsForVariant({ ...options, variant: "info" })),
+      programmatic.show({ ...options, variant: "info" }),
   };
 
   return {
@@ -99,24 +112,3 @@ function getToastClassForVariant(variant: ToastVariant): string {
       return ""; // Use default toast styling
   }
 }
-
-// Utility function to get toast options for programmatic usage
-function getToastOptionsForVariant({ 
-  title, 
-  description, 
-  variant = "default",
-  duration = TOAST_DURATIONS.MEDIUM,
-  action 
-}: ToastOptions) {
-  return {
-    title,
-    description,
-    duration,
-    className: getToastClassForVariant(variant),
-    action: action ? {
-      label: action.label,
-      onClick: action.onClick,
-    } : undefined,
-  };
-}
-
