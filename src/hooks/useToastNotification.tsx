@@ -64,17 +64,15 @@ export function useToastNotification() {
 
   // For programmatic toast usage outside of React components
   const programmatic = {
-    // For programmatic usage, we need to provide the JSX directly
+    // For programmatic usage, we need a simplified approach to avoid type errors
     show: (options: ToastOptions) => {
-      const { title, description, variant = "default", duration = TOAST_DURATIONS.MEDIUM, action } = options;
+      const { title, description, variant = "default", duration = TOAST_DURATIONS.MEDIUM } = options;
       return baseToast({
         title,
         description,
         duration,
         className: getToastClassForVariant(variant),
-        // We can't render JSX outside React components, so we need a different approach for programmatic toasts
-        // For now, let's disable the action button in programmatic toasts as it's tricky to handle
-        // If needed in the future, we could consider using a portal or another approach
+        // We can't use React components in programmatic toasts
       });
     },
     success: (options: Omit<ToastOptions, "variant">) => 
