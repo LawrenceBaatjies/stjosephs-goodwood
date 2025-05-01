@@ -1,10 +1,13 @@
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useToast } from "@/hooks/use-toast";
 import NewsletterCard from "@/components/newsletter/NewsletterCard";
-import { FileText } from "lucide-react";
+import { FileText, Upload, Link } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
 
 interface Newsletter {
   id: string;
@@ -56,6 +59,10 @@ const NewslettersPage = () => {
     description: "",
     thumbnailUrl: "",
   });
+  const [uploadMethod, setUploadMethod] = useState<'url' | 'upload'>('url');
+  const [previewPdfUrl, setPreviewPdfUrl] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const thumbnailInputRef = useRef<HTMLInputElement>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -63,6 +70,33 @@ const NewslettersPage = () => {
       ...formData,
       [name]: value
     });
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      
+      // Create a URL for the uploaded file
+      const fileUrl = URL.createObjectURL(file);
+      
+      if (e.target.name === 'pdfFile') {
+        setFormData({
+          ...formData,
+          fileUrl: fileUrl
+        });
+      } else if (e.target.name === 'thumbnailFile') {
+        setFormData({
+          ...formData,
+          thumbnailUrl: fileUrl
+        });
+      }
+
+      // Show success toast
+      toast({
+        title: "File uploaded successfully",
+        description: `"${file.name}" has been uploaded.`
+      });
+    }
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -107,6 +141,7 @@ const NewslettersPage = () => {
         description: newsletter.description,
         thumbnailUrl: newsletter.thumbnailUrl || "",
       });
+      setUploadMethod('url');
     }
   };
 
@@ -127,11 +162,22 @@ const NewslettersPage = () => {
       description: "",
       thumbnailUrl: "",
     });
+    setUploadMethod('url');
+    if (fileInputRef.current) fileInputRef.current.value = '';
+    if (thumbnailInputRef.current) thumbnailInputRef.current.value = '';
   };
 
   const toggleAdminMode = () => {
     setIsAdminMode(!isAdminMode);
     resetForm();
+  };
+
+  const handleViewPdf = (fileUrl: string) => {
+    setPreviewPdfUrl(fileUrl);
+  };
+
+  const closePreview = () => {
+    setPreviewPdfUrl(null);
   };
 
   return (
@@ -214,77 +260,119 @@ const NewslettersPage = () => {
                   <form onSubmit={handleSubmit}>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                       <div className="space-y-2">
-                        <label htmlFor="title" className="block font-medium text-gray-700">
-                          Title
-                        </label>
-                        <input
-                          type="text"
+                        <Label htmlFor="title">Title</Label>
+                        <Input
                           id="title"
                           name="title"
                           value={formData.title}
                           onChange={handleChange}
                           required
-                          className="w-full px-4 py-2 border rounded-md"
                         />
                       </div>
                       
                       <div className="space-y-2">
-                        <label htmlFor="date" className="block font-medium text-gray-700">
-                          Date
-                        </label>
-                        <input
+                        <Label htmlFor="date">Date</Label>
+                        <Input
                           type="date"
                           id="date"
                           name="date"
                           value={formData.date}
                           onChange={handleChange}
                           required
-                          className="w-full px-4 py-2 border rounded-md"
-                        />
-                      </div>
-                      
-                      <div className="space-y-2">
-                        <label htmlFor="fileUrl" className="block font-medium text-gray-700">
-                          File URL (PDF Link)
-                        </label>
-                        <input
-                          type="text"
-                          id="fileUrl"
-                          name="fileUrl"
-                          value={formData.fileUrl}
-                          onChange={handleChange}
-                          required
-                          className="w-full px-4 py-2 border rounded-md"
-                          placeholder="Upload file or enter PDF URL"
-                        />
-                      </div>
-                      
-                      <div className="space-y-2">
-                        <label htmlFor="thumbnailUrl" className="block font-medium text-gray-700">
-                          Thumbnail URL (optional)
-                        </label>
-                        <input
-                          type="text"
-                          id="thumbnailUrl"
-                          name="thumbnailUrl"
-                          value={formData.thumbnailUrl}
-                          onChange={handleChange}
-                          className="w-full px-4 py-2 border rounded-md"
-                          placeholder="Enter image URL for thumbnail"
                         />
                       </div>
                       
                       <div className="space-y-2 md:col-span-2">
-                        <label htmlFor="description" className="block font-medium text-gray-700">
-                          Description
-                        </label>
-                        <textarea
+                        <Label>PDF Document</Label>
+                        <div className="flex space-x-4 mb-2">
+                          <button
+                            type="button"
+                            onClick={() => setUploadMethod('url')}
+                            className={`px-4 py-2 rounded-md transition-colors ${
+                              uploadMethod === 'url' 
+                                ? 'bg-church-navy text-white'
+                                : 'bg-gray-200 hover:bg-gray-300 text-gray-700'
+                            }`}
+                          >
+                            <Link size={16} className="inline-block mr-1" />
+                            URL Link
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setUploadMethod('upload')}
+                            className={`px-4 py-2 rounded-md transition-colors ${
+                              uploadMethod === 'upload' 
+                                ? 'bg-church-navy text-white'
+                                : 'bg-gray-200 hover:bg-gray-300 text-gray-700'
+                            }`}
+                          >
+                            <Upload size={16} className="inline-block mr-1" />
+                            Upload File
+                          </button>
+                        </div>
+                        
+                        {uploadMethod === 'url' ? (
+                          <div className="space-y-2">
+                            <Label htmlFor="fileUrl">PDF URL</Label>
+                            <Input
+                              type="text"
+                              id="fileUrl"
+                              name="fileUrl"
+                              value={formData.fileUrl}
+                              onChange={handleChange}
+                              required={uploadMethod === 'url'}
+                              placeholder="Enter URL to PDF"
+                            />
+                          </div>
+                        ) : (
+                          <div className="space-y-2">
+                            <Label htmlFor="pdfFile">Upload PDF</Label>
+                            <Input
+                              type="file"
+                              id="pdfFile"
+                              name="pdfFile"
+                              ref={fileInputRef}
+                              accept="application/pdf"
+                              onChange={handleFileChange}
+                              required={uploadMethod === 'upload'}
+                            />
+                          </div>
+                        )}
+                      </div>
+                      
+                      <div className="space-y-2 md:col-span-2">
+                        <Label htmlFor="thumbnailUrl">Thumbnail Image</Label>
+                        <div className="flex space-x-4 mb-2">
+                          <Input
+                            type="text"
+                            id="thumbnailUrl"
+                            name="thumbnailUrl"
+                            value={formData.thumbnailUrl}
+                            onChange={handleChange}
+                            className="flex-1"
+                            placeholder="Enter image URL for thumbnail"
+                          />
+                          <div className="text-center">or</div>
+                          <Input
+                            type="file"
+                            id="thumbnailFile"
+                            name="thumbnailFile"
+                            ref={thumbnailInputRef}
+                            accept="image/*"
+                            onChange={handleFileChange}
+                            className="flex-1"
+                          />
+                        </div>
+                      </div>
+                      
+                      <div className="space-y-2 md:col-span-2">
+                        <Label htmlFor="description">Description</Label>
+                        <Textarea
                           id="description"
                           name="description"
                           value={formData.description}
                           onChange={handleChange}
                           rows={3}
-                          className="w-full px-4 py-2 border rounded-md"
                         />
                       </div>
                     </div>
@@ -324,6 +412,7 @@ const NewslettersPage = () => {
                       isAdminMode={isAdminMode}
                       onEdit={handleEdit}
                       onDelete={handleDelete}
+                      onView={handleViewPdf}
                     />
                   ))}
                 </div>
@@ -336,6 +425,49 @@ const NewslettersPage = () => {
             </div>
           </div>
         </section>
+
+        {/* PDF Preview Modal */}
+        {previewPdfUrl && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+            <div className="bg-white rounded-lg shadow-xl w-full max-w-6xl h-[80vh] flex flex-col">
+              <div className="p-4 border-b flex justify-between items-center">
+                <h3 className="text-xl font-semibold">Newsletter Preview</h3>
+                <button 
+                  onClick={closePreview}
+                  className="p-2 hover:bg-gray-100 rounded-full"
+                >
+                  ×
+                </button>
+              </div>
+              <div className="flex-grow p-4 overflow-hidden">
+                <iframe 
+                  src={previewPdfUrl} 
+                  title="PDF Preview" 
+                  className="w-full h-full"
+                />
+              </div>
+              <div className="p-4 border-t flex justify-end space-x-2">
+                <button
+                  onClick={() => window.open(previewPdfUrl, '_blank')?.print()}
+                  className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-md flex items-center"
+                >
+                  <Printer size={16} className="mr-2" />
+                  Print
+                </button>
+                <a
+                  href={previewPdfUrl}
+                  download
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="px-4 py-2 bg-church-navy text-white rounded-md flex items-center"
+                >
+                  <Download size={16} className="mr-2" />
+                  Download
+                </a>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
       <Footer />
     </div>
