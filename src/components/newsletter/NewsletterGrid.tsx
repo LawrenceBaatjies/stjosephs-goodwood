@@ -18,6 +18,9 @@ interface NewsletterGridProps {
   onEdit: (id: string) => void;
   onDelete: (id: string) => void;
   onView: (fileUrl: string) => void;
+  searchTerm?: string;
+  selectedYear?: string;
+  selectedMonth?: string;
 }
 
 const NewsletterGrid: React.FC<NewsletterGridProps> = ({ 
@@ -25,13 +28,34 @@ const NewsletterGrid: React.FC<NewsletterGridProps> = ({
   isAdminMode, 
   onEdit, 
   onDelete, 
-  onView 
+  onView,
+  searchTerm = "",
+  selectedYear = "",
+  selectedMonth = ""
 }) => {
+  // Filter newsletters based on search term and filters
+  const filteredNewsletters = newsletters.filter(newsletter => {
+    // Search term filter
+    const matchesSearch = searchTerm === "" || 
+      newsletter.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+      newsletter.description.toLowerCase().includes(searchTerm.toLowerCase());
+    
+    // Date filters
+    const newsletterDate = new Date(newsletter.date);
+    const matchesYear = selectedYear === "" || 
+      newsletterDate.getFullYear().toString() === selectedYear;
+    
+    const matchesMonth = selectedMonth === "" || 
+      (newsletterDate.getMonth() + 1).toString().padStart(2, '0') === selectedMonth;
+    
+    return matchesSearch && matchesYear && matchesMonth;
+  });
+
   return (
     <>
-      {newsletters.length > 0 ? (
+      {filteredNewsletters.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {newsletters.map(newsletter => (
+          {filteredNewsletters.map(newsletter => (
             <NewsletterCard
               key={newsletter.id}
               id={newsletter.id}
@@ -50,7 +74,11 @@ const NewsletterGrid: React.FC<NewsletterGridProps> = ({
       ) : (
         <div className="text-center py-8 bg-white rounded-lg shadow">
           <FileText size={48} className="mx-auto text-gray-400 mb-4" />
-          <p className="text-gray-500">No newsletters available at this time.</p>
+          <p className="text-gray-500">
+            {searchTerm || selectedYear || selectedMonth 
+              ? "No newsletters match your search criteria." 
+              : "No newsletters available at this time."}
+          </p>
         </div>
       )}
     </>

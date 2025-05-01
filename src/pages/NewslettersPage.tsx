@@ -1,13 +1,13 @@
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useMemo } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useToast } from "@/hooks/use-toast";
-import { FileText, Upload, Link } from "lucide-react";
 import NewsletterHero from "@/components/newsletter/NewsletterHero";
 import NewsletterAbout from "@/components/newsletter/NewsletterAbout";
 import NewsletterAdminForm from "@/components/newsletter/NewsletterAdminForm";
 import NewsletterGrid, { Newsletter } from "@/components/newsletter/NewsletterGrid";
+import NewsletterSearch from "@/components/newsletter/NewsletterSearch";
 import PDFPreview from "@/components/newsletter/PDFPreview";
 
 // Sample PDF URL for demonstration
@@ -37,6 +37,21 @@ const dummyNewsletters: Newsletter[] = [
     fileUrl: samplePdfUrl,
     description: "Parish updates, ministry spotlights, and community news. Read about the upcoming parish feast day celebrations and volunteer opportunities.",
   },
+  {
+    id: "4",
+    title: "Christmas Special Edition - December 2024",
+    date: "2024-12-20",
+    fileUrl: samplePdfUrl,
+    description: "Christmas Mass schedule, holiday events, and seasonal reflections.",
+    thumbnailUrl: "https://images.unsplash.com/photo-1512389142860-9c449e58a543?q=80&w=1469&auto=format&fit=crop",
+  },
+  {
+    id: "5", 
+    title: "All Saints Day - November 2024",
+    date: "2024-11-01",
+    fileUrl: samplePdfUrl,
+    description: "Special edition for All Saints Day with prayer services and community activities.",
+  }
 ];
 
 const NewslettersPage = () => {
@@ -55,6 +70,19 @@ const NewslettersPage = () => {
   const [previewPdfUrl, setPreviewPdfUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const thumbnailInputRef = useRef<HTMLInputElement>(null);
+
+  // Search and filter states
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedYear, setSelectedYear] = useState("");
+  const [selectedMonth, setSelectedMonth] = useState("");
+
+  // Calculate available years from newsletter dates
+  const availableYears = useMemo(() => {
+    const years = newsletters.map(newsletter => 
+      new Date(newsletter.date).getFullYear().toString()
+    );
+    return Array.from(new Set(years)).sort((a, b) => parseInt(b) - parseInt(a));
+  }, [newsletters]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -172,6 +200,11 @@ const NewslettersPage = () => {
     setPreviewPdfUrl(null);
   };
 
+  // Handle search and filter changes
+  const handleSearchChange = (value: string) => setSearchTerm(value);
+  const handleYearChange = (value: string) => setSelectedYear(value);
+  const handleMonthChange = (value: string) => setSelectedMonth(value);
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -196,6 +229,17 @@ const NewslettersPage = () => {
                 </button>
               </div>
 
+              {/* Search and Filter Component */}
+              <NewsletterSearch 
+                searchTerm={searchTerm}
+                onSearchChange={handleSearchChange}
+                selectedYear={selectedYear}
+                onYearChange={handleYearChange}
+                selectedMonth={selectedMonth}
+                onMonthChange={handleMonthChange}
+                availableYears={availableYears}
+              />
+
               {isAdminMode && (
                 <NewsletterAdminForm 
                   formData={formData}
@@ -215,6 +259,9 @@ const NewslettersPage = () => {
                 onEdit={handleEdit}
                 onDelete={handleDelete}
                 onView={handleViewPdf}
+                searchTerm={searchTerm}
+                selectedYear={selectedYear}
+                selectedMonth={selectedMonth}
               />
             </div>
           </div>
