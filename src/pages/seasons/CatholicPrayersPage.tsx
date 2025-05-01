@@ -238,7 +238,7 @@ const CatholicPrayersPage = () => {
                     In our digital age, there are many helpful apps and websites that can support your prayer life. Here are a few recommendations:
                   </p>
                   <ul className="list-disc pl-5 text-gray-700 space-y-1">
-                    <li><a href="https://play.google.com/store/apps/details?id=com.aycka.apps.MassReadings&hl=en_ZA&pli=1" className="text-blue-600 visited:text-church-red" rel="noreferrer">Laudate</a></li>
+                    <li><a href="https://play.google.com/store/apps/details?id=com.aycka.apps.MassReadings&hl=en_ZA&pli=1" className="text-blue-600 visited:text-church-red..." rel="noreferrer">Laudate</a></li>
                     <li><a href="https://www.ibreviary.com/m2/breviario.php" className="text-blue-600 visited:text-church-red" rel="noreferrer">iBreviary</a></li>
                     <li><a href="https://prayasyougo.org/" className="text-blue-600 visited:text-church-red target:shadow-lg" rel="noreferrer">Pray As You Go</a></li>
                     <li><a href="https://hallow.com/" className="text-blue-600 visited:text-church-red target:shadow-lg" rel="noreferrer">Hallow</a></li>
