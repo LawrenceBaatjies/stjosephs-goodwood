@@ -3,7 +3,7 @@ import React, { useRef } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Upload, Link } from "lucide-react";
+import { Upload, Link, FileImage, FilePdf } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface NewsletterFormData {
@@ -71,7 +71,7 @@ const NewsletterAdminForm: React.FC<NewsletterAdminFormProps> = ({
           </div>
           
           <div className="space-y-2 md:col-span-2">
-            <Label>PDF Document</Label>
+            <Label>Newsletter File (PDF, JPG, PNG)</Label>
             <div className="flex space-x-4 mb-2">
               <button
                 type="button"
@@ -101,7 +101,7 @@ const NewsletterAdminForm: React.FC<NewsletterAdminFormProps> = ({
             
             {uploadMethod === 'url' ? (
               <div className="space-y-2">
-                <Label htmlFor="fileUrl">PDF URL</Label>
+                <Label htmlFor="fileUrl">File URL (PDF, JPG, PNG)</Label>
                 <Input
                   type="text"
                   id="fileUrl"
@@ -109,21 +109,22 @@ const NewsletterAdminForm: React.FC<NewsletterAdminFormProps> = ({
                   value={formData.fileUrl}
                   onChange={handleChange}
                   required={uploadMethod === 'url'}
-                  placeholder="Enter URL to PDF"
+                  placeholder="Enter URL to PDF or image file"
                 />
               </div>
             ) : (
               <div className="space-y-2">
-                <Label htmlFor="pdfFile">Upload PDF</Label>
+                <Label htmlFor="pdfFile">Upload File</Label>
                 <Input
                   type="file"
                   id="pdfFile"
                   name="pdfFile"
                   ref={fileInputRef}
-                  accept="application/pdf"
+                  accept="application/pdf,image/jpeg,image/png,image/jpg"
                   onChange={handleFileChange}
                   required={uploadMethod === 'upload'}
                 />
+                <p className="text-xs text-gray-500">Accepted formats: PDF, JPG, PNG</p>
               </div>
             )}
           </div>

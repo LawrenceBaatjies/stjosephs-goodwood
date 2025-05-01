@@ -2,7 +2,7 @@
 import React from "react";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { FileText, Download, Printer, Eye } from "lucide-react";
+import { FileText, Download, Printer, Eye, FilePdf, FileImage } from "lucide-react";
 
 export interface NewsletterCardProps {
   id: string;
@@ -37,8 +37,16 @@ const NewsletterCard = ({
     });
   };
 
+  const isImage = fileUrl.match(/\.(jpeg|jpg|png|gif|webp)$/i) !== null;
+  const isPdf = fileUrl.match(/\.(pdf)$/i) !== null;
+
   const handlePrint = () => {
-    window.open(fileUrl, '_blank')?.print();
+    if (isPdf) {
+      window.open(fileUrl, '_blank')?.print();
+    } else {
+      // For images, open the preview which may offer print functionality
+      if (onView) onView(fileUrl);
+    }
   };
 
   const handleView = (e: React.MouseEvent) => {
@@ -63,7 +71,13 @@ const NewsletterCard = ({
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-gray-200">
-            <FileText size={64} className="text-gray-400" />
+            {isPdf ? (
+              <FilePdf size={64} className="text-red-400" />
+            ) : isImage ? (
+              <FileImage size={64} className="text-blue-400" />
+            ) : (
+              <FileText size={64} className="text-gray-400" />
+            )}
           </div>
         )}
         <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 bg-black bg-opacity-40 transition-opacity duration-200">
@@ -74,7 +88,7 @@ const NewsletterCard = ({
             className="flex items-center"
           >
             <Eye className="mr-1" size={16} />
-            View PDF
+            View
           </Button>
         </div>
       </div>
@@ -98,6 +112,7 @@ const NewsletterCard = ({
           size="sm"
           onClick={handlePrint}
           className="flex-1"
+          disabled={!isPdf}
         >
           <Printer className="mr-1" size={16} />
           Print
