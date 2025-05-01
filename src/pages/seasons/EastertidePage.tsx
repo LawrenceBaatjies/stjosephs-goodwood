@@ -9,12 +9,12 @@ const EastertidePage = () => {
       <Navbar />
       <main className="flex-grow">
         {/* Hero Section */}
-        <div className="relative bg-church-navy text-white py-16">
+        <div className="relative bg-church-navy text-white py-60">
           <div 
             className="absolute inset-0 bg-cover bg-center"
             style={{ 
-              backgroundImage: "url('https://images.unsplash.com/photo-1542259009477-d625272157b7?q=80&w=1974&auto=format&fit=crop')", 
-              opacity: "0.3" 
+              backgroundImage: "url('https://nccumc.org/creation/wp-content/uploads/sites/37/2025/04/eastertide-resources.jpg')", 
+              opacity: "0.4" 
             }}
           />
           <div className="container mx-auto px-4 relative z-10">
