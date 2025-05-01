@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { useNewsletterToast } from "./useNewsletterToast";
+import { useToastNotification } from "./useToastNotification";
 import { Newsletter } from "../components/newsletter/types";
 
 export const useNewsletterControls = (
@@ -10,7 +10,7 @@ export const useNewsletterControls = (
   const [isAdminMode, setIsAdminMode] = useState(false);
   const [previewPdfUrl, setPreviewPdfUrl] = useState<string | null>(null);
   
-  const { toast } = useNewsletterToast();
+  const { success, error } = useToastNotification();
 
   const toggleAdminMode = () => {
     setIsAdminMode(!isAdminMode);
@@ -26,7 +26,7 @@ export const useNewsletterControls = (
 
   const handleDelete = (id: string) => {
     setNewsletters(newsletters.filter(newsletter => newsletter.id !== id));
-    toast({
+    success({
       title: "Newsletter deleted",
       description: "The newsletter has been deleted successfully."
     });

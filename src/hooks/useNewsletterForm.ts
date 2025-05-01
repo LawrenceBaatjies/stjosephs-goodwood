@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { Newsletter, NewsletterFormData, UploadMethod } from "../components/newsletter/types";
-import { useNewsletterToast } from "./useNewsletterToast";
+import { useToastNotification } from "./useToastNotification";
 
 export const useNewsletterForm = (
   newsletters: Newsletter[],
@@ -17,7 +17,7 @@ export const useNewsletterForm = (
   });
   const [uploadMethod, setUploadMethod] = useState<UploadMethod>('url');
   
-  const { toast } = useNewsletterToast();
+  const { success } = useToastNotification();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -47,7 +47,7 @@ export const useNewsletterForm = (
       }
 
       // Show success toast
-      toast({
+      success({
         title: "File uploaded successfully",
         description: `"${file.name}" has been uploaded.`
       });
@@ -65,7 +65,7 @@ export const useNewsletterForm = (
           : newsletter
       );
       setNewsletters(updatedNewsletters);
-      toast({
+      success({
         title: "Newsletter updated",
         description: `"${formData.title}" has been updated successfully.`
       });
@@ -76,7 +76,7 @@ export const useNewsletterForm = (
         ...formData
       };
       setNewsletters([newNewsletter, ...newsletters]);
-      toast({
+      success({
         title: "Newsletter added",
         description: `"${formData.title}" has been added successfully.`
       });

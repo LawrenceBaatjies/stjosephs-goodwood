@@ -1,9 +1,10 @@
+
 import React, { useRef } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Upload, Link, FileImage } from "lucide-react";
-import { useNewsletterToast } from "@/hooks/useNewsletterToast";
+import { useToastNotification } from "@/hooks/useToastNotification";
 import { Newsletter, NewsletterFormData, UploadMethod } from "./types";
 
 interface NewsletterAdminFormProps {
@@ -27,7 +28,7 @@ const NewsletterAdminForm: React.FC<NewsletterAdminFormProps> = ({
   uploadMethod,
   setUploadMethod
 }) => {
-  const { toast } = useNewsletterToast();
+  const { toast } = useToastNotification();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const thumbnailInputRef = useRef<HTMLInputElement>(null);
 
