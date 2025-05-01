@@ -21,7 +21,7 @@ const galleryImages: GalleryImage[] = [
   },
   {
     id: 2,
-    src: "https://images.unsplash.com/photo-1438032005730-c779502df480?q=80&w=1974&auto=format&fit=crop",
+    src: "https://scontent.fcpt11-1.fna.fbcdn.net/v/t39.30808-6/491246376_3947335945480030_8508392936212162425_n.jpg?stp=cp6_dst-jpg_s600x600_tt6&_nc_cat=107&ccb=1-7&_nc_sid=aa7b47&_nc_eui2=AeHJ2YzGGQlwSl4hThF3ljO6O-GnkjfLmRY74aeSN8uZFvjB0JqYXJYbYPx4Y8SdKaY&_nc_ohc=FedB1Mqk3JgQ7kNvwE19ekr&_nc_oc=Adl-xKrzveapgiEnCpTFHY1vEHd9Lb8kOYFxQ_zviwKkBqR7Ji5QX_eJgeY7HgyRh0s&_nc_zt=23&_nc_ht=scontent.fcpt11-1.fna&_nc_gid=SD9SHcGv627OjPBq5jJsZw&oh=00_AfHnwtybPiWizHIVSnOrKI-8rFLxmTdNlHbGZr5kmoiGjw&oe=68193D46",
     alt: "Church Exterior",
     description: "St Joseph's Church exterior view with the bell tower",
     category: "Church Building"
@@ -49,7 +49,7 @@ const galleryImages: GalleryImage[] = [
   },
   {
     id: 6,
-    src: "https://images.unsplash.com/photo-1582601551298-d4953522acf0?q=80&w=2070&auto=format&fit=crop",
+    src: "https://scontent.fcpt11-1.fna.fbcdn.net/v/t39.30808-6/491958789_3949554768591481_4183056484685243796_n.jpg?stp=dst-jpg_p552x414_tt6&_nc_cat=108&ccb=1-7&_nc_sid=aa7b47&_nc_eui2=AeGb-Emxxivyq6JxeoI9QDRyrh1viGumdkauHW-Ia6Z2Rs29kMno-CvMsRZbYBmatzg&_nc_ohc=7BDe5-bWcDUQ7kNvwH4uXUj&_nc_oc=AdkO0Qrv8kxXebE1-hR-YjwWJ1G0DDwzvOEnfNlz8PhAQ7asrAxIKRuPxwNlKWfA8As&_nc_zt=23&_nc_ht=scontent.fcpt11-1.fna&_nc_gid=Ji0MCbUlpde1kACZRBnRdQ&oh=00_AfGAlz8kbV_cwIBw30HIdMhSE0vKBRTTQkIiQla9kfqBFA&oe=68194BF6",
     alt: "First Communion",
     description: "Children receiving their First Holy Communion",
     category: "Sacraments"
@@ -70,7 +70,7 @@ const galleryImages: GalleryImage[] = [
   },
   {
     id: 9,
-    src: "https://images.unsplash.com/photo-1518498627959-9f60d3650c7a?q=80&w=2070&auto=format&fit=crop",
+    src: "https://scontent.fcpt11-1.fna.fbcdn.net/v/t39.30808-6/488587630_3934166436796981_47179014682913320_n.jpg?stp=cp6_dst-jpg_p600x600_tt6&_nc_cat=111&ccb=1-7&_nc_sid=aa7b47&_nc_eui2=AeEnZIfy6AT0yMtZxVHuLG7QgifZ99BiHsCCJ9n30GIewLcukA5SUZ9LbiR5lSiGmm0&_nc_ohc=pKJmsos26BAQ7kNvwEmLp0J&_nc_oc=AdnWVoEbIaCQbLajD5JldGJjJwhJ_poB4kjAzpsVw-MOGztoHT9_GTcVSE9ArZExpmE&_nc_zt=23&_nc_ht=scontent.fcpt11-1.fna&_nc_gid=HxITQSaMNBura-FIgxhm6g&oh=00_AfG3OeZuMuhANsaq3MOEICpmTw9Yu_6Z9-KW64QS9XditQ&oe=681929FC",
     alt: "Youth Group",
     description: "Youth group retreat at St Joseph's",
     category: "Youth"
@@ -98,7 +98,7 @@ const galleryImages: GalleryImage[] = [
   },
   {
     id: 13,
-    src: "https://images.unsplash.com/photo-1553027522-fb0cfd86eb89?q=80&w=2070&auto=format&fit=crop",
+    src: "https://scontent.fcpt11-1.fna.fbcdn.net/v/t39.30808-6/490786333_3942450419301916_5122857923924828858_n.jpg?stp=cp6_dst-jpg_p600x600_tt6&_nc_cat=102&ccb=1-7&_nc_sid=aa7b47&_nc_eui2=AeEzCIkVI1GMEK2RCf7f6LZiFCd37SKjnGAUJ3ftIqOcYFpCddeQJGCWmAK6BLUY1ys&_nc_ohc=5PGm-Rpv974Q7kNvwH46m2R&_nc_oc=AdlI2RFKw4guCg07n_qsEPqQCjAmlJa-5ltthODGDhyccYg6Fvgzb921kIQzku1txyY&_nc_zt=23&_nc_ht=scontent.fcpt11-1.fna&_nc_gid=HxITQSaMNBura-FIgxhm6g&oh=00_AfFEGmJ49D8Ag5_7cd-jHAxN_C0k0jrdX7S6Rc0cdzGOWw&oe=68191BF3",
     alt: "Palm Sunday",
     description: "Palm Sunday celebration with blessed palms",
     category: "Celebrations"
