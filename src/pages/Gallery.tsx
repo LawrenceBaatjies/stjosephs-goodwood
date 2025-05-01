@@ -35,21 +35,21 @@ const galleryImages: GalleryImage[] = [
   },
   {
     id: 4,
-    src: "https://images.unsplash.com/photo-1469365556835-3da3db4c253b?q=80&w=2070&auto=format&fit=crop",
+    src: "https://scontent.fcpt11-1.fna.fbcdn.net/v/t39.30808-6/491117174_3949554775258147_3921047596549784066_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=aa7b47&_nc_eui2=AeEF942M3l-lpeSQSX060y87W5-12ejVmsJbn7XZ6NWawkk7scRfbna8sg8I1DA08II&_nc_ohc=iz5jZ1uPmqoQ7kNvwFBOyQq&_nc_oc=AdnsQxbVuVJGzQ55ZINGxNdEyCqYrxlsAfHejnQbrOX67EX2ZIOI1xVOSZ-7PKsFqaA&_nc_zt=23&_nc_ht=scontent.fcpt11-1.fna&_nc_gid=5Ayru4RAkE0QP6kljf0wUQ&oh=00_AfGp0Y8cSAO2e6dks5JsF7iOX2EEcZvh4HyWrWe38HAekw&oe=68192B97",
     alt: "Easter Vigil",
-    description: "The Easter Vigil celebration with Pascal candle",
+    description: "The Easter Vigil celebration with Pascal candle & fire",
     category: "Celebrations"
   },
   {
     id: 5,
-    src: "https://images.unsplash.com/photo-1584037005244-2f6b7f7644d6?q=80&w=2070&auto=format&fit=crop",
+    src: "https://scontent.fcpt11-1.fna.fbcdn.net/v/t39.30808-6/481349014_8799030006867393_6028001388423270030_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=aa7b47&_nc_eui2=AeEr8fjLTBoQWJsdmvjV4lPpdYFECRX55Tt1gUQJFfnlO_f5zTdPD10LIYBqvHBCbPs&_nc_ohc=eOewO68Y7fUQ7kNvwF1toft&_nc_oc=AdkmZCpveInSOPYAPgn1mElbewWWU3-nJE6o62gUNfd8dLtFqNBNttzlKf6xMXASiyE&_nc_zt=23&_nc_ht=scontent.fcpt11-1.fna&_nc_gid=7ax8Ia-B0IzB1nmrJI-M4A&oh=00_AfFOhVL_yZ_Cy1ZdlOLb5SVTcQ1_0c41pIwMIwB2ChHKrA&oe=6819243D",
     alt: "Altar",
     description: "The beautifully decorated altar during ordinary time",
     category: "Church Building"
   },
   {
     id: 6,
-    src: "https://scontent.fcpt11-1.fna.fbcdn.net/v/t39.30808-6/491958789_3949554768591481_4183056484685243796_n.jpg?stp=dst-jpg_p552x414_tt6&_nc_cat=108&ccb=1-7&_nc_sid=aa7b47&_nc_eui2=AeGb-Emxxivyq6JxeoI9QDRyrh1viGumdkauHW-Ia6Z2Rs29kMno-CvMsRZbYBmatzg&_nc_ohc=7BDe5-bWcDUQ7kNvwH4uXUj&_nc_oc=AdkO0Qrv8kxXebE1-hR-YjwWJ1G0DDwzvOEnfNlz8PhAQ7asrAxIKRuPxwNlKWfA8As&_nc_zt=23&_nc_ht=scontent.fcpt11-1.fna&_nc_gid=Ji0MCbUlpde1kACZRBnRdQ&oh=00_AfGAlz8kbV_cwIBw30HIdMhSE0vKBRTTQkIiQla9kfqBFA&oe=68194BF6",
+    src: "https://scontent.fcpt11-1.fna.fbcdn.net/v/t39.30808-6/469648365_8339365096167222_9142724713324823200_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=aa7b47&_nc_eui2=AeGigca1k7SVtY-Kv9yjzu3hhVIo9eAP5MmFUij14A_kyaRcstt6kB0s2VLDl0KDDs4&_nc_ohc=KkRQnqgOyfgQ7kNvwGCNR3H&_nc_oc=Admn3PqHIIqSE0UHyZZ4uejFSyFMbSY8pD-BBnSaRpRDovYjkbCLCAactuhOcRcvZA0&_nc_zt=23&_nc_ht=scontent.fcpt11-1.fna&_nc_gid=Iq19p6ybmlIe2tRPaqz7qA&oh=00_AfE8jUx1BHu7BrDHnVOQbFYuLkhL0tlp7iBQMB5Prce5ew&oe=681953A4",
     alt: "First Communion",
     description: "Children receiving their First Holy Communion",
     category: "Sacraments"
@@ -63,7 +63,7 @@ const galleryImages: GalleryImage[] = [
   },
   {
     id: 8,
-    src: "https://images.unsplash.com/photo-1589441117228-e291304a36ba?q=80&w=1938&auto=format&fit=crop",
+    src: "https://scontent.fcpt11-1.fna.fbcdn.net/v/t39.30808-6/481907906_3906115192935439_291404254776336866_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=106&ccb=1-7&_nc_sid=aa7b47&_nc_eui2=AeEithokuOIbZuD1isfMd2GJM0UbS7cytDEzRRtLtzK0MUZxaOrZZZ2GYuJ0H_ORGqw&_nc_ohc=sc2OlfmqFfIQ7kNvwH5lVSq&_nc_oc=AdkFz-2-2b3fRbwIxF2JCo2ELgd81JY3i4d9VV3zZCUfWMUWkICGOQ8cVJ-15b5JUU8&_nc_zt=23&_nc_ht=scontent.fcpt11-1.fna&_nc_gid=z9hhAxXXOlKd25N2lIrNtw&oh=00_AfF2VeUeOmagjDA92DavHk8rwylwFT5yqyI4eWeNBoIA5g&oe=68194AB2",
     alt: "Choir Performance",
     description: "St Joseph's choir during their Christmas performance",
     category: "Music"
@@ -140,9 +140,9 @@ const galleryImages: GalleryImage[] = [
   },
   {
     id: 19,
-    src: "https://images.unsplash.com/photo-1607271486087-08053887a5e3?q=80&w=1974&auto=format&fit=crop",
-    alt: "Lenten Service",
-    description: "Special Lenten service with Stations of the Cross",
+    src: "https://scontent.fcpt11-1.fna.fbcdn.net/v/t39.30808-6/481264387_3896319090581716_3033822175378621302_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=aa7b47&_nc_eui2=AeHjy2huVn480H0d1SsHBdse1W1AyJ4j8enVbUDIniPx6ZB_Sl4-UkZlcx-jWRoUiwY&_nc_ohc=-8_d64YJUgIQ7kNvwGcYOW9&_nc_oc=Adl2EI177gKqt334LwU5LM_jH7xYbRYDzQCIGEZr2tm1wpHibqGBsaWsqT0sACRP2TM&_nc_zt=23&_nc_ht=scontent.fcpt11-1.fna&_nc_gid=NuUgzjBiBkEUiF7iMmAwvQ&oh=00_AfHtTSo8Lw1s8GARgTaV2DfiGhIBBXadYDtwompWi6l9hg&oe=68193951",
+    alt: "A Feats Celebrations",
+    description: "Special Celebrations",
     category: "Celebrations"
   },
   {
