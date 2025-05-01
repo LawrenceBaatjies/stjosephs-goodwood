@@ -122,12 +122,12 @@ const CatholicPrayersPage = () => {
       <Navbar />
       <main className="flex-grow">
         {/* Hero Section */}
-        <div className="relative bg-church-navy text-white py-16">
+        <div className="relative bg-church-navy text-white py-60">
           <div 
             className="absolute inset-0 bg-cover bg-center"
             style={{ 
-              backgroundImage: "url('https://images.unsplash.com/photo-1607708161892-d44f04ff1603?q=80&w=2070&auto=format&fit=crop')", 
-              opacity: "0.3" 
+              backgroundImage: "url('https://oneblessedmomma.com/wp-content/uploads/2021/08/Untitled-design-6-1080x675.png')", 
+              opacity: "0.4" 
             }}
           />
           <div className="container mx-auto px-4 relative z-10">
@@ -238,11 +238,11 @@ const CatholicPrayersPage = () => {
                     In our digital age, there are many helpful apps and websites that can support your prayer life. Here are a few recommendations:
                   </p>
                   <ul className="list-disc pl-5 text-gray-700 space-y-1">
-                    <li>Laudate</li>
-                    <li>iBreviary</li>
-                    <li>Pray As You Go</li>
-                    <li>Hallow</li>
-                    <li>Daily Readings (USCCB)</li>
+                    <li><a href="https://play.google.com/store/apps/details?id=com.aycka.apps.MassReadings&hl=en_ZA&pli=1" className="text-blue-600 visited:text-church-red" rel="noreferrer">Laudate</a></li>
+                    <li><a href="https://www.ibreviary.com/m2/breviario.php" className="text-blue-600 visited:text-church-red" rel="noreferrer">iBreviary</a></li>
+                    <li><a href="https://prayasyougo.org/" className="text-blue-600 visited:text-church-red target:shadow-lg" rel="noreferrer">Pray As You Go</a></li>
+                    <li><a href="https://hallow.com/" className="text-blue-600 visited:text-church-red target:shadow-lg" rel="noreferrer">Hallow</a></li>
+                    <li><a href="https://bible.usccb.org/daily-bible-reading" className="text-blue-600 visited:text-church-red target:shadow-lg" rel="noreferrer">Daily Readings (USCCB)</a></li>
                   </ul>
                 </div>
               </div>
