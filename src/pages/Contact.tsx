@@ -89,7 +89,7 @@ const Contact = () => {
                     <h3 className="text-xl font-semibold mb-4">Find Us</h3>
                     <div className="bg-gray-200 rounded-lg overflow-hidden aspect-video">
                       <iframe 
-                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3271.5633409546093!2d138.5744!3d-34.9511!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ab0cf2816610cfd%3A0x5033654628eb87d0!2s21%20Albert%20St%2C%20Goodwood%20SA%205034%2C%20Australia!5e0!3m2!1sen!2sus!4v1650000000000!5m2!1sen!2sus" 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3311.158261862559!2d18.542303689845827!3d-33.91132615217726!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1dcc5ba21247af01%3A0x1f3172393c2565f3!2s30%20Anderson%20St%2C%20Goodwood%2C%20Cape%20Town%2C%207490!5e0!3m2!1sen!2sza!4v1746098731271!5m2!1sen!2sza" 
                         width="100%" 
                         height="100%" 
                         style={{ border: 0 }} 
