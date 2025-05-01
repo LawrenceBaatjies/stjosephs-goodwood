@@ -3,20 +3,12 @@ import React, { useState, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useToast } from "@/hooks/use-toast";
-import NewsletterCard from "@/components/newsletter/NewsletterCard";
-import { FileText, Upload, Link, Printer, Download } from "lucide-react";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-
-interface Newsletter {
-  id: string;
-  title: string;
-  date: string;
-  fileUrl: string;
-  description: string;
-  thumbnailUrl?: string;
-}
+import { FileText, Upload, Link } from "lucide-react";
+import NewsletterHero from "@/components/newsletter/NewsletterHero";
+import NewsletterAbout from "@/components/newsletter/NewsletterAbout";
+import NewsletterAdminForm from "@/components/newsletter/NewsletterAdminForm";
+import NewsletterGrid, { Newsletter } from "@/components/newsletter/NewsletterGrid";
+import PDFPreview from "@/components/newsletter/PDFPreview";
 
 // Sample PDF URL for demonstration
 const samplePdfUrl = "https://stjosephsgoodwood.hostking000.com/wp-content/uploads/2024/09/NEWSLETTER-23RD-SUNDAY.pdf";
@@ -185,57 +177,10 @@ const NewslettersPage = () => {
       <Navbar />
       <main className="flex-grow">
         {/* Hero Section */}
-        <div className="relative bg-church-navy text-white">
-          <div 
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ 
-              backgroundImage: "url('https://images.unsplash.com/photo-1492321936769-b49830bc1d1e?q=80&w=2671&auto=format&fit=crop')", 
-              opacity: "0.4" 
-            }}
-          />
-          
-          <div className="container mx-auto px-4 py-12 md:py-16 relative z-10">
-            <div className="max-w-4xl mx-auto text-center">
-              <h1 className="text-3xl md:text-5xl font-bold mb-6">
-                Parish Newsletters
-              </h1>
-              <p className="text-xl mb-8 font-light">
-                Stay connected with our parish community through our regular newsletters
-              </p>
-            </div>
-          </div>
-        </div>
+        <NewsletterHero />
 
         {/* About Newsletters Section */}
-        <section className="py-12 bg-white">
-          <div className="container mx-auto px-4">
-            <div className="max-w-6xl mx-auto">
-              <div className="flex flex-col md:flex-row gap-8 items-center">
-                <div className="md:w-1/3">
-                  <div className="rounded-lg shadow-md overflow-hidden">
-                    <img 
-                      src="https://images.unsplash.com/photo-1457369804613-52c61a468e7d?q=80&w=2070&auto=format&fit=crop" 
-                      alt="Parish Newsletter" 
-                      className="w-full h-auto"
-                    />
-                  </div>
-                </div>
-                <div className="md:w-2/3">
-                  <h2 className="text-2xl font-bold text-church-navy mb-4">About Our Newsletters</h2>
-                  <p className="text-gray-700 mb-4">
-                    Our parish newsletters are published regularly to keep our community informed about important events,
-                    celebrations, and announcements. They contain a wealth of information including Mass schedules, 
-                    upcoming events, spiritual reflections, and ministry updates.
-                  </p>
-                  <p className="text-gray-700">
-                    Newsletters are an essential way to stay connected with our parish life and activities.
-                    You can view, download, or print current and past newsletters below.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+        <NewsletterAbout />
 
         {/* Newsletters Grid Section */}
         <section className="py-12 bg-gray-50">
@@ -252,222 +197,34 @@ const NewslettersPage = () => {
               </div>
 
               {isAdminMode && (
-                <div className="mb-8 bg-white p-6 rounded-lg shadow-md">
-                  <h3 className="text-xl font-semibold mb-4">
-                    {selectedNewsletter ? "Edit Newsletter" : "Add New Newsletter"}
-                  </h3>
-                  
-                  <form onSubmit={handleSubmit}>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="title">Title</Label>
-                        <Input
-                          id="title"
-                          name="title"
-                          value={formData.title}
-                          onChange={handleChange}
-                          required
-                        />
-                      </div>
-                      
-                      <div className="space-y-2">
-                        <Label htmlFor="date">Date</Label>
-                        <Input
-                          type="date"
-                          id="date"
-                          name="date"
-                          value={formData.date}
-                          onChange={handleChange}
-                          required
-                        />
-                      </div>
-                      
-                      <div className="space-y-2 md:col-span-2">
-                        <Label>PDF Document</Label>
-                        <div className="flex space-x-4 mb-2">
-                          <button
-                            type="button"
-                            onClick={() => setUploadMethod('url')}
-                            className={`px-4 py-2 rounded-md transition-colors ${
-                              uploadMethod === 'url' 
-                                ? 'bg-church-navy text-white'
-                                : 'bg-gray-200 hover:bg-gray-300 text-gray-700'
-                            }`}
-                          >
-                            <Link size={16} className="inline-block mr-1" />
-                            URL Link
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => setUploadMethod('upload')}
-                            className={`px-4 py-2 rounded-md transition-colors ${
-                              uploadMethod === 'upload' 
-                                ? 'bg-church-navy text-white'
-                                : 'bg-gray-200 hover:bg-gray-300 text-gray-700'
-                            }`}
-                          >
-                            <Upload size={16} className="inline-block mr-1" />
-                            Upload File
-                          </button>
-                        </div>
-                        
-                        {uploadMethod === 'url' ? (
-                          <div className="space-y-2">
-                            <Label htmlFor="fileUrl">PDF URL</Label>
-                            <Input
-                              type="text"
-                              id="fileUrl"
-                              name="fileUrl"
-                              value={formData.fileUrl}
-                              onChange={handleChange}
-                              required={uploadMethod === 'url'}
-                              placeholder="Enter URL to PDF"
-                            />
-                          </div>
-                        ) : (
-                          <div className="space-y-2">
-                            <Label htmlFor="pdfFile">Upload PDF</Label>
-                            <Input
-                              type="file"
-                              id="pdfFile"
-                              name="pdfFile"
-                              ref={fileInputRef}
-                              accept="application/pdf"
-                              onChange={handleFileChange}
-                              required={uploadMethod === 'upload'}
-                            />
-                          </div>
-                        )}
-                      </div>
-                      
-                      <div className="space-y-2 md:col-span-2">
-                        <Label htmlFor="thumbnailUrl">Thumbnail Image</Label>
-                        <div className="flex space-x-4 mb-2">
-                          <Input
-                            type="text"
-                            id="thumbnailUrl"
-                            name="thumbnailUrl"
-                            value={formData.thumbnailUrl}
-                            onChange={handleChange}
-                            className="flex-1"
-                            placeholder="Enter image URL for thumbnail"
-                          />
-                          <div className="text-center">or</div>
-                          <Input
-                            type="file"
-                            id="thumbnailFile"
-                            name="thumbnailFile"
-                            ref={thumbnailInputRef}
-                            accept="image/*"
-                            onChange={handleFileChange}
-                            className="flex-1"
-                          />
-                        </div>
-                      </div>
-                      
-                      <div className="space-y-2 md:col-span-2">
-                        <Label htmlFor="description">Description</Label>
-                        <Textarea
-                          id="description"
-                          name="description"
-                          value={formData.description}
-                          onChange={handleChange}
-                          rows={3}
-                        />
-                      </div>
-                    </div>
-                    
-                    <div className="flex space-x-3 justify-end">
-                      {selectedNewsletter && (
-                        <button
-                          type="button"
-                          onClick={resetForm}
-                          className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-md"
-                        >
-                          Cancel
-                        </button>
-                      )}
-                      <button
-                        type="submit"
-                        className="px-4 py-2 bg-church-red text-white rounded-md hover:bg-opacity-90"
-                      >
-                        {selectedNewsletter ? "Update Newsletter" : "Add Newsletter"}
-                      </button>
-                    </div>
-                  </form>
-                </div>
+                <NewsletterAdminForm 
+                  formData={formData}
+                  handleChange={handleChange}
+                  handleFileChange={handleFileChange}
+                  handleSubmit={handleSubmit}
+                  resetForm={resetForm}
+                  selectedNewsletter={selectedNewsletter}
+                  uploadMethod={uploadMethod}
+                  setUploadMethod={setUploadMethod}
+                />
               )}
 
-              {newsletters.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {newsletters.map(newsletter => (
-                    <NewsletterCard
-                      key={newsletter.id}
-                      id={newsletter.id}
-                      title={newsletter.title}
-                      date={newsletter.date}
-                      fileUrl={newsletter.fileUrl}
-                      description={newsletter.description}
-                      thumbnailUrl={newsletter.thumbnailUrl}
-                      isAdminMode={isAdminMode}
-                      onEdit={handleEdit}
-                      onDelete={handleDelete}
-                      onView={handleViewPdf}
-                    />
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-8 bg-white rounded-lg shadow">
-                  <FileText size={48} className="mx-auto text-gray-400 mb-4" />
-                  <p className="text-gray-500">No newsletters available at this time.</p>
-                </div>
-              )}
+              <NewsletterGrid 
+                newsletters={newsletters}
+                isAdminMode={isAdminMode}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+                onView={handleViewPdf}
+              />
             </div>
           </div>
         </section>
 
         {/* PDF Preview Modal */}
-        {previewPdfUrl && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-            <div className="bg-white rounded-lg shadow-xl w-full max-w-6xl h-[80vh] flex flex-col">
-              <div className="p-4 border-b flex justify-between items-center">
-                <h3 className="text-xl font-semibold">Newsletter Preview</h3>
-                <button 
-                  onClick={closePreview}
-                  className="p-2 hover:bg-gray-100 rounded-full"
-                >
-                  ×
-                </button>
-              </div>
-              <div className="flex-grow p-4 overflow-hidden">
-                <iframe 
-                  src={previewPdfUrl} 
-                  title="PDF Preview" 
-                  className="w-full h-full"
-                />
-              </div>
-              <div className="p-4 border-t flex justify-end space-x-2">
-                <button
-                  onClick={() => window.open(previewPdfUrl, '_blank')?.print()}
-                  className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-md flex items-center"
-                >
-                  <Printer size={16} className="mr-2" />
-                  Print
-                </button>
-                <a
-                  href={previewPdfUrl}
-                  download
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-4 py-2 bg-church-navy text-white rounded-md flex items-center"
-                >
-                  <Download size={16} className="mr-2" />
-                  Download
-                </a>
-              </div>
-            </div>
-          </div>
-        )}
+        <PDFPreview 
+          previewPdfUrl={previewPdfUrl} 
+          closePreview={closePreview} 
+        />
       </main>
       <Footer />
     </div>
