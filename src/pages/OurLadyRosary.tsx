@@ -9,11 +9,11 @@ const OurLadyRosary = () => {
       <Navbar />
       <main className="flex-grow">
         {/* Hero Section */}
-        <div className="relative bg-church-navy text-white">
+        <div className="relative bg-church-navy text-white py-60" >
           <div 
             className="absolute inset-0 bg-cover bg-center"
             style={{ 
-              backgroundImage: "url('https://adct.org.za/wp-content/uploads/2018/08/Find-a-Parish-new-image.jpg')", 
+              backgroundImage: "url('https://adct.org.za/wp-content/uploads/2022/04/Screenshot-2022-04-07-123635.jpg')", 
               opacity: "0.4" 
             }}
           />
@@ -37,7 +37,7 @@ const OurLadyRosary = () => {
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <div className="lg:col-span-2">
                   <h2 className="text-2xl md:text-3xl font-bold text-church-navy mb-6">About Our Lady of the Rosary</h2>
-                  
+                  <h6 className="text-2xl md:text-3xl font-bold text-church-navy mb-6"> (Blessed & Opened 1955)</h6>
                   <div className="prose max-w-none">
                     <p className="mb-4">
                       Our Lady of the Rosary Catholic Church in Ruyterwacht serves the Catholic community in the northern 
@@ -59,8 +59,8 @@ const OurLadyRosary = () => {
                     <h3 className="text-xl font-semibold mt-6 mb-3">Parish Details</h3>
                     
                     <ul className="list-disc pl-5 space-y-2">
-                      <li><strong>Address:</strong> 10th Avenue, Ruyterwacht, Cape Town</li>
-                      <li><strong>Mass Times:</strong> Sunday 8:00 AM (Please confirm current schedule)</li>
+                      <li><strong>Address: </strong> 1 Mitchell St, Ruyterwacht, Cape Town, 7460</li>
+                      <li><strong>Mass Times:</strong> Sunday 9:00 AM (Please confirm current schedule)</li>
                       <li><strong>Parish Priest:</strong> Shared with St Joseph's Goodwood</li>
                     </ul>
                   </div>
@@ -68,23 +68,32 @@ const OurLadyRosary = () => {
                 
                 <div className="lg:col-span-1">
                   <div className="bg-gray-100 rounded-lg p-6">
-                    <h3 className="text-xl font-semibold text-church-navy mb-4">Contact Information</h3>
+                    <h3 className="text-xl font-semibold text-church-navy mb-4"> Google Maps Address</h3>
                     
                     <ul className="space-y-3 text-gray-700">
                       <li className="flex items-start">
                         <span className="font-medium w-24">Address:</span>
-                        <span>10th Avenue, Ruyterwacht, Cape Town</span>
+                        <span> 1 Mitchell St, Ruyterwacht, Cape Town, 7460</span>
                       </li>
-                      
+                      <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3310.7374399744203!2d18.552293676697847!3d-33.92215652182625!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1dcc5b0ed4e58215%3A0xb9c1e02a98d813fd!2s1%20Mitchell%20St%2C%20Goodwood%2C%20Cape%20Town%2C%207460!5e0!3m2!1sen!2sza!4v1746098900268!5m2!1sen!2sza" 
+                        width="100%" 
+                        height="100%" 
+                        style={{ border: 0 }} 
+                        allowFullScreen 
+                        loading="lazy" 
+                        title="St Joseph's Catholic Church Goodwood Map"
+                      ></iframe>
+                      <br />
                       <li className="flex items-start">
                         <span className="font-medium w-24">Telephone:</span>
-                        <span>Contact through St Joseph's Parish Office</span>
+                          <span>Contact St Joseph's Parish Office</span>
                       </li>
                     </ul>
                     
                     <div className="mt-6">
                       <h4 className="font-semibold mb-2">Mass Schedule</h4>
-                      <p>Sunday: 8:00 AM</p>
+                      <p>Sunday: 9:00 AM</p>
                       <p className="text-sm italic mt-2">
                         Please confirm current schedule with the parish office
                       </p>
