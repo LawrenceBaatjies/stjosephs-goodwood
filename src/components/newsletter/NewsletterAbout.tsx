@@ -10,7 +10,7 @@ const NewsletterAbout = () => {
             <div className="md:w-1/3">
               <div className="rounded-lg shadow-md overflow-hidden">
                 <img 
-                  src="https://images.unsplash.com/photo-1457369804613-52c61a468e7d?q=80&w=2070&auto=format&fit=crop" 
+                  src="https://brandpacks.com/wp-content/uploads/edd/2024/11/church-christmas-newsletter-template-indd-idml-00.jpg" 
                   alt="Parish Newsletter" 
                   className="w-full h-auto"
                 />
