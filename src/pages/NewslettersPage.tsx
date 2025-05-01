@@ -2,15 +2,9 @@
 import React, { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
-} from "@/components/ui/table";
 import { useToast } from "@/hooks/use-toast";
+import NewsletterCard from "@/components/newsletter/NewsletterCard";
+import { FileText } from "lucide-react";
 
 interface Newsletter {
   id: string;
@@ -18,29 +12,35 @@ interface Newsletter {
   date: string;
   fileUrl: string;
   description: string;
+  thumbnailUrl?: string;
 }
+
+// Sample PDF URL for demonstration
+const samplePdfUrl = "https://stjosephsgoodwood.hostking000.com/wp-content/uploads/2024/09/NEWSLETTER-23RD-SUNDAY.pdf";
 
 const dummyNewsletters: Newsletter[] = [
   {
     id: "1",
     title: "Parish Newsletter - Easter 2025",
     date: "2025-04-15",
-    fileUrl: "#",
-    description: "Special Easter edition with Holy Week schedule and reflections."
+    fileUrl: samplePdfUrl,
+    description: "Special Easter edition with Holy Week schedule and reflections. Including updates on parish activities and community news.",
+    thumbnailUrl: "https://images.unsplash.com/photo-1571171637578-41bc2dd41cd2?q=80&w=1470&auto=format&fit=crop",
   },
   {
     id: "2",
     title: "Monthly Newsletter - March 2025",
     date: "2025-03-01",
-    fileUrl: "#",
-    description: "Updates on parish activities, Lenten program, and upcoming events."
+    fileUrl: samplePdfUrl,
+    description: "Updates on parish activities, Lenten program, and upcoming events. This month's edition includes a special message from the parish priest.",
+    thumbnailUrl: "https://images.unsplash.com/photo-1501504905252-473c47e087f8?q=80&w=1374&auto=format&fit=crop",
   },
   {
     id: "3",
     title: "Monthly Newsletter - February 2025",
     date: "2025-02-01",
-    fileUrl: "#",
-    description: "Parish updates, ministry spotlights, and community news."
+    fileUrl: samplePdfUrl,
+    description: "Parish updates, ministry spotlights, and community news. Read about the upcoming parish feast day celebrations and volunteer opportunities.",
   },
 ];
 
@@ -53,7 +53,8 @@ const NewslettersPage = () => {
     title: "",
     date: "",
     fileUrl: "",
-    description: ""
+    description: "",
+    thumbnailUrl: "",
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -95,14 +96,18 @@ const NewslettersPage = () => {
     resetForm();
   };
 
-  const handleEdit = (newsletter: Newsletter) => {
-    setSelectedNewsletter(newsletter);
-    setFormData({
-      title: newsletter.title,
-      date: newsletter.date,
-      fileUrl: newsletter.fileUrl,
-      description: newsletter.description
-    });
+  const handleEdit = (id: string) => {
+    const newsletter = newsletters.find(item => item.id === id);
+    if (newsletter) {
+      setSelectedNewsletter(newsletter);
+      setFormData({
+        title: newsletter.title,
+        date: newsletter.date,
+        fileUrl: newsletter.fileUrl,
+        description: newsletter.description,
+        thumbnailUrl: newsletter.thumbnailUrl || "",
+      });
+    }
   };
 
   const handleDelete = (id: string) => {
@@ -119,21 +124,14 @@ const NewslettersPage = () => {
       title: "",
       date: "",
       fileUrl: "",
-      description: ""
+      description: "",
+      thumbnailUrl: "",
     });
   };
 
   const toggleAdminMode = () => {
     setIsAdminMode(!isAdminMode);
     resetForm();
-  };
-
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
   };
 
   return (
@@ -165,14 +163,16 @@ const NewslettersPage = () => {
         {/* About Newsletters Section */}
         <section className="py-12 bg-white">
           <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto">
+            <div className="max-w-6xl mx-auto">
               <div className="flex flex-col md:flex-row gap-8 items-center">
                 <div className="md:w-1/3">
-                  <img 
-                    src="https://images.unsplash.com/photo-1457369804613-52c61a468e7d?q=80&w=2070&auto=format&fit=crop" 
-                    alt="Parish Newsletter" 
-                    className="rounded-lg shadow-md"
-                  />
+                  <div className="rounded-lg shadow-md overflow-hidden">
+                    <img 
+                      src="https://images.unsplash.com/photo-1457369804613-52c61a468e7d?q=80&w=2070&auto=format&fit=crop" 
+                      alt="Parish Newsletter" 
+                      className="w-full h-auto"
+                    />
+                  </div>
                 </div>
                 <div className="md:w-2/3">
                   <h2 className="text-2xl font-bold text-church-navy mb-4">About Our Newsletters</h2>
@@ -183,7 +183,7 @@ const NewslettersPage = () => {
                   </p>
                   <p className="text-gray-700">
                     Newsletters are an essential way to stay connected with our parish life and activities.
-                    You can download current and past newsletters below in PDF format.
+                    You can view, download, or print current and past newsletters below.
                   </p>
                 </div>
               </div>
@@ -191,10 +191,10 @@ const NewslettersPage = () => {
           </div>
         </section>
 
-        {/* Newsletters Table Section */}
+        {/* Newsletters Grid Section */}
         <section className="py-12 bg-gray-50">
           <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto">
+            <div className="max-w-6xl mx-auto">
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-2xl font-bold text-church-navy">Available Newsletters</h2>
                 <button 
@@ -255,7 +255,22 @@ const NewslettersPage = () => {
                           onChange={handleChange}
                           required
                           className="w-full px-4 py-2 border rounded-md"
-                          placeholder="Upload file or enter URL"
+                          placeholder="Upload file or enter PDF URL"
+                        />
+                      </div>
+                      
+                      <div className="space-y-2">
+                        <label htmlFor="thumbnailUrl" className="block font-medium text-gray-700">
+                          Thumbnail URL (optional)
+                        </label>
+                        <input
+                          type="text"
+                          id="thumbnailUrl"
+                          name="thumbnailUrl"
+                          value={formData.thumbnailUrl}
+                          onChange={handleChange}
+                          className="w-full px-4 py-2 border rounded-md"
+                          placeholder="Enter image URL for thumbnail"
                         />
                       </div>
                       
@@ -296,61 +311,25 @@ const NewslettersPage = () => {
               )}
 
               {newsletters.length > 0 ? (
-                <div className="bg-white rounded-lg shadow overflow-hidden">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead className="w-[300px]">Title</TableHead>
-                        <TableHead>Date</TableHead>
-                        <TableHead className="text-right">Actions</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {newsletters.map(newsletter => (
-                        <TableRow key={newsletter.id}>
-                          <TableCell className="font-medium">
-                            {newsletter.title}
-                            {newsletter.description && (
-                              <p className="text-sm text-gray-500 mt-1">{newsletter.description}</p>
-                            )}
-                          </TableCell>
-                          <TableCell>{formatDate(newsletter.date)}</TableCell>
-                          <TableCell className="text-right">
-                            <div className="flex justify-end space-x-2">
-                              <a 
-                                href={newsletter.fileUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="px-3 py-1 bg-blue-500 text-white text-sm rounded hover:bg-blue-600"
-                              >
-                                Download
-                              </a>
-                              
-                              {isAdminMode && (
-                                <>
-                                  <button
-                                    onClick={() => handleEdit(newsletter)}
-                                    className="px-3 py-1 bg-yellow-500 text-white text-sm rounded hover:bg-yellow-600"
-                                  >
-                                    Edit
-                                  </button>
-                                  <button
-                                    onClick={() => handleDelete(newsletter.id)}
-                                    className="px-3 py-1 bg-red-500 text-white text-sm rounded hover:bg-red-600"
-                                  >
-                                    Delete
-                                  </button>
-                                </>
-                              )}
-                            </div>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {newsletters.map(newsletter => (
+                    <NewsletterCard
+                      key={newsletter.id}
+                      id={newsletter.id}
+                      title={newsletter.title}
+                      date={newsletter.date}
+                      fileUrl={newsletter.fileUrl}
+                      description={newsletter.description}
+                      thumbnailUrl={newsletter.thumbnailUrl}
+                      isAdminMode={isAdminMode}
+                      onEdit={handleEdit}
+                      onDelete={handleDelete}
+                    />
+                  ))}
                 </div>
               ) : (
                 <div className="text-center py-8 bg-white rounded-lg shadow">
+                  <FileText size={48} className="mx-auto text-gray-400 mb-4" />
                   <p className="text-gray-500">No newsletters available at this time.</p>
                 </div>
               )}
