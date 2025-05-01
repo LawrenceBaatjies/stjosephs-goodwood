@@ -9,12 +9,12 @@ const LentPage = () => {
       <Navbar />
       <main className="flex-grow">
         {/* Hero Section */}
-        <div className="relative bg-church-navy text-white py-16">
+        <div className="relative bg-church-navy text-white py-60">
           <div 
             className="absolute inset-0 bg-cover bg-center"
             style={{ 
-              backgroundImage: "url('https://images.unsplash.com/photo-1551701113-60eec9564876?q=80&w=2070&auto=format&fit=crop')", 
-              opacity: "0.3" 
+              backgroundImage: "url('https://tjfluehr.com/wp-content/uploads/sites/50/2022/04/whatisthemeaningoflent.webp')", 
+              opacity: "0.4" 
             }}
           />
           <div className="container mx-auto px-4 relative z-10">
@@ -99,7 +99,7 @@ const LentPage = () => {
                   <div className="md:w-1/3">
                     <div className="aspect-video bg-gray-200 rounded-lg overflow-hidden">
                       <img 
-                        src="https://images.unsplash.com/photo-1582380380460-70d6a23314d6?q=80&w=1974&auto=format&fit=crop" 
+                        src="https://www.mercyhome.org/wp-content/uploads/2019/03/maxresdefault.jpg" 
                         alt="Ash Wednesday"
                         className="w-full h-full object-cover"
                       />
@@ -117,7 +117,7 @@ const LentPage = () => {
                   <div className="md:w-1/3">
                     <div className="aspect-video bg-gray-200 rounded-lg overflow-hidden">
                       <img 
-                        src="https://images.unsplash.com/photo-1527696588588-fd838a143da4?q=80&w=1974&auto=format&fit=crop" 
+                        src="https://images.squarespace-cdn.com/content/v1/5a970c95b40b9df3acd98574/1616175113055-WN20EPL1TT0YR8M2S2MJ/Stations+of+the+Cross+2021.jpg?format=2500w" 
                         alt="Stations of the Cross"
                         className="w-full h-full object-cover"
                       />
@@ -135,7 +135,7 @@ const LentPage = () => {
                   <div className="md:w-1/3">
                     <div className="aspect-video bg-gray-200 rounded-lg overflow-hidden">
                       <img 
-                        src="https://images.unsplash.com/photo-1532603899716-201d99f1a6c8?q=80&w=1974&auto=format&fit=crop" 
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRNj3V_o5v7ga1loxflPoe1wXR9YNP-xYIzdw&s" 
                         alt="Palm Sunday"
                         className="w-full h-full object-cover"
                       />
