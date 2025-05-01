@@ -6,8 +6,8 @@ import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import { Card } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertTriangle } from "lucide-react";
-import { toast } from "@/components/ui/use-toast";
-import { supabase, isSupabaseConfigured } from "@/lib/supabase-client";
+import { useToastNotification } from "@/hooks/useToastNotification";
+import { supabase } from "@/integrations/supabase/client";
 import CalendarHeader from "@/components/calendar/CalendarHeader";
 import EventList from "@/components/calendar/EventList";
 import AddEventForm from "@/components/calendar/AddEventForm";
@@ -16,6 +16,7 @@ import CalendarGridView from "@/components/calendar/CalendarGridView";
 import type { Event } from "@/types/calendar";
 import { format } from "date-fns";
 
+// Sample events for initial state
 const sampleEvents = [
   { id: 1, title: "Sunday Mass", date: new Date(2025, 4, 4), time: "09:00", category: "Mass" },
   { id: 2, title: "Choir Practice", date: new Date(2025, 4, 6), time: "18:30", category: "Music" },
@@ -26,6 +27,7 @@ const sampleEvents = [
 ];
 
 const Calendar = () => {
+  const { success, error } = useToastNotification();
   const [date, setDate] = useState<Date>(new Date());
   const [events, setEvents] = useState<Event[]>(sampleEvents);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
@@ -41,7 +43,6 @@ const Calendar = () => {
     category: "Other",
     description: ""
   });
-  const [supabaseConfigured, setSupabaseConfigured] = useState<boolean>(true);
   const [calendarView, setCalendarView] = useState<'calendar' | 'grid'>('calendar');
   const [subscriptionError, setSubscriptionError] = useState<string | null>(null);
 
@@ -85,10 +86,6 @@ const Calendar = () => {
     }
   }, [selectedDate, events]);
 
-  useEffect(() => {
-    setSupabaseConfigured(isSupabaseConfigured());
-  }, []);
-
   const handleDateSelect = (newDate: Date | undefined) => {
     setSelectedDate(newDate);
   };
@@ -96,9 +93,9 @@ const Calendar = () => {
   const sendEventNotificationEmail = (newEvent: Event) => {
     // In a real application, this would call a serverless function to send emails
     console.log(`Sending email notification about event: ${newEvent.title}`);
-    toast({
+    success({
       title: "Event Notification Sent",
-      description: "All subscribers have been notified about the new event.",
+      description: "All subscribers have been notified about the new event."
     });
   };
 
@@ -128,16 +125,15 @@ const Calendar = () => {
       // Send email notification about the new event
       sendEventNotificationEmail(newEventObj);
 
-      toast({
+      success({
         title: "Event Added",
-        description: "Your event has been successfully added to the calendar.",
+        description: "Your event has been successfully added to the calendar."
       });
-    } catch (error) {
-      console.error("Error adding event:", error);
-      toast({
-        variant: "destructive",
+    } catch (err) {
+      console.error("Error adding event:", err);
+      error({
         title: "Error",
-        description: "Failed to add event. Please try again.",
+        description: "Failed to add event. Please try again."
       });
     }
   };
@@ -147,33 +143,22 @@ const Calendar = () => {
     
     if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
       setSubscriptionError("Please enter a valid email address.");
-      toast({
-        variant: "destructive",
+      error({
         title: "Invalid Email",
-        description: "Please enter a valid email address.",
+        description: "Please enter a valid email address."
       });
       return;
     }
 
     setLoading(true);
 
-    if (!supabaseConfigured) {
-      setSubscriptionError("Supabase is not properly configured. Please check your environment variables.");
-      toast({
-        variant: "destructive",
-        title: "Configuration Error",
-        description: "Supabase is not properly configured. Please check your environment variables.",
-      });
-      setLoading(false);
-      return;
-    }
-
     try {
+      // First check if the email already exists
       const { data: existingSubscriber, error: fetchError } = await supabase
         .from('calendar_subscribers')
         .select('*')
         .eq('email', email.toLowerCase())
-        .single();
+        .maybeSingle();
 
       if (fetchError && fetchError.code !== 'PGRST116') {
         throw fetchError;
@@ -183,32 +168,32 @@ const Calendar = () => {
         setIsSubscriber(true);
         localStorage.setItem('calendarSubscriberEmail', email.toLowerCase());
         setShowSubscribeForm(false);
-        toast({
+        success({
           title: "Welcome back!",
-          description: "You're already subscribed to the calendar service.",
+          description: "You're already subscribed to the calendar service."
         });
       } else {
-        const { data, error } = await supabase
+        // Insert the new subscriber
+        const { data, error: insertError } = await supabase
           .from('calendar_subscribers')
           .insert([{ email: email.toLowerCase() }]);
 
-        if (error) throw error;
+        if (insertError) throw insertError;
 
         setIsSubscriber(true);
         localStorage.setItem('calendarSubscriberEmail', email.toLowerCase());
         setShowSubscribeForm(false);
-        toast({
+        success({
           title: "Subscription Successful",
-          description: "You now have access to all calendar features.",
+          description: "You now have access to all calendar features."
         });
       }
-    } catch (error: any) {
-      console.error("Error during subscription:", error);
-      setSubscriptionError(error.message || "An error occurred. Please try again.");
-      toast({
-        variant: "destructive",
+    } catch (err: any) {
+      console.error("Error during subscription:", err);
+      setSubscriptionError(err.message || "An error occurred. Please try again.");
+      error({
         title: "Subscription Failed",
-        description: error.message || "An error occurred. Please try again.",
+        description: err.message || "An error occurred. Please try again."
       });
     } finally {
       setLoading(false);
@@ -240,17 +225,7 @@ const Calendar = () => {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <main className="flex-grow">
-        {!supabaseConfigured && (
-          <Alert variant="destructive" className="mx-auto my-4 max-w-4xl">
-            <AlertTriangle className="h-4 w-4" />
-            <AlertTitle>Configuration Error</AlertTitle>
-            <AlertDescription>
-              Supabase environment variables are missing. Some features may not work properly.
-              Please make sure VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY are set in your Supabase project settings.
-            </AlertDescription>
-          </Alert>
-        )}
-        
+        {/* Hero Section */}
         <div className="relative bg-church-navy text-white py-16">
           <div 
             className="absolute inset-0 bg-cover bg-center"
@@ -269,6 +244,7 @@ const Calendar = () => {
           </div>
         </div>
 
+        {/* Calendar Section */}
         <section className="py-16 bg-white">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -330,6 +306,7 @@ const Calendar = () => {
           </div>
         </section>
 
+        {/* Subscription Modal */}
         {showSubscribeForm && (
           <SubscribeModal
             email={email}
@@ -340,6 +317,7 @@ const Calendar = () => {
               setSubscriptionError(null);
             }}
             loading={loading}
+            subscriptionError={subscriptionError}
           />
         )}
       </main>

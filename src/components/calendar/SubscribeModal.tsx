@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { CheckCircle2, Calendar, Download, Mail, CalendarPlus, Bell } from "lucide-react";
+import { useToastNotification } from "@/hooks/useToastNotification";
 
 interface SubscribeModalProps {
   email: string;
@@ -10,6 +11,7 @@ interface SubscribeModalProps {
   onSubscribe: () => void;
   onClose: () => void;
   loading: boolean;
+  subscriptionError?: string | null;
 }
 
 const SubscribeModal = ({
@@ -17,7 +19,8 @@ const SubscribeModal = ({
   onEmailChange,
   onSubscribe,
   onClose,
-  loading
+  loading,
+  subscriptionError
 }: SubscribeModalProps) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -82,6 +85,9 @@ const SubscribeModal = ({
               className="mt-1"
               required
             />
+            {subscriptionError && (
+              <p className="text-red-500 text-sm mt-1">{subscriptionError}</p>
+            )}
           </div>
           
           <div className="flex justify-end space-x-3">
