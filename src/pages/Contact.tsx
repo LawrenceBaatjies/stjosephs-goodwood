@@ -42,18 +42,19 @@ const Contact = () => {
                       <MapPin className="h-6 w-6 text-church-red shrink-0 mt-1 mr-4" />
                       <div>
                         <h3 className="text-xl font-semibold mb-2">Church Location</h3>
-                        <p className="text-gray-700">21 Albert Street</p>
-                        <p className="text-gray-700">Goodwood, SA 5034</p>
-                        <p className="text-gray-700">Australia</p>
+                        <p className="text-gray-700">30 Anderson St,</p>
+                        <p className="text-gray-700">Goodwood</p>
+                        <p className="text-gray-700">Cape Town, 7490</p>
                       </div>
                     </div>
                     
                     <div className="flex">
                       <MapPin className="h-6 w-6 text-church-red shrink-0 mt-1 mr-4" />
                       <div>
-                        <h3 className="text-xl font-semibold mb-2">Parish Office</h3>
-                        <p className="text-gray-700">21 Albert Street</p>
-                        <p className="text-gray-700">Goodwood, SA 5034</p>
+                        <h3 className="text-xl font-semibold mb-2">Church Location</h3>
+                        <p className="text-gray-700">30 Anderson St,</p>
+                        <p className="text-gray-700">Goodwood</p>
+                        <p className="text-gray-700">Cape Town, 7490</p>
                       </div>
                     </div>
                     
@@ -70,7 +71,7 @@ const Contact = () => {
                       <Phone className="h-6 w-6 text-church-red shrink-0 mt-1 mr-4" />
                       <div>
                         <h3 className="text-xl font-semibold mb-2">Phone</h3>
-                        <p className="text-gray-700">(08) 8272 1988</p>
+                        <p className="text-gray-700">(021) 591 2229</p>
                       </div>
                     </div>
                     
@@ -78,7 +79,7 @@ const Contact = () => {
                       <Mail className="h-6 w-6 text-church-red shrink-0 mt-1 mr-4" />
                       <div>
                         <h3 className="text-xl font-semibold mb-2">Email</h3>
-                        <p className="text-gray-700 break-words">stjosephgoodwood@</p>
+                        <p className="text-gray-700 break-words">zxq@telkomsa.net</p>
                       </div>
                     </div>
                   </div>
