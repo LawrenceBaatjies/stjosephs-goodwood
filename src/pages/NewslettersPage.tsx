@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useToast } from "@/hooks/use-toast";
 import NewsletterCard from "@/components/newsletter/NewsletterCard";
-import { FileText, Upload, Link } from "lucide-react";
+import { FileText, Upload, Link, Printer, Download } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
