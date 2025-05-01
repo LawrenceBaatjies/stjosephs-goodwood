@@ -2,7 +2,7 @@
 import React from "react";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { FileText, Download, Printer, Eye, FilePdf, FileImage } from "lucide-react";
+import { FileText, Download, Printer, Eye, FileImage } from "lucide-react";
 
 export interface NewsletterCardProps {
   id: string;
@@ -72,7 +72,7 @@ const NewsletterCard = ({
         ) : (
           <div className="w-full h-full flex items-center justify-center bg-gray-200">
             {isPdf ? (
-              <FilePdf size={64} className="text-red-400" />
+              <FileText size={64} className="text-red-400" />
             ) : isImage ? (
               <FileImage size={64} className="text-blue-400" />
             ) : (

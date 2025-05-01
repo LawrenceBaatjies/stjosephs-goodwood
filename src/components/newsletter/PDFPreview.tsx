@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Printer, Download, X, FileImage, FilePdf, Upload } from "lucide-react";
+import { Printer, Download, X, FileImage, FileText, Upload } from "lucide-react";
 
 interface PDFPreviewProps {
   previewPdfUrl: string | null;
@@ -50,7 +50,7 @@ const PDFPreview: React.FC<PDFPreviewProps> = ({ previewPdfUrl, closePreview }) 
         <div className="p-4 border-b border-gray-200 flex justify-between items-center bg-gray-50 text-gray-800">
           <div className="flex items-center">
             {isPdf ? (
-              <FilePdf size={24} className="text-red-600 mr-2" />
+              <FileText size={24} className="text-red-600 mr-2" />
             ) : (
               <FileImage size={24} className="text-blue-600 mr-2" />
             )}

@@ -3,8 +3,8 @@ import React, { useRef } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Upload, Link, FileImage, FilePdf } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { Upload, Link, FileImage, FileText } from "lucide-react";
+import { useNewsletterToast } from "@/hooks/useNewsletterToast";
 
 interface NewsletterFormData {
   title: string;
@@ -35,7 +35,7 @@ const NewsletterAdminForm: React.FC<NewsletterAdminFormProps> = ({
   uploadMethod,
   setUploadMethod
 }) => {
-  const { toast } = useToast();
+  const { toast } = useNewsletterToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const thumbnailInputRef = useRef<HTMLInputElement>(null);
 
