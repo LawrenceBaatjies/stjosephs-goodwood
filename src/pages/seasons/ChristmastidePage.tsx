@@ -9,12 +9,12 @@ const ChristmastidePage = () => {
       <Navbar />
       <main className="flex-grow">
         {/* Hero Section */}
-        <div className="relative bg-church-navy text-white py-16">
+        <div className="relative bg-church-navy text-white py-60">
           <div 
             className="absolute inset-0 bg-cover bg-center"
             style={{ 
               backgroundImage: "url('https://images.unsplash.com/photo-1512909006721-3d6018887383?q=80&w=2070&auto=format&fit=crop')", 
-              opacity: "0.3" 
+              opacity: "0.4" 
             }}
           />
           <div className="container mx-auto px-4 relative z-10">
