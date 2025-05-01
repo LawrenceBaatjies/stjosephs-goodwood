@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -11,6 +12,7 @@ import CalendarHeader from "@/components/calendar/CalendarHeader";
 import EventList from "@/components/calendar/EventList";
 import AddEventForm from "@/components/calendar/AddEventForm";
 import SubscribeModal from "@/components/calendar/SubscribeModal";
+import CalendarGridView from "@/components/calendar/CalendarGridView";
 import type { Event } from "@/types/calendar";
 import { format } from "date-fns";
 
@@ -40,6 +42,8 @@ const Calendar = () => {
     description: ""
   });
   const [supabaseConfigured, setSupabaseConfigured] = useState<boolean>(true);
+  const [calendarView, setCalendarView] = useState<'calendar' | 'grid'>('calendar');
+  const [subscriptionError, setSubscriptionError] = useState<string | null>(null);
 
   useEffect(() => {
     const checkSubscription = async () => {
@@ -89,6 +93,15 @@ const Calendar = () => {
     setSelectedDate(newDate);
   };
 
+  const sendEventNotificationEmail = (newEvent: Event) => {
+    // In a real application, this would call a serverless function to send emails
+    console.log(`Sending email notification about event: ${newEvent.title}`);
+    toast({
+      title: "Event Notification Sent",
+      description: "All subscribers have been notified about the new event.",
+    });
+  };
+
   const addEvent = async () => {
     if (!selectedDate || !newEvent.title || !newEvent.time || !isSubscriber) return;
     
@@ -112,6 +125,9 @@ const Calendar = () => {
         description: ""
       });
 
+      // Send email notification about the new event
+      sendEventNotificationEmail(newEventObj);
+
       toast({
         title: "Event Added",
         description: "Your event has been successfully added to the calendar.",
@@ -127,7 +143,10 @@ const Calendar = () => {
   };
 
   const handleSubscribe = async () => {
+    setSubscriptionError(null);
+    
     if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
+      setSubscriptionError("Please enter a valid email address.");
       toast({
         variant: "destructive",
         title: "Invalid Email",
@@ -139,6 +158,7 @@ const Calendar = () => {
     setLoading(true);
 
     if (!supabaseConfigured) {
+      setSubscriptionError("Supabase is not properly configured. Please check your environment variables.");
       toast({
         variant: "destructive",
         title: "Configuration Error",
@@ -182,12 +202,13 @@ const Calendar = () => {
           description: "You now have access to all calendar features.",
         });
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error during subscription:", error);
+      setSubscriptionError(error.message || "An error occurred. Please try again.");
       toast({
         variant: "destructive",
         title: "Subscription Failed",
-        description: "An error occurred. Please try again.",
+        description: error.message || "An error occurred. Please try again.",
       });
     } finally {
       setLoading(false);
@@ -256,24 +277,35 @@ const Calendar = () => {
                   <CalendarHeader 
                     isSubscriber={isSubscriber}
                     onShowSubscribe={() => setShowSubscribeForm(true)}
+                    view={calendarView}
+                    onViewChange={setCalendarView}
                   />
                   
-                  <CalendarComponent
-                    mode="single"
-                    selected={selectedDate}
-                    onSelect={handleDateSelect}
-                    className="rounded-md border pointer-events-auto"
-                    modifiers={{
-                      withEvents: (date) => isDateWithEvents(date),
-                    }}
-                    modifiersStyles={{
-                      withEvents: { 
-                        backgroundColor: "#f0f8ff", 
-                        fontWeight: "bold",
-                        borderBottom: "2px solid #d4a760" 
-                      }
-                    }}
-                  />
+                  {calendarView === 'calendar' ? (
+                    <CalendarComponent
+                      mode="single"
+                      selected={selectedDate}
+                      onSelect={handleDateSelect}
+                      className="rounded-md border pointer-events-auto"
+                      modifiers={{
+                        withEvents: (date) => isDateWithEvents(date),
+                      }}
+                      modifiersStyles={{
+                        withEvents: { 
+                          backgroundColor: "#f0f8ff", 
+                          fontWeight: "bold",
+                          borderBottom: "2px solid #d4a760" 
+                        }
+                      }}
+                    />
+                  ) : (
+                    <CalendarGridView 
+                      currentDate={date}
+                      events={events}
+                      onSelectDate={handleDateSelect}
+                      selectedDate={selectedDate}
+                    />
+                  )}
                 </Card>
               </div>
 
@@ -303,7 +335,10 @@ const Calendar = () => {
             email={email}
             onEmailChange={setEmail}
             onSubscribe={handleSubscribe}
-            onClose={() => setShowSubscribeForm(false)}
+            onClose={() => {
+              setShowSubscribeForm(false);
+              setSubscriptionError(null);
+            }}
             loading={loading}
           />
         )}

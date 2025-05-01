@@ -41,12 +41,15 @@ const NewsletterCard = ({
     window.open(fileUrl, '_blank')?.print();
   };
 
-  const handleView = () => {
+  const handleView = (e: React.MouseEvent) => {
+    e.preventDefault();
     if (onView) {
       onView(fileUrl);
-    } else {
-      window.open(fileUrl, '_blank');
     }
+  };
+
+  const handleDownload = (e: React.MouseEvent) => {
+    // Let the default link behavior happen for downloads
   };
 
   return (
@@ -63,6 +66,17 @@ const NewsletterCard = ({
             <FileText size={64} className="text-gray-400" />
           </div>
         )}
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 bg-black bg-opacity-40 transition-opacity duration-200">
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={handleView}
+            className="flex items-center"
+          >
+            <Eye className="mr-1" size={16} />
+            View PDF
+          </Button>
+        </div>
       </div>
       <CardContent className="flex-grow pt-4">
         <h3 className="text-lg font-semibold text-church-navy mb-1 line-clamp-2">{title}</h3>
@@ -99,6 +113,7 @@ const NewsletterCard = ({
             target="_blank"
             rel="noopener noreferrer"
             download
+            onClick={handleDownload}
           >
             <Download className="mr-1" size={16} />
             Download
