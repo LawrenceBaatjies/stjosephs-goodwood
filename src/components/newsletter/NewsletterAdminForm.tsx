@@ -1,18 +1,10 @@
-
 import React, { useRef } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Upload, Link, FileImage, FileText } from "lucide-react";
+import { Upload, Link, FileImage } from "lucide-react";
 import { useNewsletterToast } from "@/hooks/useNewsletterToast";
-
-interface NewsletterFormData {
-  title: string;
-  date: string;
-  fileUrl: string;
-  description: string;
-  thumbnailUrl: string;
-}
+import { Newsletter, NewsletterFormData, UploadMethod } from "./types";
 
 interface NewsletterAdminFormProps {
   formData: NewsletterFormData;
@@ -20,9 +12,9 @@ interface NewsletterAdminFormProps {
   handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   handleSubmit: (e: React.FormEvent) => void;
   resetForm: () => void;
-  selectedNewsletter: any | null;
-  uploadMethod: 'url' | 'upload';
-  setUploadMethod: (method: 'url' | 'upload') => void;
+  selectedNewsletter: Newsletter | null;
+  uploadMethod: UploadMethod;
+  setUploadMethod: (method: UploadMethod) => void;
 }
 
 const NewsletterAdminForm: React.FC<NewsletterAdminFormProps> = ({

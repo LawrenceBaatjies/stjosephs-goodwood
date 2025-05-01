@@ -2,15 +2,7 @@
 import React from "react";
 import { FileText } from "lucide-react";
 import NewsletterCard from "./NewsletterCard";
-
-export interface Newsletter {
-  id: string;
-  title: string;
-  date: string;
-  fileUrl: string;
-  description: string;
-  thumbnailUrl?: string;
-}
+import { Newsletter } from "./types";
 
 interface NewsletterGridProps {
   newsletters: Newsletter[];

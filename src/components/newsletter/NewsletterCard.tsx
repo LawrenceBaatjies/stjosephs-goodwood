@@ -1,16 +1,10 @@
-
 import React from "react";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { FileText, Download, Printer, Eye, FileImage } from "lucide-react";
+import { Newsletter } from "./types";
 
-export interface NewsletterCardProps {
-  id: string;
-  title: string;
-  date: string;
-  fileUrl: string;
-  description: string;
-  thumbnailUrl?: string;
+export interface NewsletterCardProps extends Newsletter {
   isAdminMode?: boolean;
   onEdit?: (id: string) => void;
   onDelete?: (id: string) => void;
