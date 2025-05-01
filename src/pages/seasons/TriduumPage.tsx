@@ -9,12 +9,12 @@ const TriduumPage = () => {
       <Navbar />
       <main className="flex-grow">
         {/* Hero Section */}
-        <div className="relative bg-church-navy text-white py-16">
+        <div className="relative bg-church-navy text-white py-60">
           <div 
             className="absolute inset-0 bg-cover bg-center"
             style={{ 
-              backgroundImage: "url('https://images.unsplash.com/photo-1596026767620-34cb0b1f82ab?q=80&w=2070&auto=format&fit=crop')", 
-              opacity: "0.3" 
+              backgroundImage: "url('https://www.carmelitas.edu.pe/wp-content/uploads/2020/04/Triduo-pascual-B.jpg')", 
+              opacity: "0.4" 
             }}
           />
           <div className="container mx-auto px-4 relative z-10">
