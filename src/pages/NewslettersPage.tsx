@@ -73,8 +73,8 @@ const NewslettersPage = () => {
 
   // Search and filter states
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedYear, setSelectedYear] = useState("");
-  const [selectedMonth, setSelectedMonth] = useState("");
+  const [selectedYear, setSelectedYear] = useState("all");
+  const [selectedMonth, setSelectedMonth] = useState("all");
 
   // Calculate available years from newsletter dates
   const availableYears = useMemo(() => {

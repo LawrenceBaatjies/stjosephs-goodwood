@@ -68,7 +68,7 @@ const NewsletterSearch: React.FC<NewsletterSearchProps> = ({
                 <SelectValue placeholder="Filter by year" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Years</SelectItem>
+                <SelectItem value="all">All Years</SelectItem>
                 {availableYears.map(year => (
                   <SelectItem key={year} value={year}>{year}</SelectItem>
                 ))}
@@ -85,7 +85,7 @@ const NewsletterSearch: React.FC<NewsletterSearchProps> = ({
                 <SelectValue placeholder="Filter by month" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Months</SelectItem>
+                <SelectItem value="all">All Months</SelectItem>
                 {months.map(month => (
                   <SelectItem key={month.value} value={month.value}>{month.label}</SelectItem>
                 ))}

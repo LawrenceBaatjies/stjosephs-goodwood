@@ -30,8 +30,8 @@ const NewsletterGrid: React.FC<NewsletterGridProps> = ({
   onDelete, 
   onView,
   searchTerm = "",
-  selectedYear = "",
-  selectedMonth = ""
+  selectedYear = "all",
+  selectedMonth = "all"
 }) => {
   // Filter newsletters based on search term and filters
   const filteredNewsletters = newsletters.filter(newsletter => {
@@ -42,10 +42,10 @@ const NewsletterGrid: React.FC<NewsletterGridProps> = ({
     
     // Date filters
     const newsletterDate = new Date(newsletter.date);
-    const matchesYear = selectedYear === "" || 
+    const matchesYear = selectedYear === "all" || 
       newsletterDate.getFullYear().toString() === selectedYear;
     
-    const matchesMonth = selectedMonth === "" || 
+    const matchesMonth = selectedMonth === "all" || 
       (newsletterDate.getMonth() + 1).toString().padStart(2, '0') === selectedMonth;
     
     return matchesSearch && matchesYear && matchesMonth;
@@ -75,7 +75,7 @@ const NewsletterGrid: React.FC<NewsletterGridProps> = ({
         <div className="text-center py-8 bg-white rounded-lg shadow">
           <FileText size={48} className="mx-auto text-gray-400 mb-4" />
           <p className="text-gray-500">
-            {searchTerm || selectedYear || selectedMonth 
+            {searchTerm || selectedYear !== "all" || selectedMonth !== "all" 
               ? "No newsletters match your search criteria." 
               : "No newsletters available at this time."}
           </p>
