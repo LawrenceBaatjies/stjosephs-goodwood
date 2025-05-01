@@ -1,6 +1,7 @@
 
 import React, { createContext, useState, useContext, ReactNode, useMemo } from "react";
 import { Newsletter } from "./NewsletterGrid";
+import { useNewsletterToast } from "@/hooks/useNewsletterToast";
 
 // Sample PDF URL for demonstration
 const samplePdfUrl = "https://stjosephsgoodwood.hostking000.com/wp-content/uploads/2024/09/NEWSLETTER-23RD-SUNDAY.pdf";
