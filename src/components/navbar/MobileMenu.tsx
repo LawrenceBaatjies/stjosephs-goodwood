@@ -64,6 +64,29 @@ const MobileMenu = ({ isMenuOpen, toggleMenu, setShowPopup }: MobileMenuProps) =
           
           <div className="border-t border-gray-200 pt-2">
             <button
+              onClick={() => toggleSection('parish-ministry')}
+              className="w-full flex items-center justify-between font-medium text-gray-800 mb-1 py-2"
+            >
+              <span>Parish Ministry</span>
+              <span className="transform transition-transform duration-200">
+                {openSections.includes('parish-ministry') ? '−' : '+'}
+              </span>
+            </button>
+            {openSections.includes('parish-ministry') && (
+              <ul className="pl-4 space-y-2">
+                <li><Link to="/parish-ministry/evangelization" className="block py-2 text-gray-700 hover:text-[#d4a760]" onClick={toggleMenu}>Evangelization</Link></li>
+                <li><Link to="/parish-ministry/faith-formation" className="block py-2 text-gray-700 hover:text-[#d4a760]" onClick={toggleMenu}>Faith Formation</Link></li>
+                <li><Link to="/parish-ministry/marriage-family" className="block py-2 text-gray-700 hover:text-[#d4a760]" onClick={toggleMenu}>Marriage & Family</Link></li>
+                <li><Link to="/parish-ministry/parish-community" className="block py-2 text-gray-700 hover:text-[#d4a760]" onClick={toggleMenu}>Parish & Community Building</Link></li>
+                <li><Link to="/parish-ministry/community-engagement" className="block py-2 text-gray-700 hover:text-[#d4a760]" onClick={toggleMenu}>Community Engagement</Link></li>
+                <li><Link to="/parish-ministry/liturgy" className="block py-2 text-gray-700 hover:text-[#d4a760]" onClick={toggleMenu}>Liturgy</Link></li>
+                <li><Link to="/parish-ministry/youth-young-adult" className="block py-2 text-gray-700 hover:text-[#d4a760]" onClick={toggleMenu}>Youth & Young Adult</Link></li>
+              </ul>
+            )}
+          </div>
+          
+          <div className="border-t border-gray-200 pt-2">
+            <button
               onClick={() => toggleSection('seasons')}
               className="w-full flex items-center justify-between font-medium text-gray-800 mb-1 py-2"
             >

@@ -1,68 +1,63 @@
 
+import React from "react";
 import { Button } from "@/components/ui/button";
-import { Download, Mail } from "lucide-react";
-import { toast } from "@/components/ui/use-toast";
-import CalendarViewToggle from "./CalendarViewToggle";
+import { CalendarViewToggle } from "./CalendarViewToggle";
+import { PlusCircle, LogIn } from "lucide-react";
 
 interface CalendarHeaderProps {
-  isSubscriber: boolean;
-  onShowSubscribe: () => void;
+  isAdmin: boolean;
   view: 'calendar' | 'grid';
   onViewChange: (view: 'calendar' | 'grid') => void;
+  onShowLogin: () => void;
+  onShowEventRequest: () => void;
 }
 
-const CalendarHeader = ({ 
-  isSubscriber, 
-  onShowSubscribe,
+const CalendarHeader = ({
+  isAdmin,
   view,
-  onViewChange
+  onViewChange,
+  onShowLogin,
+  onShowEventRequest
 }: CalendarHeaderProps) => {
-  const downloadCalendar = () => {
-    toast({
-      title: "Download Started",
-      description: "Your calendar is being downloaded as a PDF.",
-    });
-  };
-
-  const sendCalendarByEmail = () => {
-    toast({
-      title: "Email Sent",
-      description: "The calendar has been sent to your email.",
-    });
-  };
-
   return (
-    <div className="mb-6">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold text-[#d4a760]">Parish Events</h2>
-        <div className="flex gap-2">
-          {isSubscriber ? (
-            <>
-              <Button variant="outline" onClick={downloadCalendar}>
-                <Download className="h-4 w-4 mr-2" />
-                Download PDF
-              </Button>
-              <Button variant="outline" onClick={sendCalendarByEmail}>
-                <Mail className="h-4 w-4 mr-2" />
-                Email Calendar
-              </Button>
-            </>
-          ) : (
-            <Button onClick={onShowSubscribe}>
-              Subscribe for More
-            </Button>
-          )}
-        </div>
+    <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 space-y-4 md:space-y-0">
+      <div>
+        <h2 className="text-2xl font-bold text-gray-900">Parish Calendar</h2>
+        <p className="text-gray-500 mt-1">View and request parish events</p>
       </div>
       
-      {isSubscriber && (
-        <div className="flex justify-center">
-          <CalendarViewToggle 
-            view={view} 
-            onViewChange={onViewChange} 
-          />
-        </div>
-      )}
+      <div className="flex flex-wrap items-center gap-3">
+        <CalendarViewToggle view={view} onViewChange={onViewChange} />
+        
+        {isAdmin ? (
+          <Button 
+            className="bg-[#d4a760] hover:bg-[#c09550] flex items-center" 
+            onClick={onShowEventRequest}
+          >
+            <PlusCircle className="h-4 w-4 mr-2" />
+            Add Event
+          </Button>
+        ) : (
+          <>
+            <Button 
+              className="bg-church-navy hover:bg-opacity-90 flex items-center" 
+              onClick={onShowLogin}
+            >
+              <LogIn className="h-4 w-4 mr-2" />
+              Admin Login
+            </Button>
+            
+            <Button 
+              variant="outline"
+              className="border-church-red text-church-red hover:bg-church-red hover:text-white flex items-center"
+              onClick={onShowEventRequest}
+            >
+              <PlusCircle className="h-4 w-4 mr-2" />
+              Request Event
+            </Button>
+          </>
+        )}
+      </div>
     </div>
   );
 };

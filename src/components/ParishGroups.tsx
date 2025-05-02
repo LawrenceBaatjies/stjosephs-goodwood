@@ -1,12 +1,13 @@
 
 import React from "react";
 import { Link } from "react-router-dom";
-import { Users, BookOpen, Heart, Music, Bookmark } from "lucide-react";
+import { Users, BookOpen, Heart, Music, Bookmark, Church, PenTool } from "lucide-react";
 
-const GroupCard = ({ title, icon: Icon, description }: {
+const GroupCard = ({ title, icon: Icon, description, link }: {
   title: string;
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>;
   description: string;
+  link: string;
 }) => {
   return (
     <div className="bg-white p-6 rounded-lg shadow-md transition-all hover:shadow-lg">
@@ -16,7 +17,7 @@ const GroupCard = ({ title, icon: Icon, description }: {
       <h3 className="text-xl font-bold mb-3 text-church-navy">{title}</h3>
       <p className="text-gray-600 mb-4">{description}</p>
       <Link
-        to="#"
+        to={link}
         className="text-church-red font-medium hover:underline inline-flex items-center"
       >
         Learn More
@@ -42,40 +43,46 @@ const GroupCard = ({ title, icon: Icon, description }: {
 const ParishGroups = () => {
   const groups = [
     {
-      title: "Pastoral Council",
-      icon: Users,
+      title: "Evangelization",
+      icon: PenTool,
       description:
-        "A consultative body that works with the parish priest to foster pastoral activity in the parish."
+        "Focused on missionary discipleship, spreading the Good News, and sharing the message of Christ.",
+      link: "/parish-ministry/evangelization"
     },
     {
-      title: "Liturgy Committee",
+      title: "Faith Formation",
       icon: BookOpen,
       description:
-        "Responsible for planning and coordinating the liturgical celebrations of the parish throughout the year."
+        "Programs and activities to deepen the understanding of Catholic faith through education and spiritual growth.",
+      link: "/parish-ministry/faith-formation"
     },
     {
-      title: "St Vincent de Paul",
+      title: "Marriage & Family",
       icon: Heart,
       description:
-        "Provides assistance to those in need within our local community through various outreach programs."
+        "Supporting the sacredness of marriage and providing resources for family life in the Catholic tradition.",
+      link: "/parish-ministry/marriage-family"
     },
     {
-      title: "Church Choir",
-      icon: Music,
+      title: "Parish & Community Building",
+      icon: Church,
       description:
-        "Enhances our liturgical celebrations through beautiful music. New members are always welcome."
+        "Initiatives to strengthen parish bonds and build a vibrant community of faith.",
+      link: "/parish-ministry/parish-community"
     },
     {
-      title: "Bible Study Group",
-      icon: Bookmark,
-      description:
-        "Meets weekly to study and reflect on the Scriptures in a friendly and supportive environment."
-    },
-    {
-      title: "Youth Ministry",
+      title: "Community Engagement",
       icon: Users,
       description:
-        "Provides spiritual formation and social activities for young people in our parish."
+        "Outreach programs that connect our parish with the wider community and those in need.",
+      link: "/parish-ministry/community-engagement"
+    },
+    {
+      title: "Youth & Young Adult",
+      icon: Bookmark,
+      description:
+        "Engaging young people through spiritual formation, community, and service activities.",
+      link: "/parish-ministry/youth-young-adult"
     }
   ];
 
@@ -84,7 +91,7 @@ const ParishGroups = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-church-navy mb-4">
-            Parish Groups & Ministries
+            Parish Ministry
           </h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
             There are many ways to get involved in our parish community. Explore our various
@@ -100,10 +107,10 @@ const ParishGroups = () => {
 
         <div className="text-center mt-12">
           <Link
-            to="/parish-groups"
+            to="/parish-ministry/evangelization"
             className="inline-block px-6 py-3 border border-church-navy text-church-navy rounded-md hover:bg-church-navy hover:text-white transition-colors"
           >
-            View All Parish Groups
+            View All Parish Ministries
           </Link>
         </div>
       </div>

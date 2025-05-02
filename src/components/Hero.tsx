@@ -18,7 +18,6 @@ const Hero = () => {
       <div className="container mx-auto px-5 py-20 md:py-32 relative z-10">
         <div className="max-w-3xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-            
             Welcome to St Joseph's Catholic Church
           </h1>
           <p className="text-xl md:text-2xl mb-8 font-light">
@@ -32,10 +31,10 @@ const Hero = () => {
               Mass Times
             </Link>
             <Link
-              to="/contact"
+              to="/parish-ministry/evangelization"
               className="px-6 py-3 bg-white text-church-navy hover:bg-gray-100 transition-colors rounded-md font-medium"
             >
-              Contact Us
+              Explore Our Ministries
             </Link>
           </div>
         </div>

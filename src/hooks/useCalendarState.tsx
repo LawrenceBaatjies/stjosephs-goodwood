@@ -1,223 +1,430 @@
 
 import { useState, useEffect } from "react";
-import { useToastNotification } from "@/hooks/useToastNotification";
-import { supabase } from "@/integrations/supabase/client";
-import { Event } from "@/types/calendar";
 import { format } from "date-fns";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
+import { Session, User } from "@supabase/supabase-js";
 
-// Sample events for initial state
-const sampleEvents = [
-  { id: 1, title: "Sunday Mass", date: new Date(2025, 4, 4), time: "09:00", category: "Mass" },
-  { id: 2, title: "Choir Practice", date: new Date(2025, 4, 6), time: "18:30", category: "Music" },
-  { id: 3, title: "Parish Council Meeting", date: new Date(2025, 4, 10), time: "19:00", category: "Meeting" },
-  { id: 4, title: "Children's Liturgy", date: new Date(2025, 4, 11), time: "09:00", category: "Liturgy" },
-  { id: 5, title: "Baptism Service", date: new Date(2025, 4, 17), time: "12:00", category: "Sacrament" },
-  { id: 6, title: "Food Pantry Distribution", date: new Date(2025, 4, 20), time: "10:00", category: "Outreach" },
-];
+interface Event {
+  id: string;
+  title: string;
+  description?: string;
+  date: Date;
+  time: string;
+  category: string;
+  status: 'pending' | 'approved';
+  created_at: Date;
+}
+
+interface EventRequest {
+  title: string;
+  date: Date;
+  time: string;
+  description: string;
+  contactName: string;
+  contactEmail: string;
+  contactPhone: string;
+}
+
+interface NewEvent {
+  title: string;
+  description: string;
+  category: string;
+}
 
 export const useCalendarState = () => {
-  const { success, error } = useToastNotification();
-  const [date, setDate] = useState<Date>(new Date());
-  const [events, setEvents] = useState<Event[]>(sampleEvents);
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
-  const [eventsForSelectedDate, setEventsForSelectedDate] = useState<Event[]>([]);
-  const [isSubscriber, setIsSubscriber] = useState<boolean>(false);
-  const [showSubscribeForm, setShowSubscribeForm] = useState<boolean>(false);
-  const [email, setEmail] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
-  const [checkingSubscription, setCheckingSubscription] = useState<boolean>(true);
-  const [newEvent, setNewEvent] = useState<Partial<Event>>({
-    title: "",
-    time: "",
-    category: "Other",
-    description: ""
-  });
+  const { toast } = useToast();
+  const [date, setDate] = useState(new Date());
+  const [events, setEvents] = useState<Event[]>([]);
+  const [pendingEvents, setPendingEvents] = useState<Event[]>([]);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [showEventRequestModal, setShowEventRequestModal] = useState(false);
   const [calendarView, setCalendarView] = useState<'calendar' | 'grid'>('calendar');
-  const [subscriptionError, setSubscriptionError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [authError, setAuthError] = useState<string | null>(null);
+  
+  // Auth state
+  const [user, setUser] = useState<User | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
 
-  useEffect(() => {
-    const checkSubscription = async () => {
-      const savedEmail = localStorage.getItem('calendarSubscriberEmail');
-      
-      if (savedEmail) {
-        setEmail(savedEmail);
-        try {
-          const { data, error } = await supabase
-            .from('calendar_subscribers')
-            .select('*')
-            .eq('email', savedEmail)
-            .single();
-            
-          if (data) {
-            setIsSubscriber(true);
-          }
-        } catch (error) {
-          console.error("Error checking subscription:", error);
-        }
+  // New event form
+  const [newEvent, setNewEvent] = useState<NewEvent>({
+    title: "",
+    description: "",
+    category: "Other",
+  });
+
+  // Filter events for selected date
+  const eventsForSelectedDate = selectedDate
+    ? events.filter(
+        (event) => format(event.date, "yyyy-MM-dd") === format(selectedDate, "yyyy-MM-dd")
+      )
+    : [];
+
+  // Check if a date has events
+  const isDateWithEvents = (date: Date) => {
+    return events.some(
+      (event) => format(event.date, "yyyy-MM-dd") === format(date, "yyyy-MM-dd")
+    );
+  };
+
+  // Load events from Supabase
+  const loadEvents = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("calendar_events")
+        .select("*")
+        .eq("status", "approved");
+
+      if (error) {
+        console.error("Error loading events:", error);
+        return;
       }
-      setCheckingSubscription(false);
-    };
-    
-    checkSubscription();
-  }, []);
 
-  useEffect(() => {
-    if (selectedDate) {
-      const filteredEvents = events.filter(
-        event => 
-          event.date.getFullYear() === selectedDate.getFullYear() &&
-          event.date.getMonth() === selectedDate.getMonth() &&
-          event.date.getDate() === selectedDate.getDate()
-      );
-      setEventsForSelectedDate(filteredEvents);
-    } else {
-      setEventsForSelectedDate([]);
+      if (data) {
+        const formattedEvents = data.map((event) => ({
+          ...event,
+          date: new Date(event.date),
+          created_at: new Date(event.created_at),
+        }));
+        
+        setEvents(formattedEvents);
+      }
+    } catch (error) {
+      console.error("Error in loadEvents:", error);
     }
-  }, [selectedDate, events]);
+  };
 
+  // Load pending events for admins
+  const loadPendingEvents = async () => {
+    if (!user) return;
+    
+    try {
+      const { data, error } = await supabase
+        .from("calendar_events")
+        .select("*")
+        .eq("status", "pending");
+
+      if (error) {
+        console.error("Error loading pending events:", error);
+        return;
+      }
+
+      if (data) {
+        const formattedEvents = data.map((event) => ({
+          ...event,
+          date: new Date(event.date),
+          created_at: new Date(event.created_at),
+        }));
+        
+        setPendingEvents(formattedEvents);
+      }
+    } catch (error) {
+      console.error("Error in loadPendingEvents:", error);
+    }
+  };
+
+  // Handle date selection
   const handleDateSelect = (newDate: Date | undefined) => {
-    setSelectedDate(newDate);
+    setSelectedDate(newDate || null);
   };
 
-  const sendEventNotificationEmail = (newEvent: Event) => {
-    // In a real application, this would call a serverless function to send emails
-    console.log(`Sending email notification about event: ${newEvent.title}`);
-    success({
-      title: "Event Notification Sent",
-      description: "All subscribers have been notified about the new event."
-    });
-  };
-
-  const addEvent = async () => {
-    if (!selectedDate || !newEvent.title || !newEvent.time || !isSubscriber) return;
-    
-    const newEventObj: Event = {
-      id: Math.max(0, ...events.map(e => e.id)) + 1,
-      title: newEvent.title || "",
-      date: selectedDate,
-      time: newEvent.time || "",
-      category: newEvent.category || "Other",
-      description: newEvent.description
-    };
-    
-    try {
-      setEvents(prev => [...prev, newEventObj]);
-      setEventsForSelectedDate(prev => [...prev, newEventObj]);
-      
-      setNewEvent({
-        title: "",
-        time: "",
-        category: "Other",
-        description: ""
-      });
-
-      // Send email notification about the new event
-      sendEventNotificationEmail(newEventObj);
-
-      success({
-        title: "Event Added",
-        description: "Your event has been successfully added to the calendar."
-      });
-    } catch (err) {
-      console.error("Error adding event:", err);
-      error({
-        title: "Error",
-        description: "Failed to add event. Please try again."
-      });
-    }
-  };
-
-  const handleSubscribe = async () => {
-    setSubscriptionError(null);
-    
-    if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
-      setSubscriptionError("Please enter a valid email address.");
-      error({
-        title: "Invalid Email",
-        description: "Please enter a valid email address."
-      });
-      return;
-    }
-
+  // Admin login
+  const handleAdminLogin = async (email: string, password: string) => {
     setLoading(true);
-
+    setAuthError(null);
+    
     try {
-      // First check if the email already exists
-      const { data: existingSubscriber, error: fetchError } = await supabase
-        .from('calendar_subscribers')
-        .select('*')
-        .eq('email', email.toLowerCase())
-        .maybeSingle();
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-      if (fetchError && fetchError.code !== 'PGRST116') {
-        throw fetchError;
+      if (error) {
+        setAuthError(error.message);
+        return;
       }
 
-      if (existingSubscriber) {
-        setIsSubscriber(true);
-        localStorage.setItem('calendarSubscriberEmail', email.toLowerCase());
-        setShowSubscribeForm(false);
-        success({
-          title: "Welcome back!",
-          description: "You're already subscribed to the calendar service."
+      if (data && data.user) {
+        setUser(data.user);
+        setSession(data.session);
+        setShowLoginModal(false);
+        toast({
+          title: "Login successful",
+          description: "You now have admin access to the calendar.",
         });
-      } else {
-        // Insert the new subscriber
-        const { data, error: insertError } = await supabase
-          .from('calendar_subscribers')
-          .insert([{ email: email.toLowerCase() }]);
-
-        if (insertError) throw insertError;
-
-        setIsSubscriber(true);
-        localStorage.setItem('calendarSubscriberEmail', email.toLowerCase());
-        setShowSubscribeForm(false);
-        success({
-          title: "Subscription Successful",
-          description: "You now have access to all calendar features."
-        });
+        
+        // Load pending events after successful login
+        loadPendingEvents();
       }
-    } catch (err: any) {
-      console.error("Error during subscription:", err);
-      setSubscriptionError(err.message || "An error occurred. Please try again.");
-      error({
-        title: "Subscription Failed",
-        description: err.message || "An error occurred. Please try again."
+    } catch (error: any) {
+      setAuthError(error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Admin logout
+  const handleLogout = async () => {
+    setLoading(true);
+    
+    try {
+      await supabase.auth.signOut();
+      setUser(null);
+      setSession(null);
+      toast({
+        title: "Logged out successfully",
+      });
+    } catch (error) {
+      console.error("Error signing out:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Submit event request
+  const handleEventRequest = async (eventDetails: EventRequest) => {
+    setLoading(true);
+    
+    try {
+      // Save the event request
+      const { data, error } = await supabase
+        .from("calendar_events")
+        .insert([
+          {
+            title: eventDetails.title,
+            description: eventDetails.description,
+            date: format(eventDetails.date, "yyyy-MM-dd"),
+            time: eventDetails.time,
+            category: "Other",
+            status: "pending",
+            contact_name: eventDetails.contactName,
+            contact_email: eventDetails.contactEmail,
+            contact_phone: eventDetails.contactPhone,
+            created_by: user?.id || null,
+          },
+        ]);
+
+      if (error) {
+        console.error("Error submitting event request:", error);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Failed to submit event request. Please try again.",
+        });
+        return;
+      }
+
+      setShowEventRequestModal(false);
+      toast({
+        title: "Request Submitted",
+        description: "Your event request has been submitted for review.",
+      });
+
+      // Reload pending events if user is admin
+      if (user) {
+        loadPendingEvents();
+      }
+    } catch (error) {
+      console.error("Error in handleEventRequest:", error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "An unexpected error occurred. Please try again.",
       });
     } finally {
       setLoading(false);
     }
   };
 
-  const isDateWithEvents = (date: Date) => {
-    return events.some(
-      event => 
-        event.date.getFullYear() === date.getFullYear() &&
-        event.date.getMonth() === date.getMonth() &&
-        event.date.getDate() === date.getDate()
-    );
+  // Add new event (admin only)
+  const addEvent = async () => {
+    if (!user || !selectedDate || !newEvent.title) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Please select a date and enter event details.",
+      });
+      return;
+    }
+
+    setLoading(true);
+    
+    try {
+      const { data, error } = await supabase
+        .from("calendar_events")
+        .insert([
+          {
+            title: newEvent.title,
+            description: newEvent.description,
+            date: format(selectedDate, "yyyy-MM-dd"),
+            time: "00:00",
+            category: newEvent.category,
+            status: "approved",
+            created_by: user.id,
+          },
+        ]);
+
+      if (error) {
+        console.error("Error adding event:", error);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Failed to add event. Please try again.",
+        });
+        return;
+      }
+
+      // Reset form and reload events
+      setNewEvent({
+        title: "",
+        description: "",
+        category: "Other",
+      });
+      
+      loadEvents();
+      
+      toast({
+        title: "Event Added",
+        description: "The event has been added to the calendar.",
+      });
+    } catch (error) {
+      console.error("Error in addEvent:", error);
+    } finally {
+      setLoading(false);
+    }
   };
+
+  // Approve a pending event
+  const approveEvent = async (eventId: string) => {
+    if (!user) return;
+
+    setLoading(true);
+    
+    try {
+      const { error } = await supabase
+        .from("calendar_events")
+        .update({ status: "approved" })
+        .eq("id", eventId);
+
+      if (error) {
+        console.error("Error approving event:", error);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Failed to approve event. Please try again.",
+        });
+        return;
+      }
+
+      // Reload events
+      loadEvents();
+      loadPendingEvents();
+      
+      toast({
+        title: "Event Approved",
+        description: "The event has been approved and added to the calendar.",
+      });
+    } catch (error) {
+      console.error("Error in approveEvent:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Delete an event
+  const deleteEvent = async (eventId: string) => {
+    if (!user) return;
+
+    setLoading(true);
+    
+    try {
+      const { error } = await supabase
+        .from("calendar_events")
+        .delete()
+        .eq("id", eventId);
+
+      if (error) {
+        console.error("Error deleting event:", error);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "Failed to delete event. Please try again.",
+        });
+        return;
+      }
+
+      // Reload events
+      loadEvents();
+      loadPendingEvents();
+      
+      toast({
+        title: "Event Deleted",
+        description: "The event has been deleted from the calendar.",
+      });
+    } catch (error) {
+      console.error("Error in deleteEvent:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Check session on mount and set up auth listener
+  useEffect(() => {
+    // Set up auth state listener
+    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+      setUser(session?.user ?? null);
+      setSession(session);
+
+      if (event === 'SIGNED_IN' && session?.user) {
+        loadPendingEvents();
+      }
+    });
+
+    // Check for existing session
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+      setSession(session);
+      
+      if (session?.user) {
+        loadPendingEvents();
+      }
+    });
+
+    // Load approved events
+    loadEvents();
+
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
+  }, []);
 
   return {
     date,
     events,
+    pendingEvents,
     selectedDate,
-    eventsForSelectedDate,
-    isSubscriber,
-    showSubscribeForm,
-    email,
-    loading,
-    checkingSubscription,
-    newEvent,
     calendarView,
-    subscriptionError,
-    setEmail,
-    setShowSubscribeForm,
-    setCalendarView,
+    newEvent,
+    user,
+    loading,
+    authError,
+    showLoginModal,
+    showEventRequestModal,
+    eventsForSelectedDate,
+    setDate,
     handleDateSelect,
-    addEvent,
-    handleSubscribe,
+    setCalendarView,
     setNewEvent,
-    isDateWithEvents
+    addEvent,
+    approveEvent,
+    deleteEvent,
+    isDateWithEvents,
+    handleAdminLogin,
+    handleLogout,
+    handleEventRequest,
+    setShowLoginModal,
+    setShowEventRequestModal,
   };
 };

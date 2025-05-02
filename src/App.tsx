@@ -34,6 +34,15 @@ import EdgePage from "./pages/EdgePage";
 import NewslettersPage from "./pages/NewslettersPage";
 import OurLadyRosary from "./pages/OurLadyRosary";
 
+// Parish Ministry Pages
+import EvangelizationPage from "./pages/parish-ministry/EvangelizationPage";
+import FaithFormationPage from "./pages/parish-ministry/FaithFormationPage";
+import MarriageFamilyPage from "./pages/parish-ministry/MarriageFamilyPage";
+import ParishCommunityPage from "./pages/parish-ministry/ParishCommunityPage";
+import CommunityEngagementPage from "./pages/parish-ministry/CommunityEngagementPage";
+import LiturgyPage from "./pages/parish-ministry/LiturgyPage";
+import YouthYoungAdultPage from "./pages/parish-ministry/YouthYoungAdultPage";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -60,6 +69,15 @@ const App = () => (
           <Route path="/edge" element={<EdgePage />} />
           <Route path="/newsletters" element={<NewslettersPage />} />
           <Route path="/our-lady-rosary" element={<OurLadyRosary />} />
+          
+          {/* Parish Ministry Routes */}
+          <Route path="/parish-ministry/evangelization" element={<EvangelizationPage />} />
+          <Route path="/parish-ministry/faith-formation" element={<FaithFormationPage />} />
+          <Route path="/parish-ministry/marriage-family" element={<MarriageFamilyPage />} />
+          <Route path="/parish-ministry/parish-community" element={<ParishCommunityPage />} />
+          <Route path="/parish-ministry/community-engagement" element={<CommunityEngagementPage />} />
+          <Route path="/parish-ministry/liturgy" element={<LiturgyPage />} />
+          <Route path="/parish-ministry/youth-young-adult" element={<YouthYoungAdultPage />} />
           
           {/* Sacrament Pages */}
           <Route path="/sacraments/baptism" element={<BaptismPage />} />

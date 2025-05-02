@@ -75,6 +75,30 @@ const DesktopNav = ({ setShowPopup }: { setShowPopup: (show: boolean) => void })
           <NavigationMenuItem>
             <NavigationMenuTrigger 
               className="text-gray-800 hover:text-[#d4a760] text-base bg-transparent"
+              onClick={() => handleMenuClick('parish-ministry')}
+            >
+              Parish Ministry
+            </NavigationMenuTrigger>
+            <NavigationMenuContent className="bg-white min-w-[220px]">
+              <div className="p-2">
+                <Link to="/parish-ministry/evangelization" className="block px-4 py-2 hover:bg-gray-100 text-gray-700">Evangelization</Link>
+                <Link to="/parish-ministry/faith-formation" className="block px-4 py-2 hover:bg-gray-100 text-gray-700">Faith Formation</Link>
+                <Link to="/parish-ministry/marriage-family" className="block px-4 py-2 hover:bg-gray-100 text-gray-700">Marriage & Family</Link>
+                <Link to="/parish-ministry/parish-community" className="block px-4 py-2 hover:bg-gray-100 text-gray-700">Parish & Community Building</Link>
+                <Link to="/parish-ministry/community-engagement" className="block px-4 py-2 hover:bg-gray-100 text-gray-700">Community Engagement</Link>
+                <Link to="/parish-ministry/liturgy" className="block px-4 py-2 hover:bg-gray-100 text-gray-700">Liturgy</Link>
+                <Link to="/parish-ministry/youth-young-adult" className="block px-4 py-2 hover:bg-gray-100 text-gray-700">Youth & Young Adult</Link>
+              </div>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
+
+      <NavigationMenu>
+        <NavigationMenuList>
+          <NavigationMenuItem>
+            <NavigationMenuTrigger 
+              className="text-gray-800 hover:text-[#d4a760] text-base bg-transparent"
               onClick={() => handleMenuClick('seasons')}
             >
               Seasons
