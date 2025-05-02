@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Session, User } from "@supabase/supabase-js";
-import { Event } from "@/types/calendar";
+import { Event, Subscriber } from "@/types/calendar";
 
 interface EventRequest {
   title: string;
@@ -48,14 +48,14 @@ export const useCalendarState = () => {
   // Filter events for selected date
   const eventsForSelectedDate = selectedDate
     ? events.filter(
-        (event) => format(event.date, "yyyy-MM-dd") === format(selectedDate, "yyyy-MM-dd")
+        (event) => format(new Date(event.date), "yyyy-MM-dd") === format(selectedDate, "yyyy-MM-dd")
       )
     : [];
 
   // Check if a date has events
   const isDateWithEvents = (date: Date) => {
     return events.some(
-      (event) => format(event.date, "yyyy-MM-dd") === format(date, "yyyy-MM-dd")
+      (event) => format(new Date(event.date), "yyyy-MM-dd") === format(date, "yyyy-MM-dd")
     );
   };
 
@@ -73,7 +73,7 @@ export const useCalendarState = () => {
       }
 
       if (data) {
-        const formattedEvents: Event[] = data.map((event) => ({
+        const formattedEvents: Event[] = data.map((event: any) => ({
           ...event,
           id: event.id,
           date: new Date(event.date),
@@ -104,7 +104,7 @@ export const useCalendarState = () => {
       }
 
       if (data) {
-        const formattedEvents: Event[] = data.map((event) => ({
+        const formattedEvents: Event[] = data.map((event: any) => ({
           ...event,
           id: event.id,
           date: new Date(event.date),
@@ -246,19 +246,19 @@ export const useCalendarState = () => {
     setLoading(true);
     
     try {
+      const eventData = {
+        title: newEvent.title,
+        description: newEvent.description,
+        date: format(selectedDate, "yyyy-MM-dd"),
+        time: "00:00",
+        category: newEvent.category,
+        status: "approved",
+        created_by: user.id,
+      };
+
       const { data, error } = await supabase
         .from("calendar_events")
-        .insert([
-          {
-            title: newEvent.title,
-            description: newEvent.description,
-            date: format(selectedDate, "yyyy-MM-dd"),
-            time: "00:00",
-            category: newEvent.category,
-            status: "approved",
-            created_by: user.id,
-          },
-        ]);
+        .insert([eventData]);
 
       if (error) {
         console.error("Error adding event:", error);
