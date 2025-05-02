@@ -34,11 +34,19 @@ export const useCalendarEvents = (user: User | null, setLoading: (loading: boole
 
       if (data) {
         const formattedEvents: Event[] = data.map((event: any) => ({
-          ...event,
           id: event.id,
+          title: event.title,
           date: new Date(event.date),
+          time: event.time,
+          category: event.category,
+          description: event.description,
+          status: 'approved',
           created_at: new Date(event.created_at),
-          status: 'approved' as const,
+          created_by: event.created_by,
+          updated_at: event.updated_at,
+          contact_name: event.contact_name,
+          contact_email: event.contact_email,
+          contact_phone: event.contact_phone,
         }));
         
         setEvents(formattedEvents);
@@ -65,11 +73,19 @@ export const useCalendarEvents = (user: User | null, setLoading: (loading: boole
 
       if (data) {
         const formattedEvents: Event[] = data.map((event: any) => ({
-          ...event,
           id: event.id,
+          title: event.title,
           date: new Date(event.date),
+          time: event.time,
+          category: event.category,
+          description: event.description,
+          status: 'pending',
           created_at: new Date(event.created_at),
-          status: 'pending' as const,
+          created_by: event.created_by,
+          updated_at: event.updated_at,
+          contact_name: event.contact_name,
+          contact_email: event.contact_email,
+          contact_phone: event.contact_phone,
         }));
         
         setPendingEvents(formattedEvents);
@@ -148,19 +164,17 @@ export const useCalendarEvents = (user: User | null, setLoading: (loading: boole
     setLoading(true);
     
     try {
-      const eventData = {
-        title: newEvent.title,
-        description: newEvent.description,
-        date: format(selectedDate, "yyyy-MM-dd"),
-        time: "00:00",
-        category: newEvent.category,
-        status: "approved" as const,
-        created_by: user.id,
-      };
-
       const { error } = await supabase
         .from("calendar_events")
-        .insert([eventData]);
+        .insert([{
+          title: newEvent.title,
+          description: newEvent.description,
+          date: format(selectedDate, "yyyy-MM-dd"),
+          time: "00:00",
+          category: newEvent.category,
+          status: "approved", // Explicitly set the status
+          created_by: user.id,
+        }]);
 
       if (error) {
         console.error("Error adding event:", error);

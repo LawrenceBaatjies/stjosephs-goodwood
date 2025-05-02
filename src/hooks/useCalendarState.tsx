@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useCalendarDates } from "./useCalendarDates";
 import { useCalendarAuth } from "./useCalendarAuth";
 import { useCalendarEvents } from "./useCalendarEvents";
+import { Event } from "@/types/calendar";
 
 export const useCalendarState = () => {
   const [loading, setLoading] = useState(false);
