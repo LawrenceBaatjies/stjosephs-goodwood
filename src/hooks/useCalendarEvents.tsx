@@ -35,21 +35,21 @@ export const useCalendarEvents = (user: User | null, setLoading: (loading: boole
 
       if (data) {
         // Create properly typed Event objects without using spread operator
-        const formattedEvents: Event[] = data.map((event: any) => ({
+        const formattedEvents = data.map((event) => ({
           id: event.id,
           title: event.title,
           date: new Date(event.date),
           time: event.time,
           category: event.category,
           description: event.description,
-          status: 'approved',
+          status: 'approved' as const,
           created_at: new Date(event.created_at),
           created_by: event.created_by,
           updated_at: event.updated_at,
           contact_name: event.contact_name,
           contact_email: event.contact_email,
           contact_phone: event.contact_phone,
-        }));
+        })) as Event[];
         
         setEvents(formattedEvents);
       }
@@ -75,21 +75,21 @@ export const useCalendarEvents = (user: User | null, setLoading: (loading: boole
 
       if (data) {
         // Create properly typed Event objects without using spread operator
-        const formattedEvents: Event[] = data.map((event: any) => ({
+        const formattedEvents = data.map((event) => ({
           id: event.id,
           title: event.title,
           date: new Date(event.date),
           time: event.time,
           category: event.category,
           description: event.description,
-          status: 'pending',
+          status: 'pending' as const,
           created_at: new Date(event.created_at),
           created_by: event.created_by,
           updated_at: event.updated_at,
           contact_name: event.contact_name,
           contact_email: event.contact_email,
           contact_phone: event.contact_phone,
-        }));
+        })) as Event[];
         
         setPendingEvents(formattedEvents);
       }
@@ -103,30 +103,24 @@ export const useCalendarEvents = (user: User | null, setLoading: (loading: boole
     setLoading(true);
     
     try {
-      // Define the event insert payload with correct typing from Supabase schema
-      const eventPayload: TablesInsert<"calendar_events"> = {
+      // Use type assertion to include contact fields and status
+      const eventPayload = {
         title: eventDetails.title,
         description: eventDetails.description,
         date: format(eventDetails.date, "yyyy-MM-dd"),
         time: eventDetails.time,
         category: "Other",
+        created_by: user?.id || null,
         contact_name: eventDetails.contactName,
         contact_email: eventDetails.contactEmail,
         contact_phone: eventDetails.contactPhone,
-        created_by: user?.id || null,
-        // We'll handle adding status directly at the database level
-      };
-
-      // Add the status using direct typing to any since it exists in DB but not in types
-      const fullPayload = {
-        ...eventPayload,
-        status: "pending" // Type as any to bypass TS checking
-      } as any;
+        status: "pending"
+      } as any; // Type assertion to bypass TS checking
 
       // Save the event request
       const { data, error } = await supabase
         .from("calendar_events")
-        .insert([fullPayload]);
+        .insert([eventPayload]);
 
       if (error) {
         console.error("Error submitting event request:", error);
@@ -174,27 +168,21 @@ export const useCalendarEvents = (user: User | null, setLoading: (loading: boole
     setLoading(true);
     
     try {
-      // Define the event insert payload with correct typing from Supabase schema
-      const eventPayload: TablesInsert<"calendar_events"> = {
+      // Use type assertion to include status field
+      const eventPayload = {
         title: newEvent.title,
         description: newEvent.description,
         date: format(selectedDate, "yyyy-MM-dd"),
         time: "00:00",
         category: newEvent.category,
         created_by: user.id,
-        // We'll handle adding status directly at the database level
-      };
-
-      // Add the status using direct typing to any since it exists in DB but not in types
-      const fullPayload = {
-        ...eventPayload,
-        status: "approved" // Type as any to bypass TS checking
-      } as any;
+        status: "approved"
+      } as any; // Type assertion to bypass TS checking
 
       // For adding events, we need to match the database schema exactly
       const { error } = await supabase
         .from("calendar_events")
-        .insert([fullPayload]);
+        .insert([eventPayload]);
 
       if (error) {
         console.error("Error adding event:", error);
@@ -233,7 +221,7 @@ export const useCalendarEvents = (user: User | null, setLoading: (loading: boole
     setLoading(true);
     
     try {
-      // Use the update method to change the status to approved
+      // Use type assertion for the update
       const { error } = await supabase
         .from("calendar_events")
         .update({ status: "approved" } as any)
