@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -177,7 +176,7 @@ const Gallery = () => {
   const [carouselApi, setCarouselApi] = useState<any>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
-  const { user } = useEventLoading(supabase.auth.getUser().then(res => res.data.user));
+  const eventLoading = useEventLoading(null);
   const { toast } = useToast();
   
   const categories = ["All", ...Array.from(new Set(galleryImages.map(img => img.category)))];

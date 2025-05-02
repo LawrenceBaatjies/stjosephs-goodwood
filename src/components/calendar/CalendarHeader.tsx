@@ -1,7 +1,8 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, CalendarIcon, X } from "lucide-react";
+import { ChevronLeft, ChevronRight, CalendarIcon } from "lucide-react";
+import { useCalendarState } from "@/hooks/useCalendarState";
 
 import {
   Popover,
@@ -10,8 +11,6 @@ import {
 } from "@/components/ui/popover";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import CalendarViewToggle from "./CalendarViewToggle";
-import { useCalendarDates } from "@/hooks/useCalendarDates";
-import { useCalendarState } from "@/hooks/useCalendarState";
 import { format } from "date-fns";
 
 const CalendarHeader: React.FC = () => {
@@ -25,13 +24,13 @@ const CalendarHeader: React.FC = () => {
     getNextDate,
     getPrevDate,
     goToToday,
-  } = useCalendarDates();
-
-  const { currentView, setCurrentView } = useCalendarState();
+    currentView,
+    setCurrentView
+  } = useCalendarState();
 
   const formattedDate =
     currentView === "month"
-      ? formatMonthYear(selectedDate)
+      ? formatMonthYear(selectedDate || new Date())
       : formatDateRange(rangeStartDate, rangeEndDate);
 
   return (
@@ -49,9 +48,10 @@ const CalendarHeader: React.FC = () => {
           <PopoverContent className="w-auto p-0" align="start">
             <CalendarComponent
               mode="single"
-              selected={selectedDate}
+              selected={selectedDate || undefined}
               onSelect={(date) => date && setSelectedDate(date)}
               initialFocus
+              className="pointer-events-auto"
             />
           </PopoverContent>
         </Popover>

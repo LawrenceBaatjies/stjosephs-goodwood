@@ -14,11 +14,11 @@ const CalendarViewToggle: React.FC<CalendarViewToggleProps> = ({
 }) => {
   return (
     <div className="flex items-center space-x-2">
-      <div className="grid grid-cols-3 gap-2">
+      <div className="grid grid-cols-3 gap-1">
         <Button
           size="sm"
           variant={currentView === "month" ? "default" : "outline"}
-          className="h-8 px-3 text-xs font-medium"
+          className="h-7 px-2 text-xs font-medium"
           onClick={() => setView("month")}
         >
           Month
@@ -26,7 +26,7 @@ const CalendarViewToggle: React.FC<CalendarViewToggleProps> = ({
         <Button
           size="sm"
           variant={currentView === "week" ? "default" : "outline"}
-          className="h-8 px-3 text-xs font-medium"
+          className="h-7 px-2 text-xs font-medium"
           onClick={() => setView("week")}
         >
           Week
@@ -34,7 +34,7 @@ const CalendarViewToggle: React.FC<CalendarViewToggleProps> = ({
         <Button
           size="sm"
           variant={currentView === "day" ? "default" : "outline"}
-          className="h-8 px-3 text-xs font-medium"
+          className="h-7 px-2 text-xs font-medium"
           onClick={() => setView("day")}
         >
           Day

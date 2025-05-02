@@ -51,13 +51,7 @@ const CalendarSection = ({ calendarState }: CalendarSectionProps) => {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
           <div className="lg:col-span-7">
-            <CalendarHeader 
-              isAdmin={!!user}
-              view={calendarView}
-              onViewChange={setCalendarView}
-              onShowLogin={() => setShowLoginModal(true)}
-              onShowEventRequest={() => setShowEventRequestModal(true)}
-            />
+            <CalendarHeader />
             
             <CalendarDisplay
               view={calendarView}

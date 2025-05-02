@@ -1,12 +1,17 @@
 
 import { useState } from "react";
+import { format, addDays, subDays } from "date-fns";
 import { useCalendarDates } from "./useCalendarDates";
 import { useCalendarAuth } from "./useCalendarAuth";
 import { useCalendarEvents } from "./useCalendarEvents";
 import { Event } from "@/types/calendar";
 
+// Define the calendar view type
+export type CalendarViewType = "month" | "week" | "day";
+
 export const useCalendarState = () => {
   const [loading, setLoading] = useState(false);
+  const [currentView, setCurrentView] = useState<CalendarViewType>("month");
   
   // Get auth state
   const auth = useCalendarAuth();
@@ -27,15 +32,36 @@ export const useCalendarState = () => {
     handleAdminLogin: auth.handleAdminLogin,
     handleLogout: auth.handleLogout,
     
+    // View state
+    currentView,
+    setCurrentView,
+    
     // Date handling
     date: dates.date,
     selectedDate: dates.selectedDate,
+    setSelectedDate: dates.handleDateSelect, // Add this to fix errors
     calendarView: dates.calendarView,
     eventsForSelectedDate: dates.eventsForSelectedDate,
     setDate: dates.setDate,
     handleDateSelect: dates.handleDateSelect,
     setCalendarView: dates.setCalendarView,
     isDateWithEvents: dates.isDateWithEvents,
+    
+    // Add missing date-related functions
+    formatMonthYear: (date: Date) => format(date, "MMMM yyyy"),
+    formatDateRange: (start: Date, end: Date) => `${format(start, "MMM d")} - ${format(end, "MMM d, yyyy")}`,
+    rangeStartDate: dates.selectedDate || new Date(),
+    rangeEndDate: dates.selectedDate || new Date(),
+    getNextDate: () => {
+      dates.setDate(addDays(dates.date, currentView === "month" ? 30 : currentView === "week" ? 7 : 1));
+    },
+    getPrevDate: () => {
+      dates.setDate(subDays(dates.date, currentView === "month" ? 30 : currentView === "week" ? 7 : 1));
+    },
+    goToToday: () => {
+      dates.setDate(new Date());
+      dates.handleDateSelect(new Date());
+    },
     
     // Events management
     events: events.events,
