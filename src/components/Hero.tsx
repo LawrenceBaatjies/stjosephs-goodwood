@@ -10,7 +10,7 @@ const Hero = () => {
         className="absolute inset-0 bg-cover bg-center"
         style={{ 
           backgroundImage: "url('lovable-uploads/hero2-image.jpg')", 
-          opacity: "0.4", 
+          opacity: "0.5", 
         }}
       />
       
