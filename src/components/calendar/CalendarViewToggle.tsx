@@ -2,7 +2,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 
-// Define the CalendarViewType directly here since it was causing errors
+// Define the CalendarViewType as needed in this component
 export type CalendarViewType = "month" | "week" | "day";
 
 interface CalendarViewToggleProps {

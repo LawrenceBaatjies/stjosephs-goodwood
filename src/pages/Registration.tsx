@@ -1,4 +1,3 @@
-
 import React from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -20,6 +19,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
+import { useFormSubmission } from "@/hooks/useFormSubmission";
 
 const formSchema = z.object({
   title: z.string().min(1, "Please select a title"),
@@ -67,13 +67,17 @@ const Registration = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  const { submitForm, isSubmitting } = useFormSubmission();
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
-    toast({
-      title: "Registration Submitted",
-      description: "Thank you! We will be in touch soon.",
-    });
-    form.reset();
+    
+    // Submit to Supabase and send email
+    const success = await submitForm("registration", values);
+    
+    if (success) {
+      form.reset();
+    }
   }
 
   return (
@@ -397,7 +401,13 @@ const Registration = () => {
                     )}
                   />
 
-                  <Button type="submit" className="w-full">Submit Registration</Button>
+                  <Button 
+                    type="submit" 
+                    className="w-full"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? 'Submitting...' : 'Submit Registration'}
+                  </Button>
                 </form>
               </Form>
             </div>

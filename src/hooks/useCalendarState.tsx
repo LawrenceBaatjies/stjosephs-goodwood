@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { format, addDays, subDays } from "date-fns";
+import { format, addDays, subDays, addWeeks, subWeeks, addMonths, subMonths } from "date-fns";
 import { useCalendarDates } from "./useCalendarDates";
 import { useCalendarAuth } from "./useCalendarAuth";
 import { useCalendarEvents } from "./useCalendarEvents";
@@ -21,6 +21,55 @@ export const useCalendarState = () => {
   
   // Get date handling
   const dates = useCalendarDates(events.events);
+  
+  // Calculate range for the selected dates based on view
+  const getRangeStartDate = () => {
+    return dates.selectedDate || new Date();
+  };
+  
+  const getRangeEndDate = () => {
+    if (!dates.selectedDate) return new Date();
+    
+    if (currentView === "week") {
+      return addDays(dates.selectedDate, 6);
+    } else if (currentView === "month") {
+      return addDays(dates.selectedDate, 30);
+    }
+    
+    return dates.selectedDate; // for day view
+  };
+  
+  // Helper functions for date navigation
+  const getNextDate = () => {
+    if (currentView === "month") {
+      dates.setDate(addMonths(dates.date, 1));
+    } else if (currentView === "week") {
+      dates.setDate(addWeeks(dates.date, 1));
+    } else {
+      dates.setDate(addDays(dates.date, 1));
+    }
+  };
+  
+  const getPrevDate = () => {
+    if (currentView === "month") {
+      dates.setDate(subMonths(dates.date, 1));
+    } else if (currentView === "week") {
+      dates.setDate(subWeeks(dates.date, 1));
+    } else {
+      dates.setDate(subDays(dates.date, 1));
+    }
+  };
+  
+  const goToToday = () => {
+    dates.setDate(new Date());
+    dates.handleDateSelect(new Date());
+  };
+  
+  const formatMonthYear = (date: Date) => format(date, "MMMM yyyy");
+  
+  const formatDateRange = (start: Date, end: Date) => {
+    return `${format(start, "MMM d")} - ${format(end, "MMM d, yyyy")}`;
+  };
 
   return {
     // Auth state
@@ -48,20 +97,13 @@ export const useCalendarState = () => {
     isDateWithEvents: dates.isDateWithEvents,
     
     // Add date-related functions needed by CalendarHeader
-    formatMonthYear: (date: Date) => format(date, "MMMM yyyy"),
-    formatDateRange: (start: Date, end: Date) => `${format(start, "MMM d")} - ${format(end, "MMM d, yyyy")}`,
-    rangeStartDate: dates.selectedDate || new Date(),
-    rangeEndDate: dates.selectedDate || new Date(),
-    getNextDate: () => {
-      dates.setDate(addDays(dates.date, currentView === "month" ? 30 : currentView === "week" ? 7 : 1));
-    },
-    getPrevDate: () => {
-      dates.setDate(subDays(dates.date, currentView === "month" ? 30 : currentView === "week" ? 7 : 1));
-    },
-    goToToday: () => {
-      dates.setDate(new Date());
-      dates.handleDateSelect(new Date());
-    },
+    formatMonthYear,
+    formatDateRange,
+    rangeStartDate: getRangeStartDate(),
+    rangeEndDate: getRangeEndDate(),
+    getNextDate,
+    getPrevDate,
+    goToToday,
     
     // Events management
     events: events.events,
