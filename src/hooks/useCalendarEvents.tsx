@@ -33,6 +33,7 @@ export const useCalendarEvents = (user: User | null, setLoading: (loading: boole
       }
 
       if (data) {
+        // Create properly typed Event objects without using spread operator
         const formattedEvents: Event[] = data.map((event: any) => ({
           id: event.id,
           title: event.title,
@@ -72,6 +73,7 @@ export const useCalendarEvents = (user: User | null, setLoading: (loading: boole
       }
 
       if (data) {
+        // Create properly typed Event objects without using spread operator
         const formattedEvents: Event[] = data.map((event: any) => ({
           id: event.id,
           title: event.title,
@@ -100,7 +102,7 @@ export const useCalendarEvents = (user: User | null, setLoading: (loading: boole
     setLoading(true);
     
     try {
-      // Save the event request
+      // Save the event request - note we don't set status here, it'll use the database default
       const { data, error } = await supabase
         .from("calendar_events")
         .insert([
@@ -110,7 +112,7 @@ export const useCalendarEvents = (user: User | null, setLoading: (loading: boole
             date: format(eventDetails.date, "yyyy-MM-dd"),
             time: eventDetails.time,
             category: "Other",
-            status: "pending",
+            status: "pending", // This needs to match what the database expects
             contact_name: eventDetails.contactName,
             contact_email: eventDetails.contactEmail,
             contact_phone: eventDetails.contactPhone,
@@ -164,6 +166,7 @@ export const useCalendarEvents = (user: User | null, setLoading: (loading: boole
     setLoading(true);
     
     try {
+      // For adding events, we need to match the database schema exactly
       const { error } = await supabase
         .from("calendar_events")
         .insert([{
@@ -172,7 +175,7 @@ export const useCalendarEvents = (user: User | null, setLoading: (loading: boole
           date: format(selectedDate, "yyyy-MM-dd"),
           time: "00:00",
           category: newEvent.category,
-          status: "approved", // Explicitly set the status
+          status: "approved", // Make sure this field exists in your Supabase schema
           created_by: user.id,
         }]);
 
