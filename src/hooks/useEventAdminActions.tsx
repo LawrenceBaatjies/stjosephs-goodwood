@@ -12,8 +12,8 @@ export const useEventAdminActions = (
   const { toast } = useToast();
 
   // Approve a pending event
-  const approveEvent = async (eventId: string) => {
-    if (!user) return false;
+  const approveEvent = async (eventId: string): Promise<void> => {
+    if (!user) return;
 
     setLoading(true);
     
@@ -30,7 +30,7 @@ export const useEventAdminActions = (
           title: "Error",
           description: "Failed to approve event. Please try again.",
         });
-        return false;
+        return;
       }
 
       // Reload events
@@ -41,19 +41,16 @@ export const useEventAdminActions = (
         title: "Event Approved",
         description: "The event has been approved and added to the calendar.",
       });
-      
-      return true;
     } catch (error) {
       console.error("Error in approveEvent:", error);
-      return false;
     } finally {
       setLoading(false);
     }
   };
 
   // Delete an event
-  const deleteEvent = async (eventId: string) => {
-    if (!user) return false;
+  const deleteEvent = async (eventId: string): Promise<void> => {
+    if (!user) return;
 
     setLoading(true);
     
@@ -70,7 +67,7 @@ export const useEventAdminActions = (
           title: "Error",
           description: "Failed to delete event. Please try again.",
         });
-        return false;
+        return;
       }
 
       // Reload events
@@ -81,11 +78,8 @@ export const useEventAdminActions = (
         title: "Event Deleted",
         description: "The event has been deleted from the calendar.",
       });
-      
-      return true;
     } catch (error) {
       console.error("Error in deleteEvent:", error);
-      return false;
     } finally {
       setLoading(false);
     }

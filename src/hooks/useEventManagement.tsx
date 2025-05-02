@@ -22,7 +22,7 @@ export const useEventManagement = (
   });
 
   // Submit event request
-  const handleEventRequest = async (eventDetails: EventRequest) => {
+  const handleEventRequest = async (eventDetails: EventRequest): Promise<void> => {
     setLoading(true);
     
     try {
@@ -63,8 +63,6 @@ export const useEventManagement = (
       if (user) {
         loadPendingEvents();
       }
-      
-      return true;
     } catch (error) {
       console.error("Error in handleEventRequest:", error);
       toast({
@@ -72,14 +70,13 @@ export const useEventManagement = (
         title: "Error",
         description: "An unexpected error occurred. Please try again.",
       });
-      return false;
     } finally {
       setLoading(false);
     }
   };
 
   // Add new event (admin only)
-  const addEvent = async (selectedDate: Date | null) => {
+  const addEvent = async (selectedDate: Date | null): Promise<void> => {
     if (!user || !selectedDate || !newEvent.title) {
       toast({
         variant: "destructive",
@@ -130,11 +127,8 @@ export const useEventManagement = (
         title: "Event Added",
         description: "The event has been added to the calendar.",
       });
-      
-      return true;
     } catch (error) {
       console.error("Error in addEvent:", error);
-      return false;
     } finally {
       setLoading(false);
     }
