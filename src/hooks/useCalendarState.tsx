@@ -39,7 +39,7 @@ export const useCalendarState = () => {
     // Date handling
     date: dates.date,
     selectedDate: dates.selectedDate,
-    setSelectedDate: dates.handleDateSelect, // Add this to fix errors
+    setSelectedDate: dates.handleDateSelect, // Expose this for the CalendarHeader component
     calendarView: dates.calendarView,
     eventsForSelectedDate: dates.eventsForSelectedDate,
     setDate: dates.setDate,
@@ -47,7 +47,7 @@ export const useCalendarState = () => {
     setCalendarView: dates.setCalendarView,
     isDateWithEvents: dates.isDateWithEvents,
     
-    // Add missing date-related functions
+    // Add date-related functions needed by CalendarHeader
     formatMonthYear: (date: Date) => format(date, "MMMM yyyy"),
     formatDateRange: (start: Date, end: Date) => `${format(start, "MMM d")} - ${format(end, "MMM d, yyyy")}`,
     rangeStartDate: dates.selectedDate || new Date(),

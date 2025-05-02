@@ -11,7 +11,6 @@ import {
 } from "@/components/ui/popover";
 import { Calendar as CalendarComponent } from "@/components/ui/calendar";
 import CalendarViewToggle from "./CalendarViewToggle";
-import { format } from "date-fns";
 
 const CalendarHeader: React.FC = () => {
   const {

@@ -51,9 +51,9 @@ const Footer = () => {
                 <Link to="/newsletters" className="block hover:text-church-gold transition-colors mb-1">Newsletters</Link>
               </div>
               <div>
-                <Link to="/gallery" className="block hover:text-church-gold transition-colors mb-1">Gallery</Link>
+                <Link to="/parish-ministry/evangelization" className="block hover:text-church-gold transition-colors mb-1">Parish Ministry</Link>
                 <Link to="/notices" className="block hover:text-church-gold transition-colors mb-1">Notices</Link>
-                <Link to="/sacraments/baptism" className="block hover:text-church-gold transition-colors mb-1">Sacraments</Link>
+                <Link to="/sacraments" className="block hover:text-church-gold transition-colors mb-1">Sacraments</Link>
                 <Link to="/seasons/ordinary-time" className="block hover:text-church-gold transition-colors mb-1">Seasons</Link>
                 <Link to="/edge" className="block hover:text-church-gold transition-colors mb-1">EDGE</Link>
               </div>

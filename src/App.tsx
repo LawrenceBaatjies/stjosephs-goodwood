@@ -26,6 +26,7 @@ import MarriagePage from "./pages/sacraments/MarriagePage";
 import AnointingPage from "./pages/sacraments/AnointingPage";
 import HolyOrdersPage from "./pages/sacraments/HolyOrdersPage";
 import RCIAPage from "./pages/sacraments/RCIAPage";
+import SacramentsPage from "./pages/sacraments/SacramentsPage";
 import OrdinaryTimePage from "./pages/seasons/OrdinaryTimePage";
 import AdventPage from "./pages/seasons/AdventPage";
 import ChristmastidePage from "./pages/seasons/ChristmastidePage";
@@ -84,6 +85,7 @@ const App = () => (
           <Route path="/parish-ministry/youth-young-adult" element={<YouthYoungAdultPage />} />
           
           {/* Sacrament Pages */}
+          <Route path="/sacraments" element={<SacramentsPage />} />
           <Route path="/sacraments/baptism" element={<BaptismPage />} />
           <Route path="/sacraments/eucharist" element={<EucharistPage />} />
           <Route path="/sacraments/confirmation" element={<ConfirmationPage />} />
