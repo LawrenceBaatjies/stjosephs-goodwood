@@ -3,6 +3,7 @@ import React from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
+import { Phone, Mail } from "lucide-react";
 
 const EvangelizationPage = () => {
   return (
@@ -32,6 +33,24 @@ const EvangelizationPage = () => {
         <section className="py-16 bg-white">
           <div className="container mx-auto px-4 max-w-4xl">
             <div className="prose prose-lg max-w-none">
+              {/* Portfolio Lead & Contact Information */}
+              <div className="bg-gray-50 p-6 rounded-lg mb-8 border-l-4 border-church-red">
+                <h3 className="text-xl font-bold text-church-navy mb-2">Parish Portfolio Lead</h3>
+                <p className="text-lg font-medium mb-4">Fr. James Peterson</p>
+                
+                <h4 className="text-lg font-bold text-church-navy mb-2">Contact</h4>
+                <div className="space-y-2">
+                  <div className="flex items-center">
+                    <Phone className="h-5 w-5 text-church-red mr-2" />
+                    <span>+27 82 123 4567</span>
+                  </div>
+                  <div className="flex items-center">
+                    <Mail className="h-5 w-5 text-church-red mr-2" />
+                    <span>evangelization@stjosephsgoodwood.org</span>
+                  </div>
+                </div>
+              </div>
+
               <h2 className="text-2xl md:text-3xl font-bold text-church-navy mb-6">Our Mission</h2>
               
               <p>The Evangelization Portfolio focuses on missionary discipleship, where every baptized person is called to spread the Good News of Jesus Christ. At St. Joseph's, we embrace this mission through various initiatives that help parishioners grow in faith and share it with others.</p>

@@ -1,4 +1,3 @@
-
 import React from "react";
 import { Link } from "react-router-dom";
 import { Home, Calendar, Clock } from "lucide-react";
@@ -51,6 +50,7 @@ const DesktopNav = ({ setShowPopup }: { setShowPopup: (show: boolean) => void })
               <div className="p-2">
                 <Link to="/about" className="block px-4 py-2 hover:bg-gray-100 text-gray-700">About Us</Link>
                 <Link to="/about/safeguarding" className="block px-4 py-2 hover:bg-gray-100 text-gray-700">Safeguarding Policy</Link>
+                <Link to="/gallery" className="block px-4 py-2 hover:bg-gray-100 text-gray-700">Gallery</Link>
               </div>
             </NavigationMenuContent>
           </NavigationMenuItem>
@@ -61,7 +61,7 @@ const DesktopNav = ({ setShowPopup }: { setShowPopup: (show: boolean) => void })
         <Tooltip>
           <TooltipTrigger asChild>
             <Link to="/mass-times" className="text-gray-800 hover:text-[#d4a760]">
-              <Clock size={24} />
+              <Clock size={20} />
             </Link>
           </TooltipTrigger>
           <TooltipContent>
@@ -134,10 +134,6 @@ const DesktopNav = ({ setShowPopup }: { setShowPopup: (show: boolean) => void })
         </NavigationMenuList>
       </NavigationMenu>
 
-      <Link to="/gallery" className="text-gray-800 hover:text-[#d4a760] text-base">
-        Gallery
-      </Link>
-
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
@@ -173,7 +169,7 @@ const DesktopNav = ({ setShowPopup }: { setShowPopup: (show: boolean) => void })
         <Tooltip>
           <TooltipTrigger asChild>
             <Link to="/calendar" className="text-gray-800 hover:text-[#d4a760]">
-              <Calendar size={24} />
+              <Calendar size={20} />
             </Link>
           </TooltipTrigger>
           <TooltipContent>

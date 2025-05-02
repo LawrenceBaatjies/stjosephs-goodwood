@@ -3,6 +3,7 @@ import React from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
+import { Phone, Mail } from "lucide-react";
 
 const ParishCommunityPage = () => {
   return (
@@ -32,6 +33,24 @@ const ParishCommunityPage = () => {
         <section className="py-16 bg-white">
           <div className="container mx-auto px-4 max-w-4xl">
             <div className="prose prose-lg max-w-none">
+              {/* Portfolio Lead & Contact Information */}
+              <div className="bg-gray-50 p-6 rounded-lg mb-8 border-l-4 border-church-red">
+                <h3 className="text-xl font-bold text-church-navy mb-2">Parish Portfolio Lead</h3>
+                <p className="text-lg font-medium mb-4">Mrs. Patricia Williams</p>
+                
+                <h4 className="text-lg font-bold text-church-navy mb-2">Contact</h4>
+                <div className="space-y-2">
+                  <div className="flex items-center">
+                    <Phone className="h-5 w-5 text-church-red mr-2" />
+                    <span>+27 82 456 7890</span>
+                  </div>
+                  <div className="flex items-center">
+                    <Mail className="h-5 w-5 text-church-red mr-2" />
+                    <span>community@stjosephsgoodwood.org</span>
+                  </div>
+                </div>
+              </div>
+
               <h2 className="text-2xl md:text-3xl font-bold text-church-navy mb-6">Building Communion</h2>
               
               <p>Our Parish and Community Building Ministry works to strengthen connections among parishioners and create a sense of belonging for everyone. We believe that a vibrant parish community is essential for living out our Catholic faith and sharing it with others.</p>

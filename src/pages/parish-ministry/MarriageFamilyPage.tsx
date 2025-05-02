@@ -3,6 +3,7 @@ import React from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
+import { Phone, Mail } from "lucide-react";
 
 const MarriageFamilyPage = () => {
   return (
@@ -32,6 +33,24 @@ const MarriageFamilyPage = () => {
         <section className="py-16 bg-white">
           <div className="container mx-auto px-4 max-w-4xl">
             <div className="prose prose-lg max-w-none">
+              {/* Portfolio Lead & Contact Information */}
+              <div className="bg-gray-50 p-6 rounded-lg mb-8 border-l-4 border-church-red">
+                <h3 className="text-xl font-bold text-church-navy mb-2">Parish Portfolio Lead</h3>
+                <p className="text-lg font-medium mb-4">Mr. & Mrs. John and Sarah Thompson</p>
+                
+                <h4 className="text-lg font-bold text-church-navy mb-2">Contact</h4>
+                <div className="space-y-2">
+                  <div className="flex items-center">
+                    <Phone className="h-5 w-5 text-church-red mr-2" />
+                    <span>+27 82 345 6789</span>
+                  </div>
+                  <div className="flex items-center">
+                    <Mail className="h-5 w-5 text-church-red mr-2" />
+                    <span>marriage-family@stjosephsgoodwood.org</span>
+                  </div>
+                </div>
+              </div>
+
               <h2 className="text-2xl md:text-3xl font-bold text-church-navy mb-6">The Domestic Church</h2>
               
               <p>The Marriage and Family Ministry recognizes the family as the "domestic church" - the first place where children experience God's love and learn to practice their faith. We provide resources and support to help Catholic families thrive in their vocation.</p>

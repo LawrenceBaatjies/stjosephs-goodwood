@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Calendar, Home, Clock } from "lucide-react";
@@ -49,6 +48,7 @@ const MobileMenu = ({ isMenuOpen, toggleMenu, setShowPopup }: MobileMenuProps) =
               <ul className="pl-4 space-y-2">
                 <li><Link to="/about" className="block py-2 text-gray-700 hover:text-[#d4a760]" onClick={toggleMenu}>About Us</Link></li>
                 <li><Link to="/about/safeguarding" className="block py-2 text-gray-700 hover:text-[#d4a760]" onClick={toggleMenu}>Safeguarding Policy</Link></li>
+                <li><Link to="/gallery" className="block py-2 text-gray-700 hover:text-[#d4a760]" onClick={toggleMenu}>Gallery</Link></li>
               </ul>
             )}
           </div>
@@ -128,14 +128,6 @@ const MobileMenu = ({ isMenuOpen, toggleMenu, setShowPopup }: MobileMenuProps) =
             )}
           </div>
 
-          <Link
-            to="/gallery"
-            className="text-gray-800 hover:text-[#d4a760] py-2 transition-colors border-t border-gray-200 pt-2"
-            onClick={toggleMenu}
-          >
-            Gallery
-          </Link>
-          
           <div className="border-t border-gray-200 pt-2">
             <button
               onClick={() => toggleSection('notices')}
