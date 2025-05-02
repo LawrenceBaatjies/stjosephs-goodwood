@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, isToday, isSameDay } from 'date-fns';
-import type { Event } from '@/types/calendar';
+import { Event } from '@/types/calendar';
 import { Card, CardContent } from '@/components/ui/card';
 
 interface CalendarGridViewProps {

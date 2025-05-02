@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { CalendarViewToggle } from "./CalendarViewToggle";
+import CalendarViewToggle from "./CalendarViewToggle";
 import { PlusCircle, LogIn } from "lucide-react";
 
 interface CalendarHeaderProps {

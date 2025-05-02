@@ -9,6 +9,7 @@ import AddEventForm from "@/components/calendar/AddEventForm";
 import CalendarGridView from "@/components/calendar/CalendarGridView";
 import AdminLoginModal from "@/components/calendar/AdminLoginModal";
 import EventRequestModal from "@/components/calendar/EventRequestModal";
+import { Event } from "@/types/calendar";
 
 interface CalendarSectionProps {
   calendarState: ReturnType<typeof import('@/hooks/useCalendarState').useCalendarState>;
@@ -75,7 +76,7 @@ const CalendarSection = ({ calendarState }: CalendarSectionProps) => {
               {calendarView === 'calendar' ? (
                 <CalendarComponent
                   mode="single"
-                  selected={selectedDate}
+                  selected={selectedDate || undefined}
                   onSelect={handleDateSelect}
                   className="rounded-md border pointer-events-auto"
                   modifiers={{
@@ -94,7 +95,7 @@ const CalendarSection = ({ calendarState }: CalendarSectionProps) => {
                   currentDate={date}
                   events={events}
                   onSelectDate={handleDateSelect}
-                  selectedDate={selectedDate}
+                  selectedDate={selectedDate || undefined}
                 />
               )}
             </Card>

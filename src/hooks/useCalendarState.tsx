@@ -4,17 +4,7 @@ import { format } from "date-fns";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Session, User } from "@supabase/supabase-js";
-
-interface Event {
-  id: string;
-  title: string;
-  description?: string;
-  date: Date;
-  time: string;
-  category: string;
-  status: 'pending' | 'approved';
-  created_at: Date;
-}
+import { Event } from "@/types/calendar";
 
 interface EventRequest {
   title: string;
@@ -83,10 +73,12 @@ export const useCalendarState = () => {
       }
 
       if (data) {
-        const formattedEvents = data.map((event) => ({
+        const formattedEvents: Event[] = data.map((event) => ({
           ...event,
+          id: event.id,
           date: new Date(event.date),
           created_at: new Date(event.created_at),
+          status: 'approved' as const,
         }));
         
         setEvents(formattedEvents);
@@ -112,10 +104,12 @@ export const useCalendarState = () => {
       }
 
       if (data) {
-        const formattedEvents = data.map((event) => ({
+        const formattedEvents: Event[] = data.map((event) => ({
           ...event,
+          id: event.id,
           date: new Date(event.date),
           created_at: new Date(event.created_at),
+          status: 'pending' as const,
         }));
         
         setPendingEvents(formattedEvents);
