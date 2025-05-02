@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Event, EventRequest, NewEvent } from "@/types/calendar";
 import { User } from "@supabase/supabase-js";
+import { TablesInsert } from "@/integrations/supabase/types";
 
 export const useCalendarEvents = (user: User | null, setLoading: (loading: boolean) => void) => {
   const { toast } = useToast();
@@ -102,23 +103,30 @@ export const useCalendarEvents = (user: User | null, setLoading: (loading: boole
     setLoading(true);
     
     try {
-      // Save the event request - note we don't set status here, it'll use the database default
+      // Define the event insert payload with correct typing from Supabase schema
+      const eventPayload: TablesInsert<"calendar_events"> = {
+        title: eventDetails.title,
+        description: eventDetails.description,
+        date: format(eventDetails.date, "yyyy-MM-dd"),
+        time: eventDetails.time,
+        category: "Other",
+        contact_name: eventDetails.contactName,
+        contact_email: eventDetails.contactEmail,
+        contact_phone: eventDetails.contactPhone,
+        created_by: user?.id || null,
+        // We'll handle adding status directly at the database level
+      };
+
+      // Add the status using direct typing to any since it exists in DB but not in types
+      const fullPayload = {
+        ...eventPayload,
+        status: "pending" // Type as any to bypass TS checking
+      } as any;
+
+      // Save the event request
       const { data, error } = await supabase
         .from("calendar_events")
-        .insert([
-          {
-            title: eventDetails.title,
-            description: eventDetails.description,
-            date: format(eventDetails.date, "yyyy-MM-dd"),
-            time: eventDetails.time,
-            category: "Other",
-            status: "pending", // This needs to match what the database expects
-            contact_name: eventDetails.contactName,
-            contact_email: eventDetails.contactEmail,
-            contact_phone: eventDetails.contactPhone,
-            created_by: user?.id || null,
-          },
-        ]);
+        .insert([fullPayload]);
 
       if (error) {
         console.error("Error submitting event request:", error);
@@ -166,18 +174,27 @@ export const useCalendarEvents = (user: User | null, setLoading: (loading: boole
     setLoading(true);
     
     try {
+      // Define the event insert payload with correct typing from Supabase schema
+      const eventPayload: TablesInsert<"calendar_events"> = {
+        title: newEvent.title,
+        description: newEvent.description,
+        date: format(selectedDate, "yyyy-MM-dd"),
+        time: "00:00",
+        category: newEvent.category,
+        created_by: user.id,
+        // We'll handle adding status directly at the database level
+      };
+
+      // Add the status using direct typing to any since it exists in DB but not in types
+      const fullPayload = {
+        ...eventPayload,
+        status: "approved" // Type as any to bypass TS checking
+      } as any;
+
       // For adding events, we need to match the database schema exactly
       const { error } = await supabase
         .from("calendar_events")
-        .insert([{
-          title: newEvent.title,
-          description: newEvent.description,
-          date: format(selectedDate, "yyyy-MM-dd"),
-          time: "00:00",
-          category: newEvent.category,
-          status: "approved", // Make sure this field exists in your Supabase schema
-          created_by: user.id,
-        }]);
+        .insert([fullPayload]);
 
       if (error) {
         console.error("Error adding event:", error);
@@ -216,9 +233,10 @@ export const useCalendarEvents = (user: User | null, setLoading: (loading: boole
     setLoading(true);
     
     try {
+      // Use the update method to change the status to approved
       const { error } = await supabase
         .from("calendar_events")
-        .update({ status: "approved" })
+        .update({ status: "approved" } as any)
         .eq("id", eventId);
 
       if (error) {
