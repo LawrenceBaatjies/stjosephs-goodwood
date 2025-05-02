@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 import { Home, Calendar, Clock } from "lucide-react";
@@ -125,8 +126,12 @@ const DesktopNav = ({ setShowPopup }: { setShowPopup: (show: boolean) => void })
             <NavigationMenuContent className="bg-white min-w-[200px]">
               <div className="p-2">
                 <Link to="/sacraments/baptism" className="block px-4 py-2 hover:bg-gray-100 text-gray-700">Baptism</Link>
+                <Link to="/sacraments/eucharist" className="block px-4 py-2 hover:bg-gray-100 text-gray-700">Eucharist</Link>
                 <Link to="/sacraments/confirmation" className="block px-4 py-2 hover:bg-gray-100 text-gray-700">Confirmation</Link>
+                <Link to="/sacraments/reconciliation" className="block px-4 py-2 hover:bg-gray-100 text-gray-700">Reconciliation</Link>
                 <Link to="/sacraments/marriage" className="block px-4 py-2 hover:bg-gray-100 text-gray-700">Marriage</Link>
+                <Link to="/sacraments/anointing" className="block px-4 py-2 hover:bg-gray-100 text-gray-700">Anointing of the Sick</Link>
+                <Link to="/sacraments/holy-orders" className="block px-4 py-2 hover:bg-gray-100 text-gray-700">Holy Orders</Link>
                 <Link to="/sacraments/rcia" className="block px-4 py-2 hover:bg-gray-100 text-gray-700">RCIA</Link>
               </div>
             </NavigationMenuContent>

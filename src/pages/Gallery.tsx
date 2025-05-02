@@ -1,7 +1,21 @@
 
-import React from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { useEventLoading } from "@/hooks/useEventLoading";
+import { supabase } from "@/integrations/supabase/client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
+import { useToast } from "@/components/ui/use-toast";
 
 type GalleryImage = {
   id: number;
@@ -155,12 +169,128 @@ const galleryImages: GalleryImage[] = [
 ];
 
 const Gallery = () => {
-  const [activeFilter, setActiveFilter] = React.useState<string>("All");
+  const [activeFilter, setActiveFilter] = useState<string>("All");
+  const [uploadedImages, setUploadedImages] = useState<any[]>([]);
+  const [isUploading, setIsUploading] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [carouselApi, setCarouselApi] = useState<any>(null);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const { user } = useEventLoading(supabase.auth.getUser().then(res => res.data.user));
+  const { toast } = useToast();
+  
   const categories = ["All", ...Array.from(new Set(galleryImages.map(img => img.category)))];
   
   const filteredImages = activeFilter === "All" 
-    ? galleryImages 
-    : galleryImages.filter(img => img.category === activeFilter);
+    ? [...galleryImages, ...uploadedImages]
+    : [...galleryImages.filter(img => img.category === activeFilter), 
+       ...uploadedImages.filter(img => img.category === activeFilter)];
+
+  const startAutoplay = () => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+    }
+    
+    timerRef.current = setInterval(() => {
+      if (carouselApi && filteredImages.length > 0) {
+        carouselApi.scrollNext();
+      }
+    }, 5000);
+  };
+
+  const stopAutoplay = () => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+  };
+
+  // Check admin status on component mount
+  useEffect(() => {
+    const checkAdmin = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        const { data } = await supabase
+          .from('admin_users')
+          .select('email')
+          .eq('email', session.user.email);
+        
+        setIsAdmin(data && data.length > 0);
+      }
+    };
+    
+    checkAdmin();
+  }, []);
+
+  // Start autoplay when carousel is ready
+  useEffect(() => {
+    if (carouselApi) {
+      startAutoplay();
+      
+      carouselApi.on("select", () => {
+        setCurrentIndex(carouselApi.selectedScrollSnap());
+        // Restart timer when user manually changes slide
+        startAutoplay();
+      });
+    }
+    
+    return () => {
+      stopAutoplay();
+    };
+  }, [carouselApi, filteredImages.length]);
+
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    
+    if (!file) return;
+    
+    try {
+      setIsUploading(true);
+      
+      // Upload image to storage
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Math.random().toString(36).substring(2, 15)}.${fileExt}`;
+      const filePath = `gallery/${fileName}`;
+      
+      const { error: uploadError } = await supabase.storage
+        .from('newsletters')  // reusing existing bucket for simplicity
+        .upload(filePath, file);
+      
+      if (uploadError) {
+        throw new Error(uploadError.message);
+      }
+      
+      // Get public URL
+      const { data } = supabase.storage.from('newsletters').getPublicUrl(filePath);
+      
+      // Add to local state
+      const newImage = {
+        id: Date.now(),
+        src: data.publicUrl,
+        alt: file.name.split('.')[0],
+        description: "Uploaded image",
+        category: "Uploads"
+      };
+      
+      setUploadedImages(prev => [...prev, newImage]);
+      
+      toast({
+        title: "Image uploaded successfully",
+        description: "Your image has been added to the gallery",
+      });
+      
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      toast({
+        title: "Upload failed",
+        description: "There was a problem uploading your image",
+        variant: "destructive",
+      });
+    } finally {
+      setIsUploading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -185,10 +315,63 @@ const Gallery = () => {
           </div>
         </div>
 
-        {/* Gallery Section */}
-        <section className="py-16 bg-white">
+        {/* Image Carousel Section */}
+        <section className="py-10 bg-gray-50">
           <div className="container mx-auto px-4">
-            {/* Category Filter */}
+            <h2 className="text-3xl font-bold text-center mb-8 text-[#d4a760]">Featured Images</h2>
+            
+            <div className="relative max-w-4xl mx-auto">
+              <Carousel
+                setApi={setCarouselApi}
+                className="w-full"
+                onMouseEnter={stopAutoplay}
+                onMouseLeave={startAutoplay}
+              >
+                <CarouselContent>
+                  {filteredImages.map((image, index) => (
+                    <CarouselItem key={`carousel-${image.id}`}>
+                      <div className="p-1">
+                        <div className="overflow-hidden rounded-xl">
+                          <img 
+                            src={image.src} 
+                            alt={image.alt}
+                            className="w-full aspect-[16/9] object-cover"
+                          />
+                          <div className="p-4 bg-white">
+                            <h3 className="text-xl font-semibold text-[#d4a760]">{image.alt}</h3>
+                            <p className="text-gray-600 mt-2">{image.description}</p>
+                            <span className="inline-block mt-2 text-xs px-2 py-1 bg-gray-100 rounded-full text-gray-600">
+                              {image.category}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="left-2 md:left-4" />
+                <CarouselNext className="right-2 md:right-4" />
+              </Carousel>
+              
+              {/* Carousel indicators */}
+              <div className="flex justify-center mt-4 space-x-2">
+                {filteredImages.map((_, index) => (
+                  <button
+                    key={index}
+                    className={`h-2 w-2 rounded-full transition-all ${
+                      currentIndex === index ? "bg-[#d4a760] w-4" : "bg-gray-300"
+                    }`}
+                    onClick={() => carouselApi?.scrollTo(index)}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Gallery Filter Section */}
+        <section className="py-10 bg-white">
+          <div className="container mx-auto px-4">
             <div className="flex flex-wrap justify-center gap-3 mb-12">
               {categories.map((category) => (
                 <button
@@ -205,12 +388,31 @@ const Gallery = () => {
               ))}
             </div>
 
+            {/* Admin upload section */}
+            {isAdmin && (
+              <div className="max-w-md mx-auto mb-10 p-4 border rounded-lg bg-gray-50">
+                <h3 className="text-xl font-semibold mb-4">Upload New Image</h3>
+                <div className="space-y-4">
+                  <Label htmlFor="image-upload">Select image</Label>
+                  <Input 
+                    id="image-upload" 
+                    type="file" 
+                    accept="image/*" 
+                    onChange={handleImageUpload}
+                    disabled={isUploading}
+                  />
+                  <p className="text-xs text-gray-500">Supported formats: JPG, PNG, GIF (max 5MB)</p>
+                </div>
+              </div>
+            )}
+
             {/* Gallery Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredImages.map((image) => (
                 <div 
-                  key={image.id}
-                  className="rounded-lg overflow-hidden shadow-lg transform hover:scale-[1.02] transition-transform duration-300"
+                  key={`grid-${image.id}`}
+                  className="rounded-lg overflow-hidden shadow-lg transform hover:scale-[1.02] transition-transform duration-300 cursor-pointer"
+                  onClick={() => setSelectedImage(image)}
                 >
                   <div className="aspect-[4/3] overflow-hidden">
                     <img 
@@ -231,6 +433,28 @@ const Gallery = () => {
             </div>
           </div>
         </section>
+        
+        {/* Image Preview Dialog */}
+        <Dialog open={!!selectedImage} onOpenChange={(open) => !open && setSelectedImage(null)}>
+          <DialogContent className="max-w-3xl">
+            <DialogHeader>
+              <DialogTitle>{selectedImage?.alt}</DialogTitle>
+            </DialogHeader>
+            <div className="overflow-hidden rounded-md">
+              <img 
+                src={selectedImage?.src} 
+                alt={selectedImage?.alt || "Gallery image"} 
+                className="w-full object-contain max-h-[70vh]"
+              />
+            </div>
+            <div className="mt-4">
+              <p className="text-gray-600">{selectedImage?.description}</p>
+              <span className="inline-block mt-2 text-xs px-2 py-1 bg-gray-100 rounded-full text-gray-600">
+                {selectedImage?.category}
+              </span>
+            </div>
+          </DialogContent>
+        </Dialog>
       </main>
       <Footer />
     </div>

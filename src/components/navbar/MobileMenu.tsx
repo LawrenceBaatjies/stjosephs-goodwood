@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Calendar, Home, Clock } from "lucide-react";
@@ -121,8 +122,12 @@ const MobileMenu = ({ isMenuOpen, toggleMenu, setShowPopup }: MobileMenuProps) =
             {openSections.includes('sacraments') && (
               <ul className="pl-4 space-y-2">
                 <li><Link to="/sacraments/baptism" className="block py-2 text-gray-700 hover:text-[#d4a760]" onClick={toggleMenu}>Baptism</Link></li>
+                <li><Link to="/sacraments/eucharist" className="block py-2 text-gray-700 hover:text-[#d4a760]" onClick={toggleMenu}>Eucharist</Link></li>
                 <li><Link to="/sacraments/confirmation" className="block py-2 text-gray-700 hover:text-[#d4a760]" onClick={toggleMenu}>Confirmation</Link></li>
+                <li><Link to="/sacraments/reconciliation" className="block py-2 text-gray-700 hover:text-[#d4a760]" onClick={toggleMenu}>Reconciliation</Link></li>
                 <li><Link to="/sacraments/marriage" className="block py-2 text-gray-700 hover:text-[#d4a760]" onClick={toggleMenu}>Marriage</Link></li>
+                <li><Link to="/sacraments/anointing" className="block py-2 text-gray-700 hover:text-[#d4a760]" onClick={toggleMenu}>Anointing of the Sick</Link></li>
+                <li><Link to="/sacraments/holy-orders" className="block py-2 text-gray-700 hover:text-[#d4a760]" onClick={toggleMenu}>Holy Orders</Link></li>
                 <li><Link to="/sacraments/rcia" className="block py-2 text-gray-700 hover:text-[#d4a760]" onClick={toggleMenu}>RCIA</Link></li>
               </ul>
             )}

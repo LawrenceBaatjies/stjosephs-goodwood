@@ -20,7 +20,11 @@ import Donation from "./pages/Donation";
 import DonationSuccess from "./pages/DonationSuccess";
 import BaptismPage from "./pages/sacraments/BaptismPage";
 import ConfirmationPage from "./pages/sacraments/ConfirmationPage";
+import EucharistPage from "./pages/sacraments/EucharistPage";
+import ReconciliationPage from "./pages/sacraments/ReconciliationPage";
 import MarriagePage from "./pages/sacraments/MarriagePage";
+import AnointingPage from "./pages/sacraments/AnointingPage";
+import HolyOrdersPage from "./pages/sacraments/HolyOrdersPage";
 import RCIAPage from "./pages/sacraments/RCIAPage";
 import OrdinaryTimePage from "./pages/seasons/OrdinaryTimePage";
 import AdventPage from "./pages/seasons/AdventPage";
@@ -81,8 +85,12 @@ const App = () => (
           
           {/* Sacrament Pages */}
           <Route path="/sacraments/baptism" element={<BaptismPage />} />
+          <Route path="/sacraments/eucharist" element={<EucharistPage />} />
           <Route path="/sacraments/confirmation" element={<ConfirmationPage />} />
+          <Route path="/sacraments/reconciliation" element={<ReconciliationPage />} />
           <Route path="/sacraments/marriage" element={<MarriagePage />} />
+          <Route path="/sacraments/anointing" element={<AnointingPage />} />
+          <Route path="/sacraments/holy-orders" element={<HolyOrdersPage />} />
           <Route path="/sacraments/rcia" element={<RCIAPage />} />
           
           {/* Seasons Pages */}
