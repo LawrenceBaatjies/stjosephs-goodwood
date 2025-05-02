@@ -92,9 +92,9 @@ const BulletinsPage = () => {
         {/* Hero Section */}
         <div className="relative bg-church-navy text-white py-60">
           <div 
-            className="absolute inset-0 bg-cover bg-center"
+            className="absolute inset-0 bg-center bg-center"
             style={{ 
-              backgroundImage: "url('https://images.unsplash.com/photo-1473177104440-ffee2f376098?q=80&w=2024&auto=format&fit=crop&ixlib=rb-4.0.3')", 
+              backgroundImage: "url('https://i0.wp.com/www.stmm.org.au/wp-content/uploads/2024/07/Parish-Bulletins-image.jpg?fit=987%2C594&ssl=1')", 
               opacity: "0.4" 
             }}
           />
