@@ -14,6 +14,8 @@ export const useNewsletterForm = (
     fileUrl: "",
     description: "",
     thumbnailUrl: "",
+    fileToUpload: null,
+    thumbnailToUpload: null,
   });
   const [uploadMethod, setUploadMethod] = useState<UploadMethod>('url');
   
@@ -31,58 +33,24 @@ export const useNewsletterForm = (
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       
-      // Create a URL for the uploaded file
-      const fileUrl = URL.createObjectURL(file);
-      
       if (e.target.name === 'pdfFile') {
         setFormData({
           ...formData,
-          fileUrl: fileUrl
+          fileToUpload: file
         });
       } else if (e.target.name === 'thumbnailFile') {
         setFormData({
           ...formData,
-          thumbnailUrl: fileUrl
+          thumbnailToUpload: file
         });
       }
 
       // Show success toast
       success({
-        title: "File uploaded successfully",
-        description: `"${file.name}" has been uploaded.`
+        title: "File selected successfully",
+        description: `"${file.name}" has been selected.`
       });
     }
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    
-    if (selectedNewsletter) {
-      // Update existing newsletter
-      const updatedNewsletters = newsletters.map(newsletter => 
-        newsletter.id === selectedNewsletter.id 
-          ? { ...newsletter, ...formData }
-          : newsletter
-      );
-      setNewsletters(updatedNewsletters);
-      success({
-        title: "Newsletter updated",
-        description: `"${formData.title}" has been updated successfully.`
-      });
-    } else {
-      // Add new newsletter
-      const newNewsletter: Newsletter = {
-        id: Date.now().toString(),
-        ...formData
-      };
-      setNewsletters([newNewsletter, ...newsletters]);
-      success({
-        title: "Newsletter added",
-        description: `"${formData.title}" has been added successfully.`
-      });
-    }
-    
-    resetForm();
   };
 
   const resetForm = () => {
@@ -93,6 +61,8 @@ export const useNewsletterForm = (
       fileUrl: "",
       description: "",
       thumbnailUrl: "",
+      fileToUpload: null,
+      thumbnailToUpload: null,
     });
     setUploadMethod('url');
   };
@@ -107,6 +77,8 @@ export const useNewsletterForm = (
         fileUrl: newsletter.fileUrl,
         description: newsletter.description,
         thumbnailUrl: newsletter.thumbnailUrl || "",
+        fileToUpload: null,
+        thumbnailToUpload: null,
       });
       setUploadMethod('url');
     }
@@ -121,7 +93,6 @@ export const useNewsletterForm = (
     setUploadMethod,
     handleChange,
     handleFileChange,
-    handleSubmit,
     resetForm,
     handleEdit
   };

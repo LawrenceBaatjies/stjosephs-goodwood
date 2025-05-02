@@ -47,14 +47,14 @@ const Footer = () => {
                 <Link to="/" className="block hover:text-church-gold transition-colors mb-1">Home</Link>
                 <Link to="/about" className="block hover:text-church-gold transition-colors mb-1">About</Link>
                 <Link to="/mass-times" className="block hover:text-church-gold transition-colors mb-1">Mass Times</Link>
-                <Link to="/sacraments/baptism" className="block hover:text-church-gold transition-colors mb-1">Sacraments</Link>
-                <Link to="/seasons/ordinary-time" className="block hover:text-church-gold transition-colors mb-1">Seasons</Link>
+                <Link to="/calendar" className="block hover:text-church-gold transition-colors mb-1">Calendar</Link>
+                <Link to="/newsletters" className="block hover:text-church-gold transition-colors mb-1">Newsletters</Link>
               </div>
               <div>
                 <Link to="/gallery" className="block hover:text-church-gold transition-colors mb-1">Gallery</Link>
                 <Link to="/notices" className="block hover:text-church-gold transition-colors mb-1">Notices</Link>
-                <Link to="/newsletters" className="block hover:text-church-gold transition-colors mb-1">Newsletters</Link>
-                <Link to="/calendar" className="block hover:text-church-gold transition-colors mb-1">Calendar</Link>
+                <Link to="/sacraments/baptism" className="block hover:text-church-gold transition-colors mb-1">Sacraments</Link>
+                <Link to="/seasons/ordinary-time" className="block hover:text-church-gold transition-colors mb-1">Seasons</Link>
                 <Link to="/edge" className="block hover:text-church-gold transition-colors mb-1">EDGE</Link>
               </div>
             </div>

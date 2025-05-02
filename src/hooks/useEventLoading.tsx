@@ -24,7 +24,7 @@ export const useEventLoading = (user: User | null) => {
 
       if (data) {
         // Create properly typed Event objects
-        const formattedEvents = data.map((event: any) => ({
+        const formattedEvents = data.map((event) => ({
           id: event.id,
           title: event.title,
           date: new Date(event.date),
@@ -64,7 +64,7 @@ export const useEventLoading = (user: User | null) => {
 
       if (data) {
         // Create properly typed Event objects
-        const formattedEvents = data.map((event: any) => ({
+        const formattedEvents = data.map((event) => ({
           id: event.id,
           title: event.title,
           date: new Date(event.date),

@@ -16,6 +16,7 @@ interface NewsletterAdminFormProps {
   selectedNewsletter: Newsletter | null;
   uploadMethod: UploadMethod;
   setUploadMethod: (method: UploadMethod) => void;
+  isUploading?: boolean;
 }
 
 const NewsletterAdminForm: React.FC<NewsletterAdminFormProps> = ({
@@ -26,7 +27,8 @@ const NewsletterAdminForm: React.FC<NewsletterAdminFormProps> = ({
   resetForm,
   selectedNewsletter,
   uploadMethod,
-  setUploadMethod
+  setUploadMethod,
+  isUploading = false
 }) => {
   const { toast } = useToastNotification();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -74,6 +76,7 @@ const NewsletterAdminForm: React.FC<NewsletterAdminFormProps> = ({
                     ? 'bg-church-navy text-white'
                     : 'bg-gray-200 hover:bg-gray-300 text-gray-700'
                 }`}
+                disabled={isUploading}
               >
                 <Link size={16} className="inline-block mr-1" />
                 URL Link
@@ -86,6 +89,7 @@ const NewsletterAdminForm: React.FC<NewsletterAdminFormProps> = ({
                     ? 'bg-church-navy text-white'
                     : 'bg-gray-200 hover:bg-gray-300 text-gray-700'
                 }`}
+                disabled={isUploading}
               >
                 <Upload size={16} className="inline-block mr-1" />
                 Upload File
@@ -103,6 +107,7 @@ const NewsletterAdminForm: React.FC<NewsletterAdminFormProps> = ({
                   onChange={handleChange}
                   required={uploadMethod === 'url'}
                   placeholder="Enter URL to PDF or image file"
+                  disabled={isUploading}
                 />
               </div>
             ) : (
@@ -115,8 +120,14 @@ const NewsletterAdminForm: React.FC<NewsletterAdminFormProps> = ({
                   ref={fileInputRef}
                   accept="application/pdf,image/jpeg,image/png,image/jpg"
                   onChange={handleFileChange}
-                  required={uploadMethod === 'upload'}
+                  required={uploadMethod === 'upload' && !formData.fileToUpload}
+                  disabled={isUploading}
                 />
+                {formData.fileToUpload && (
+                  <p className="text-sm text-green-600">
+                    Selected file: {formData.fileToUpload.name}
+                  </p>
+                )}
                 <p className="text-xs text-gray-500">Accepted formats: PDF, JPG, PNG</p>
               </div>
             )}
@@ -133,8 +144,9 @@ const NewsletterAdminForm: React.FC<NewsletterAdminFormProps> = ({
                 onChange={handleChange}
                 className="flex-1"
                 placeholder="Enter image URL for thumbnail"
+                disabled={isUploading}
               />
-              <div className="text-center">or</div>
+              <div className="text-center flex items-center">or</div>
               <Input
                 type="file"
                 id="thumbnailFile"
@@ -143,8 +155,14 @@ const NewsletterAdminForm: React.FC<NewsletterAdminFormProps> = ({
                 accept="image/*"
                 onChange={handleFileChange}
                 className="flex-1"
+                disabled={isUploading}
               />
             </div>
+            {formData.thumbnailToUpload && (
+              <p className="text-sm text-green-600">
+                Selected thumbnail: {formData.thumbnailToUpload.name}
+              </p>
+            )}
           </div>
           
           <div className="space-y-2 md:col-span-2">
@@ -155,6 +173,7 @@ const NewsletterAdminForm: React.FC<NewsletterAdminFormProps> = ({
               value={formData.description}
               onChange={handleChange}
               rows={3}
+              disabled={isUploading}
             />
           </div>
         </div>
@@ -165,6 +184,7 @@ const NewsletterAdminForm: React.FC<NewsletterAdminFormProps> = ({
               type="button"
               onClick={resetForm}
               className="px-4 py-2 bg-gray-200 hover:bg-gray-300 rounded-md"
+              disabled={isUploading}
             >
               Cancel
             </button>
@@ -172,8 +192,13 @@ const NewsletterAdminForm: React.FC<NewsletterAdminFormProps> = ({
           <button
             type="submit"
             className="px-4 py-2 bg-church-red text-white rounded-md hover:bg-opacity-90"
+            disabled={isUploading}
           >
-            {selectedNewsletter ? "Update Newsletter" : "Add Newsletter"}
+            {isUploading 
+              ? "Uploading..." 
+              : selectedNewsletter 
+                ? "Update Newsletter" 
+                : "Add Newsletter"}
           </button>
         </div>
       </form>
