@@ -24,20 +24,20 @@ export const useEventLoading = (user: User | null) => {
 
       if (data) {
         // Create properly typed Event objects
-        const formattedEvents = data.map((event: any) => ({
+        const formattedEvents = data.map((event: CalendarEventRow) => ({
           id: event.id,
           title: event.title,
           date: new Date(event.date),
           time: event.time,
           category: event.category,
-          description: event.description,
+          description: event.description || undefined,
           status: 'approved' as const,
           created_at: new Date(event.created_at),
           created_by: event.created_by,
           updated_at: event.updated_at,
-          contact_name: event.contact_name,
-          contact_email: event.contact_email,
-          contact_phone: event.contact_phone,
+          contact_name: event.contact_name || undefined,
+          contact_email: event.contact_email || undefined,
+          contact_phone: event.contact_phone || undefined,
         }));
         
         setEvents(formattedEvents);
@@ -64,20 +64,20 @@ export const useEventLoading = (user: User | null) => {
 
       if (data) {
         // Create properly typed Event objects
-        const formattedEvents = data.map((event: any) => ({
+        const formattedEvents = data.map((event: CalendarEventRow) => ({
           id: event.id,
           title: event.title,
           date: new Date(event.date),
           time: event.time,
           category: event.category,
-          description: event.description,
+          description: event.description || undefined,
           status: 'pending' as const,
           created_at: new Date(event.created_at),
           created_by: event.created_by,
           updated_at: event.updated_at,
-          contact_name: event.contact_name,
-          contact_email: event.contact_email,
-          contact_phone: event.contact_phone,
+          contact_name: event.contact_name || undefined,
+          contact_email: event.contact_email || undefined,
+          contact_phone: event.contact_phone || undefined,
         }));
         
         setPendingEvents(formattedEvents);
