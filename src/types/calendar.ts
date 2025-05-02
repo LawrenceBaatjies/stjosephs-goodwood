@@ -36,3 +36,21 @@ export interface NewEvent {
   description: string;
   category: string;
 }
+
+// Define the structure of the calendar_events table in Supabase
+// This helps TypeScript understand what properties are available
+export interface CalendarEventRow {
+  id: string;
+  title: string;
+  date: string;
+  time: string;
+  category: string;
+  description?: string | null;
+  created_at: string;
+  created_by?: string | null;
+  updated_at: string;
+  status: 'pending' | 'approved';
+  contact_name?: string | null;
+  contact_email?: string | null;
+  contact_phone?: string | null;
+}

@@ -3,9 +3,8 @@ import { useState, useEffect } from "react";
 import { format } from "date-fns";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { Event, EventRequest, NewEvent } from "@/types/calendar";
+import { Event, EventRequest, NewEvent, CalendarEventRow } from "@/types/calendar";
 import { User } from "@supabase/supabase-js";
-import { TablesInsert } from "@/integrations/supabase/types";
 
 export const useCalendarEvents = (user: User | null, setLoading: (loading: boolean) => void) => {
   const { toast } = useToast();
@@ -34,8 +33,8 @@ export const useCalendarEvents = (user: User | null, setLoading: (loading: boole
       }
 
       if (data) {
-        // Create properly typed Event objects without using spread operator
-        const formattedEvents = data.map((event) => ({
+        // Create properly typed Event objects
+        const formattedEvents = data.map((event: CalendarEventRow) => ({
           id: event.id,
           title: event.title,
           date: new Date(event.date),
@@ -49,7 +48,7 @@ export const useCalendarEvents = (user: User | null, setLoading: (loading: boole
           contact_name: event.contact_name,
           contact_email: event.contact_email,
           contact_phone: event.contact_phone,
-        })) as Event[];
+        }));
         
         setEvents(formattedEvents);
       }
@@ -74,8 +73,8 @@ export const useCalendarEvents = (user: User | null, setLoading: (loading: boole
       }
 
       if (data) {
-        // Create properly typed Event objects without using spread operator
-        const formattedEvents = data.map((event) => ({
+        // Create properly typed Event objects
+        const formattedEvents = data.map((event: CalendarEventRow) => ({
           id: event.id,
           title: event.title,
           date: new Date(event.date),
@@ -89,7 +88,7 @@ export const useCalendarEvents = (user: User | null, setLoading: (loading: boole
           contact_name: event.contact_name,
           contact_email: event.contact_email,
           contact_phone: event.contact_phone,
-        })) as Event[];
+        }));
         
         setPendingEvents(formattedEvents);
       }
@@ -103,7 +102,6 @@ export const useCalendarEvents = (user: User | null, setLoading: (loading: boole
     setLoading(true);
     
     try {
-      // Use type assertion to include contact fields and status
       const eventPayload = {
         title: eventDetails.title,
         description: eventDetails.description,
@@ -115,12 +113,12 @@ export const useCalendarEvents = (user: User | null, setLoading: (loading: boole
         contact_email: eventDetails.contactEmail,
         contact_phone: eventDetails.contactPhone,
         status: "pending"
-      } as any; // Type assertion to bypass TS checking
+      };
 
       // Save the event request
       const { data, error } = await supabase
         .from("calendar_events")
-        .insert([eventPayload]);
+        .insert([eventPayload as any]);
 
       if (error) {
         console.error("Error submitting event request:", error);
@@ -168,7 +166,6 @@ export const useCalendarEvents = (user: User | null, setLoading: (loading: boole
     setLoading(true);
     
     try {
-      // Use type assertion to include status field
       const eventPayload = {
         title: newEvent.title,
         description: newEvent.description,
@@ -177,12 +174,12 @@ export const useCalendarEvents = (user: User | null, setLoading: (loading: boole
         category: newEvent.category,
         created_by: user.id,
         status: "approved"
-      } as any; // Type assertion to bypass TS checking
+      };
 
       // For adding events, we need to match the database schema exactly
       const { error } = await supabase
         .from("calendar_events")
-        .insert([eventPayload]);
+        .insert([eventPayload as any]);
 
       if (error) {
         console.error("Error adding event:", error);
@@ -221,7 +218,6 @@ export const useCalendarEvents = (user: User | null, setLoading: (loading: boole
     setLoading(true);
     
     try {
-      // Use type assertion for the update
       const { error } = await supabase
         .from("calendar_events")
         .update({ status: "approved" } as any)
