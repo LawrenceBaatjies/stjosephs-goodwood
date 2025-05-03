@@ -13,7 +13,7 @@ const About = () => {
           <div 
             className="absolute inset-0 bg-cover bg-center"
             style={{ 
-              backgroundImage: "url('public/lovable-uploads/hero2-image.jpg')", 
+              backgroundImage: "url('lovable-uploads/hero2-image.jpg')", 
               opacity: "0.3" 
             }}
           />
@@ -61,7 +61,7 @@ const About = () => {
                 <div className="md:w-1/3">
                   <div className="rounded-lg overflow-hidden shadow-lg h-full">
                     <img 
-                      src="public\lovable-uploads\hero-image.png" 
+                      src="lovable-uploads\hero-image.png" 
                       alt="St Joseph's Church Historical Photo"
                       className="w-full h-full object-cover"
                     />
