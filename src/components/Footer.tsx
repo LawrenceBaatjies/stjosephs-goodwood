@@ -1,3 +1,4 @@
+
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -124,14 +125,6 @@ const Footer = () => {
                   Parish Ministry
                 </Link>
               </li>
-              <li>
-                <Link
-                  to="/registration"
-                  className="hover:text-[#d4a760] transition-colors"
-                >
-                  Registration
-                </Link>
-              </li>
             </ul>
           </div>
 
@@ -139,6 +132,14 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold text-lg mb-4">Sacraments</h4>
             <ul className="space-y-2">
+              <li>
+                <Link
+                  to="/sacraments"
+                  className="hover:text-[#d4a760] transition-colors"
+                >
+                  View All Sacraments
+                </Link>
+              </li>
               <li>
                 <Link
                   to="/sacraments/baptism"
@@ -169,14 +170,6 @@ const Footer = () => {
                   className="hover:text-[#d4a760] transition-colors"
                 >
                   Reconciliation
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/sacraments"
-                  className="hover:text-[#d4a760] transition-colors"
-                >
-                  View All Sacraments
                 </Link>
               </li>
             </ul>
