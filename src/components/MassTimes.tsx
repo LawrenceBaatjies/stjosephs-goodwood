@@ -22,8 +22,8 @@ const MassTimes = () => {
             </div>
             <ul className="space-y-3">
               <li className="flex justify-between items-center border-b pb-2">
-                <span className="font-medium">Saturday Vigil</span>
-                <span className="text-gray-600">6:00 PM</span>
+                <span className="font-medium">Saturday </span>
+                <span className="text-gray-600">17:30 PM</span>
               </li>
               <li className="flex justify-between items-center pt-1">
                 <span className="font-medium">Sunday</span>
@@ -41,19 +41,19 @@ const MassTimes = () => {
             <ul className="space-y-2">
               <li className="flex justify-between items-center border-b pb-2">
                 <span className="font-medium">Tuesday</span>
-                <span className="text-gray-600">9:30 AM</span>
+                <span className="text-gray-600">8:30 AM</span>
               </li>
               <li className="flex justify-between items-center border-b py-2">
                 <span className="font-medium">Wednesday</span>
-                <span className="text-gray-600">9:30 AM</span>
+                <span className="text-gray-600">8:30 AM</span>
               </li>
               <li className="flex justify-between items-center border-b py-2">
                 <span className="font-medium">Thursday</span>
-                <span className="text-gray-600">9:30 AM</span>
+                <span className="text-gray-600">18:30 PM</span>
               </li>
               <li className="flex justify-between items-center pt-2">
                 <span className="font-medium">Friday</span>
-                <span className="text-gray-600">9:30 AM</span>
+                <span className="text-gray-600">8:30 AM</span>
               </li>
             </ul>
           </div>
@@ -67,10 +67,11 @@ const MassTimes = () => {
             <ul className="space-y-3">
               <li className="flex justify-between items-center border-b pb-2">
                 <span className="font-medium">Saturday</span>
-                <span className="text-gray-600">5:15 PM - 5:45 PM</span>
+                <span className="text-gray-600">15:30 PM</span>
+            
               </li>
               <li className="flex justify-between items-center pt-1">
-                <span className="font-medium">By Appointment</span>
+                <span className="font-medium">Or by Appointment</span>
                 <span className="text-gray-600">Please contact Parish Office</span>
               </li>
             </ul>
