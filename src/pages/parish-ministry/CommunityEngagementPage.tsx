@@ -36,7 +36,7 @@ const CommunityEngagementPage = () => {
               {/* Portfolio Lead & Contact Information */}
               <div className="bg-gray-50 p-6 rounded-lg mb-8 border-l-4 border-church-red">
                 <h3 className="text-xl font-bold text-church-navy mb-2">Parish Portfolio Lead</h3>
-                <p className="text-lg font-medium mb-4">Mr. David Wilson</p>
+                <p className="text-lg font-medium mb-4">Pasty</p>
                 
                 <h4 className="text-lg font-bold text-church-navy mb-2">Contact</h4>
                 <div className="space-y-2">
