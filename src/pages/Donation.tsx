@@ -322,10 +322,10 @@ const Donation = () => {
                           You can also make donations via direct bank transfer to:
                         </p>
                         <div className="bg-gray-50 p-3 rounded-md mt-2">
-                          <p className="text-sm">Account Name: St Joseph's Catholic Church</p>
-                          <p className="text-sm">Bank: Example Bank</p>
-                          <p className="text-sm">Branch Code: 123456</p>
-                          <p className="text-sm">Account: 12345678</p>
+                          <p className="text-sm">Account Name: Goodwood Catholic Church</p>
+                          <p className="text-sm">Bank: Standard Bank </p>
+                          <p className="text-sm">( PG's & General Acc): 07 165 857 2</p>
+                          <p className="text-sm">(100 Club Dues Only Acc): 07 593 1672</p>
                           <p className="text-sm">Reference: Donation - [Your Name]</p>
                         </div>
                       </div>
