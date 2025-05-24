@@ -18,17 +18,17 @@ const RegularSchedule = () => {
           <ul className="space-y-4">
             <li className="flex justify-between items-center border-b pb-3">
               <div>
-                <span className="font-medium block">Saturday Vigil</span>
+                <span className="font-medium block">Saturday</span>
                 <span className="text-sm text-gray-600">English</span>
               </div>
-              <span className="text-gray-800 font-medium">6:00 PM</span>
+              <span className="text-gray-800 font-medium">17:30 PM</span>
             </li>
             <li className="flex justify-between items-center pt-1">
               <div>
                 <span className="font-medium block">Sunday</span>
                 <span className="text-sm text-gray-600">English</span>
               </div>
-              <span className="text-gray-800 font-medium">10:00 AM</span>
+              <span className="text-gray-800 font-medium">10:30 AM</span>
             </li>
           </ul>
         </div>
@@ -42,19 +42,19 @@ const RegularSchedule = () => {
           <ul className="space-y-3">
             <li className="flex justify-between items-center">
               <span className="font-medium">Tuesday</span>
-              <span className="text-gray-800 font-medium">9:30 AM</span>
+              <span className="text-gray-800 font-medium">8:30 AM</span>
             </li>
             <li className="flex justify-between items-center">
               <span className="font-medium">Wednesday</span>
-              <span className="text-gray-800 font-medium">9:30 AM</span>
+              <span className="text-gray-800 font-medium">8:30 AM</span>
             </li>
             <li className="flex justify-between items-center">
               <span className="font-medium">Thursday</span>
-              <span className="text-gray-800 font-medium">9:30 AM</span>
+              <span className="text-gray-800 font-medium">18:30 PM</span>
             </li>
             <li className="flex justify-between items-center">
               <span className="font-medium">Friday</span>
-              <span className="text-gray-800 font-medium">9:30 AM</span>
+              <span className="text-gray-800 font-medium">8:30 AM</span>
             </li>
           </ul>
         </div>
