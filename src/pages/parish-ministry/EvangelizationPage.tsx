@@ -51,7 +51,7 @@ const EvangelizationPage = () => {
                 </div>
               </div>
 
-              <h2 className="text-2xl md:text-3xl font-bold text-church-navy mb-6">Our Mission</h2>
+              <h2 className="text-2xl md:text-3xl font-bold text-church-navy mb-6">Our Mandate</h2>
               
               <p>The Evangelization Portfolio focuses on missionary discipleship, where every baptized person is called to spread the Good News of Jesus Christ. At St. Joseph's, we embrace this mission through various initiatives that help parishioners grow in faith and share it with others.</p>
 
