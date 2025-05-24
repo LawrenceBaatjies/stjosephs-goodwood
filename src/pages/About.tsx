@@ -86,6 +86,7 @@ const About = () => {
                   education, and charitable works.
                 </p>
                 
+                
                 <h3 className="text-2xl font-semibold mt-8 mb-4">Our Values</h3>
                 
                 <ul>
@@ -132,7 +133,7 @@ const About = () => {
                   <div className="w-full md:w-3/4">
                     <h3 className="text-2xl font-semibold text-[#d4a760]">Fr. Francesco Fabris - (20 May 2016)</h3>
                     <p className="text-church-red font-medium mb-4">Parish Priest</p>
-                    <div className="prose">
+                    <div className="prose"> 
                       <p>
                         Fr. Francesco Fabris has been the parish priest at St Joseph's since 2018. He was ordained in 2005 and has 
                         served in several parishes across the Archdiocese of Adelaide. Fr. John has a particular interest 
@@ -166,11 +167,18 @@ const About = () => {
                         served in several parishes across the Archdiocese of Adelaide. Fr. John has a particular interest 
                         in youth ministry and social justice.
                       </p>
-                      <p>
+                      {/* <p>
                         "I am blessed to serve in such a vibrant and welcoming community. St Joseph's has a rich history 
                         and a bright future as we continue to grow in faith together."
-                      </p>
+                      </p> */}
                     </div>
+                    <br />
+                    <br />
+                    <h3 className="text-2xl font-semibold text-[#d4a760]">Pat Lindgren  - (Chairperson -  P P C)</h3>
+                    <p>Contact: 083 274 6620</p>
+                    <br />
+                    <h3 className="text-2xl font-semibold text-[#d4a760]">Mauricio De Feria  - (Chairperson - P F C)</h3>
+                    <p>Contact: 083 643 0945</p>
                   </div>
                 </div>
               </div>
