@@ -18,8 +18,8 @@ type Bulletin = {
 const bulletins: Bulletin[] = [
   {
     id: 1,
-    title: "Sunday Bulletin - Easter Edition",
-    date: new Date("2025-04-20"),
+    title: "Pope Leo XIV Inauguration Mass",
+    date: new Date("2025-05-18"),
     description: "Weekly bulletin with Mass times, announcements, and special Easter celebrations.",
     fileUrl: "#",
   },
