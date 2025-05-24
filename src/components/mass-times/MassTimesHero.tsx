@@ -3,11 +3,11 @@ import React from "react";
 
 const MassTimesHero = () => {
   return (
-    <div className="relative bg-church-navy text-white py-16">
+    <div className="relative bg-church-navy text-white py-60">
       <div 
         className="absolute inset-0 bg-cover bg-center"
         style={{ 
-          backgroundImage: "url('https://images.unsplash.com/photo-1561342160-fa6469a1835c?q=80&w=2070&auto=format&fit=crop')", 
+          backgroundImage: "url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS5j5GzgTaD_aUlSGshblaxxnoL1Tn4srjVxg&ss')", 
           opacity: "0.3" 
         }}
       />
