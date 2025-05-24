@@ -122,7 +122,7 @@ const About = () => {
                   <div className="w-full md:w-1/4">
                     <div className="aspect-square bg-gray-200 rounded-full overflow-hidden">
                       <img 
-                        src="https://scontent.fcpt11-1.fna.fbcdn.net/v/t39.30808-6/491434593_9066450753458649_4420695979273938339_n.jpg?stp=dst-jpg_p110x80_tt6&_nc_cat=106&ccb=1-7&_nc_sid=aa7b47&_nc_eui2=AeHBP8tnj2iycu8ONabBbKOmhHmuFt1Qa7uEea4W3VBru07o9pA7uqKe8APTgGAH3k8&_nc_ohc=rxWlJVEmxY8Q7kNvwH8zRYb&_nc_oc=AdlzjIJG7v3eEIPyM7MwXBahoIifFjhHp-e5WrJ1qe2E8Yr-1w-fSZrqzrLk5Ax6cYs&_nc_zt=23&_nc_ht=scontent.fcpt11-1.fna&_nc_gid=y3pjGBbenezEiZghjtiWnA&oh=00_AfGGE10c-krUv9ik7sWQJWjHrzYq-QvRtwSL_GU2m_HgRQ&oe=68192EBC" 
+                        src="https://adct.org.za/wp-content/uploads/2013/10/Fabris-Francesco-1-221x300.jpg" 
                         alt="Father Francesco Fabris"
                         className="w-full h-full object-cover"
                       />
