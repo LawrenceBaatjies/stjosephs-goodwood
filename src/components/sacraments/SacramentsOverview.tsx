@@ -57,7 +57,7 @@ const SacramentsOverview: React.FC = () => {
           <h2 className="text-3xl font-bold text-gray-900 mb-4">The Seven Sacraments</h2>
           <p className="text-lg text-gray-700">
             The seven sacraments are ceremonies that point to what is sacred, significant and important for Christians.
-            They are special occasions for experiencing God's saving presence.
+            They are special occasions for experiencing God's saving presence. They are understood as outward signs of God's grace and are considered important rituals in the life of a Catholic. 
           </p>
         </div>
         
