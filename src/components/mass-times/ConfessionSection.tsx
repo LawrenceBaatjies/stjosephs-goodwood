@@ -20,7 +20,7 @@ const ConfessionSection = () => {
               <div className="font-medium">Saturday</div>
               <div className="flex justify-between items-center mt-1">
                 <span className="text-gray-600">Before Vigil Mass</span>
-                <span className="text-gray-800">5:15 PM - 5:45 PM</span>
+                <span className="text-gray-800">15:30 PM - 1st Saturday of the month</span>
               </div>
             </li>
             <li>
