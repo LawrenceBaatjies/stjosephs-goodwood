@@ -61,7 +61,7 @@ const About = () => {
                 <div className="md:w-1/3">
                   <div className="rounded-lg overflow-hidden shadow-lg h-full">
                     <img 
-                      src="lovable-uploads\hero-image.png" 
+                      src="/lovable-uploads/hero-image.png" 
                       alt="St Joseph's Church Historical Photo"
                       className="w-full h-full object-cover"
                     />
