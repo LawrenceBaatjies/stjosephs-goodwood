@@ -118,8 +118,8 @@ const BaptismPage = () => {
                     
                     <h4>For Godparents:</h4>
                     <ul>
-                      <li>At least one godparent must be a practicing Catholic who has received Baptism, Confirmation, and Holy Eucharist.</li>
-                      <li>The Catholic godparent must be at least 16 years old and not be the parent of the child.</li>
+                      <li>At least one godparent must be a practicing Catholic who has received Confirmation</li>
+                      <li>The Catholic godparent must be at least 18 years old and not be the parent of the child.</li>
                       <li>A baptized non-Catholic may serve as a Christian witness along with the Catholic godparent.</li>
                       <li>Catholic godparents must provide a Sponsor Certificate from their parish.</li>
                     </ul>
