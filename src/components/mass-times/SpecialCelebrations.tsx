@@ -25,7 +25,7 @@ const SpecialCelebrations = () => {
           <li>Holy Thursday: Mass of the Lord's Supper - 7:00 PM</li>
           <li>Good Friday: Celebration of the Lord's Passion - 3:00 PM</li>
           <li>Holy Saturday: Easter Vigil - 7:30 PM</li>
-          <li>Easter Sunday: Mass - 10:00 AM</li>
+          <li>Easter Sunday: Mass - 10:30 AM</li>
         </ul>
         
         <h3 className="font-semibold text-xl mt-6">Christmas</h3>
