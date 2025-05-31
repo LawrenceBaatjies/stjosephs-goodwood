@@ -55,8 +55,8 @@ const AnointingPage = () => {
                 <div className="bg-gray-100 p-6 rounded-lg mt-8">
                   <h3 className="text-xl font-semibold mb-4 text-church-red">Requesting the Sacrament</h3>
                   <p className="mb-4">To arrange for the Anointing of the Sick, please contact the parish office. In emergencies, please call the emergency line.</p>
-                  <p><strong>Parish Office:</strong> (555) 123-4567</p>
-                  <p><strong>Emergency Line:</strong> (555) 987-6543</p>
+                  <p><strong>Parish Office:</strong> (+27)  21 591 2229</p>
+                  <p><strong>Emergency Line:</strong> (+27)  21 591 2229</p>
                   <p className="mt-4 italic">Please don't wait until the last moment to request this sacrament. It is best when the person can participate in the sacrament with awareness and prayer.</p>
                 </div>
                 
