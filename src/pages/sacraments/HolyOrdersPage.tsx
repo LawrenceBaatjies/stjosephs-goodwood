@@ -66,7 +66,7 @@ const HolyOrdersPage = () => {
                     <li>Attend a discernment retreat</li>
                     <li>Regular prayer and spiritual direction</li>
                   </ul>
-                  <p><strong>Contact:</strong> Parish Office at (555) 123-4567 for more information</p>
+                  <p><strong>Contact:</strong> Parish Office at (+27)  21 591 2229 for more information</p>
                 </div>
                 
                 <h3 className="text-2xl mt-8 mb-4 text-[#d4a760]">Supporting Vocations</h3>
