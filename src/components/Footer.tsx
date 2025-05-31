@@ -5,6 +5,22 @@ import { Phone, Mail, MapPin, Facebook, Instagram } from "lucide-react";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const openEmail = () => {
+  const recipient = "info@stjosephcatholicchruch.co.za";
+  const subject = encodeURIComponent("Subject Here");
+  const body = encodeURIComponent("Please fill the following detail:\n\n1. Detail 1\n2. Detail 2\n3. Detail 3");
+
+  // Check if default email client exists (mailto)
+  try {
+    window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
+  } catch (e) {
+    // Fallback to Outlook Web App
+    window.open(
+      `https://outlook.office.com/mail/deeplink/compose?to=${recipient}&subject=${subject}&body=${body}`,
+      '_blank'
+    );
+  }
+};
 
   return (
     <footer className="bg-church-navy text-white">
@@ -20,11 +36,12 @@ const Footer = () => {
               </li>
               <li className="flex items-center">
                 <Phone className="mr-2 h-5 w-5 text-church-gold shrink-0" />
-                <span>(27+)  21 591 2229</span>
+                <span>(+27)  21 591 2229</span>
               </li>
               <li className="flex items-center">
-                <Mail className="mr-2 h-5 w-5 text-church-gold shrink-0" />
-                <span>info@stjosephcatholicchruch.co.za</span>
+                <Mail className="mr-2 h-5 w-5 text-church-gold shrink-" />
+                <span> <Link to="/openEmail($openEmail)info@stjosephcatholicchurch.co.za"> </Link>info@stjosephcatholicchurch.co.za</span>
+                
               </li>
             </ul>
             
@@ -36,7 +53,7 @@ const Footer = () => {
               <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-church-gold transition-colors">
                 <Instagram className="h-6 w-6" />
               </a>
-            </div>
+            </div> 
           </div>
 
           {/* Quick Links - Stacked in two columns */}
