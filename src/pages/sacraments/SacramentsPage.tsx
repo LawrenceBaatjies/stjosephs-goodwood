@@ -2,7 +2,7 @@
 import React from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import SacramentsOverview from "@/components/sacraments/SacramentsOverview";
+import SacramentsOverview from "@/pages/sacraments/SacramentsOverview";
 
 const SacramentsPage = () => {
   return (
