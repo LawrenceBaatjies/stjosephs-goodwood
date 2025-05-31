@@ -64,7 +64,7 @@ const ReconciliationPage = () => {
                 <div className="bg-gray-100 p-6 rounded-lg mt-8">
                   <h3 className="text-xl font-semibold mb-4 text-church-red">First Reconciliation</h3>
                   <p>Children typically receive their First Reconciliation before their First Communion. For more information about preparation for First Reconciliation, please contact our Faith Formation Office.</p>
-                  <p className="mt-4"><strong>Contact:</strong> Parish Office at (555) 123-4567</p>
+                  <p className="mt-4"><strong>Contact:</strong> Parish Office at (+27)  21 591 2229</p>
                 </div>
               </div>
             </div>
