@@ -13,7 +13,36 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { AlertCircle } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { createClient } from '@supabase/supabase-js';
 
+// Replace with your own Supabase URL and Anon Key
+const supabaseUrl = 'https://vnaodoyejchqhczbsbbc.supabase.co';
+const supabaseKey = process.env.SUPABASE_KEY; // Make sure this environment variable is set
+const supabase = createClient(supabaseUrl, supabaseKey);
+async function loginUser(email, password) {
+    // Sign in the user
+    const { user, session, error } = await supabase.auth.signIn({
+        email,
+        password,
+    });
+    if (error) {
+        console.error('Error logging in:', error);
+        return;
+    }
+    console.log('User logged in:', user);
+    // Store user login information in the database
+    const { data, error: dbError } = await supabase
+        .from('users')  // Ensure 'users' is the correct table name
+        .insert([
+            { email: email, last_login: new Date() }  // Adjust fields as necessary
+        ])
+        .select(); // Add .select() if you want to retrieve the inserted data
+    if (dbError) {
+        console.error('Error storing login info:', dbError);
+    } else {
+        console.log('Login info stored:', data);
+    }
+}
 interface AdminLoginModalProps {
   open: boolean;
   onClose: () => void;
