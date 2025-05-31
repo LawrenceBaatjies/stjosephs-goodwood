@@ -59,7 +59,7 @@ const EucharistPage = () => {
                   <h3 className="text-xl font-semibold mb-4 text-church-red">Schedule</h3>
                   <p className="mb-2"><strong>First Communion Classes:</strong> Sundays at 9:30 AM during the school year</p>
                   <p className="mb-2"><strong>First Communion Celebrations:</strong> Usually in May</p>
-                  <p className="mb-4"><strong>Contact:</strong> Parish Office at (555) 123-4567</p>
+                  <p className="mb-4"><strong>Contact:</strong> Parish Office at (+27)  21 591 2229</p>
                   <p className="italic">Please register your child at least 6 months before their anticipated First Communion date.</p>
                 </div>
               </div>
