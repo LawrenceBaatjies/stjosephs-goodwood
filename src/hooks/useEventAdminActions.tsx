@@ -1,10 +1,10 @@
 
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
-import { User } from "@supabase/supabase-js";
+import { AdminUser } from "./useCalendarAuth";
 
 export const useEventAdminActions = (
-  user: User | null, 
+  user: AdminUser | null, 
   loadEvents: () => Promise<void>, 
   loadPendingEvents: () => Promise<void>,
   setLoading: (loading: boolean) => void

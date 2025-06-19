@@ -1,8 +1,14 @@
 
 import { useState, useEffect } from "react";
-import { Session, User } from "@supabase/supabase-js";
+import { Session } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+
+// Define admin user type
+export interface AdminUser {
+  id: string;
+  email: string;
+}
 
 export const useCalendarAuth = () => {
   const { toast } = useToast();
@@ -11,7 +17,7 @@ export const useCalendarAuth = () => {
   const [showLoginModal, setShowLoginModal] = useState(false);
   
   // Auth state - using a simplified user object for admin users
-  const [user, setUser] = useState<{ id: string; email: string } | null>(null);
+  const [user, setUser] = useState<AdminUser | null>(null);
   const [session, setSession] = useState<Session | null>(null);
 
   // Initialize default admin user if none exists
@@ -77,7 +83,7 @@ export const useCalendarAuth = () => {
       // Simple password check (in production, compare hashed passwords)
       if (password === adminUser.password_hash) {
         // Create a simple user object
-        const userObj = {
+        const userObj: AdminUser = {
           id: adminUser.id,
           email: adminUser.email
         };

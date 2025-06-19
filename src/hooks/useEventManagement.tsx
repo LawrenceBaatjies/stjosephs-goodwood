@@ -4,10 +4,10 @@ import { format } from "date-fns";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { EventRequest, NewEvent } from "@/types/calendar";
-import { User } from "@supabase/supabase-js";
+import { AdminUser } from "./useCalendarAuth";
 
 export const useEventManagement = (
-  user: User | null, 
+  user: AdminUser | null, 
   loadEvents: () => Promise<void>, 
   loadPendingEvents: () => Promise<void>,
   setLoading: (loading: boolean) => void

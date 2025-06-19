@@ -1,11 +1,11 @@
 
-import { User } from "@supabase/supabase-js";
 import { useEventLoading } from "./useEventLoading";
 import { useEventManagement } from "./useEventManagement";
 import { useEventAdminActions } from "./useEventAdminActions";
 import { useEventRequestModal } from "./useEventRequestModal";
+import { AdminUser } from "./useCalendarAuth";
 
-export const useCalendarEvents = (user: User | null, setLoading: (loading: boolean) => void) => {
+export const useCalendarEvents = (user: AdminUser | null, setLoading: (loading: boolean) => void) => {
   // Get event loading functionality
   const eventLoading = useEventLoading(user);
   
