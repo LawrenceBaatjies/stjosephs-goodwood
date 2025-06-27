@@ -2,9 +2,9 @@
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Event, CalendarEventRow } from "@/types/calendar";
-import { User } from "@supabase/supabase-js";
+import { AdminUser } from "./useCalendarAuth";
 
-export const useEventLoading = (user: User | null) => {
+export const useEventLoading = (user: AdminUser | null) => {
   const [events, setEvents] = useState<Event[]>([]);
   const [pendingEvents, setPendingEvents] = useState<Event[]>([]);
   const [loading, setLoading] = useState(false);
