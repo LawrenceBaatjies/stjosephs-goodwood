@@ -1,9 +1,11 @@
 
 import { createClient } from '@supabase/supabase-js';
 
-// Get Supabase URL and key from environment variables
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
-const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL!;
+const supabaseKey = import.meta.env.VITE_SUPABASE_KEY!;
+
+
+
 
 // Check if the required environment variables are set
 if (!supabaseUrl || !supabaseKey) {
@@ -22,3 +24,4 @@ export const supabase = createClient(
 export const isSupabaseConfigured = () => {
   return !!supabaseUrl && !!supabaseKey;
 };
+
