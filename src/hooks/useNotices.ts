@@ -24,14 +24,32 @@ export const useNotices = () => {
   // Check user authentication status
   useEffect(() => {
     const checkUserAuth = async () => {
-      const { data } = await supabase.auth.getSession();
-      setIsAdmin(!!data.session);
-      setLoading(false);
+      try {
+        const { data, error } = await supabase.auth.getSession();
+        
+        if (error) {
+          console.error("Error getting session:", error);
+          setIsAdmin(false);
+        } else {
+          setIsAdmin(!!data.session);
+        }
+      } catch (error) {
+        console.error("Exception checking auth:", error);
+        setIsAdmin(false);
+      } finally {
+        setLoading(false);
+      }
     };
 
     // Set up auth state listener
     const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
+      console.log("Auth state changed:", event, session);
       setIsAdmin(!!session);
+      
+      if (event === 'SIGNED_IN') {
+        setShowLoginModal(false);
+        setAuthError(null);
+      }
     });
 
     checkUserAuth();
@@ -87,32 +105,47 @@ export const useNotices = () => {
     setAuthError(null);
     
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password
       });
       
       if (error) {
+        console.error("Login error:", error);
         setAuthError(error.message);
         return;
       }
       
-      setShowLoginModal(false);
-      toast({
-        title: "Login Successful",
-        description: "You are now logged in as an admin.",
-      });
+      if (data.session) {
+        setIsAdmin(true);
+        setShowLoginModal(false);
+        toast({
+          title: "Login Successful",
+          description: "You are now logged in as an admin.",
+        });
+      }
     } catch (error: any) {
-      setAuthError(error.message);
+      console.error("Exception during login:", error);
+      setAuthError(error.message || "An unexpected error occurred");
     }
   };
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
-    toast({
-      title: "Logged Out",
-      description: "You have been logged out successfully.",
-    });
+    try {
+      const { error } = await supabase.auth.signOut();
+      
+      if (error) {
+        console.error("Logout error:", error);
+      }
+      
+      setIsAdmin(false);
+      toast({
+        title: "Logged Out",
+        description: "You have been logged out successfully.",
+      });
+    } catch (error) {
+      console.error("Exception during logout:", error);
+    }
   };
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -136,6 +169,17 @@ export const useNotices = () => {
     }
     
     try {
+      const { data: sessionData } = await supabase.auth.getSession();
+      
+      if (!sessionData.session) {
+        toast({
+          variant: "destructive",
+          title: "Authentication Required",
+          description: "You must be logged in to manage notices.",
+        });
+        return;
+      }
+      
       if (editingNotice) {
         // Update existing notice
         const { error } = await supabase
@@ -174,7 +218,7 @@ export const useNotices = () => {
             time: formData.time || null,
             description: formData.description || null,
             location: formData.location || null,
-            created_by: (await supabase.auth.getUser()).data.user?.id
+            created_by: sessionData.session.user.id
           });
           
         if (error) {
@@ -224,6 +268,17 @@ export const useNotices = () => {
     }
     
     try {
+      const { data: sessionData } = await supabase.auth.getSession();
+      
+      if (!sessionData.session) {
+        toast({
+          variant: "destructive",
+          title: "Authentication Required",
+          description: "You must be logged in to delete notices.",
+        });
+        return;
+      }
+      
       const { error } = await supabase
         .from("parish_notices")
         .delete()
