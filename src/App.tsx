@@ -48,7 +48,12 @@ import ParishCommunityPage from "./pages/parish-ministry/ParishCommunityPage";
 import CommunityEngagementPage from "./pages/parish-ministry/CommunityEngagementPage";
 import LiturgyPage from "./pages/parish-ministry/LiturgyPage";
 import YouthYoungAdultPage from "./pages/parish-ministry/YouthYoungAdultPage";
+// Protected Routes
 
+// import AdminLoginContainer from "./components/calendar/AdminLoginContainer";
+// import AdminDashboard from './components/calendar/AdminLoginModal';
+// import EditorDashboard from './components/calendar/EditorDashboard';
+import ProtectedRoute from './components/ProtectedRoute';
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -105,9 +110,12 @@ const App = () => (
           <Route path="/seasons/triduum" element={<TriduumPage />} />
           <Route path="/seasons/eastertide" element={<EastertidePage />} />
           <Route path="/seasons/catholic-prayers" element={<CatholicPrayersPage />} />
-          
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+          {/* Protectd  Routes */}
+           <Routes>
+        {/* <Route path="/" element={<AdminLoginContainer />} /> */}
+        {/* <Route path="/admin/dashboard"element={<ProtectedRoute roleRequired="admin"><AdminDashboard /></ProtectedRoute>} /> */}
+        {/* <Route path="/editor/dashboard"  element={<ProtectedRoute roleRequired="editor"><EditorDashboard /></ProtectedRoute>} /> */}
+      </Routes> <Route path="*" element={<NotFound />} /> </Routes>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
