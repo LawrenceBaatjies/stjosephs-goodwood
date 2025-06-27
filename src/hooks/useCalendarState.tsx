@@ -16,7 +16,7 @@ export const useCalendarState = () => {
   // Get auth state
   const auth = useCalendarAuth();
   
-  // Get events management
+  // Get events management - pass the AdminUser directly
   const events = useCalendarEvents(auth.user, setLoading);
   
   // Get date handling
