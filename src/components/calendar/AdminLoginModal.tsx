@@ -1,4 +1,5 @@
 
+<<<<<<< HEAD
 // import React, { useState } from 'react';
 // import {
 //   Dialog,
@@ -21,6 +22,30 @@
 //   loading: boolean;
 //   error: string | null;
 // }
+=======
+import React, { useState } from 'react';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { AlertCircle } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+
+interface AdminLoginModalProps {
+  open: boolean;
+  onClose: () => void;
+  onLogin: (email: string, password: string) => Promise<void>;
+  loading: boolean;
+  error: string | null;
+}
+>>>>>>> 1c4bb860d31bcbb8d3417d7f4dbc10808542ab89
 
 // const AdminLoginModal = ({
 //   open,
