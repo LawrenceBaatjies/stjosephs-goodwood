@@ -22,7 +22,7 @@ interface AdminLoginModalProps {
   error: string | null;
 }
 
-const AdminLoginModal = ({
+export const AdminLoginModal = ({
   open,
   onClose,
   onLogin,
