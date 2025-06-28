@@ -27,7 +27,6 @@ import AnointingPage from "./pages/sacraments/AnointingPage";
 import HolyOrdersPage from "./pages/sacraments/HolyOrdersPage";
 import RCIAPage from "./pages/sacraments/RCIAPage";
 import SacramentsPage from "./pages/sacraments/SacramentsPage";
-// import SacramentsOverView from "./pages/sacraments/SacramentsOverview";
 import OrdinaryTimePage from "./pages/seasons/OrdinaryTimePage";
 import AdventPage from "./pages/seasons/AdventPage";
 import ChristmastidePage from "./pages/seasons/ChristmastidePage";
@@ -48,12 +47,7 @@ import ParishCommunityPage from "./pages/parish-ministry/ParishCommunityPage";
 import CommunityEngagementPage from "./pages/parish-ministry/CommunityEngagementPage";
 import LiturgyPage from "./pages/parish-ministry/LiturgyPage";
 import YouthYoungAdultPage from "./pages/parish-ministry/YouthYoungAdultPage";
-// Protected Routes
 
-// import AdminLoginContainer from "./components/calendar/AdminLoginContainer";
-// import AdminDashboard from './components/calendar/AdminLoginModal';
-// import EditorDashboard from './components/calendar/EditorDashboard';
-import ProtectedRoute from './components/ProtectedRoute';
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -91,7 +85,6 @@ const App = () => (
           <Route path="/parish-ministry/youth-young-adult" element={<YouthYoungAdultPage />} />
           
           {/* Sacrament Pages */}
-          {/* <Route path="/sacraments/sacraments-over-view" element={<SacramentsOverView />} /> */}
           <Route path="/sacraments" element={<SacramentsPage />} />
           <Route path="/sacraments/baptism" element={<BaptismPage />} />
           <Route path="/sacraments/eucharist" element={<EucharistPage />} />
@@ -110,12 +103,10 @@ const App = () => (
           <Route path="/seasons/triduum" element={<TriduumPage />} />
           <Route path="/seasons/eastertide" element={<EastertidePage />} />
           <Route path="/seasons/catholic-prayers" element={<CatholicPrayersPage />} />
-          {/* Protectd  Routes */}
-           <Routes>
-        {/* <Route path="/" element={<AdminLoginContainer />} /> */}
-        {/* <Route path="/admin/dashboard"element={<ProtectedRoute roleRequired="admin"><AdminDashboard /></ProtectedRoute>} /> */}
-        {/* <Route path="/editor/dashboard"  element={<ProtectedRoute roleRequired="editor"><EditorDashboard /></ProtectedRoute>} /> */}
-      </Routes> <Route path="*" element={<NotFound />} /> </Routes>
+          
+          {/* Catch all route */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
