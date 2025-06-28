@@ -1,4 +1,5 @@
 
+
 import React, { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -22,14 +23,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { toast } from "@/hooks/use-toast";
 import { supabase, isSupabaseConfigured } from "@/lib/supabase-client";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, CreditCard, Building, Smartphone, Wallet } from "lucide-react";
 
 const donationFormSchema = z.object({
   amount: z.string().min(1, "Please select or enter an amount"),
   donationType: z.enum(["one-time", "monthly"], {
     required_error: "Please select a donation type",
   }),
-  paymentMethod: z.enum(["card"], {
+  paymentMethod: z.enum(["card", "bank_transfer", "digital_wallet"], {
     required_error: "Please select a payment method",
   }),
   firstName: z.string().min(2, "First name must be at least 2 characters"),
@@ -61,6 +62,34 @@ const Donation = () => {
     },
   });
 
+  const selectedPaymentMethod = form.watch("paymentMethod");
+
+  const getPaymentMethodIcon = (method: string) => {
+    switch (method) {
+      case "card":
+        return <CreditCard className="h-5 w-5" />;
+      case "bank_transfer":
+        return <Building className="h-5 w-5" />;
+      case "digital_wallet":
+        return <Smartphone className="h-5 w-5" />;
+      default:
+        return <Wallet className="h-5 w-5" />;
+    }
+  };
+
+  const getPaymentMethodDescription = (method: string) => {
+    switch (method) {
+      case "card":
+        return "Pay securely with your credit or debit card";
+      case "bank_transfer":
+        return "Direct bank transfer or EFT payment";
+      case "digital_wallet":
+        return "Pay with Apple Pay, Google Pay, or other digital wallets";
+      default:
+        return "Choose your preferred payment method";
+    }
+  };
+
   async function onSubmit(values: z.infer<typeof donationFormSchema>) {
     if (!isSupabaseConfigured()) {
       toast({
@@ -74,19 +103,27 @@ const Donation = () => {
     try {
       setIsSubmitting(true);
 
-      const { amount, donationType, email, firstName, lastName } = values;
+      const { amount, donationType, paymentMethod, email, firstName, lastName } = values;
       const amountNumber = parseFloat(amount);
 
       if (isNaN(amountNumber) || amountNumber <= 0) {
         throw new Error("Please enter a valid amount");
       }
 
-      console.log("Attempting to create donation checkout...", { amount: amountNumber, donationType, email, firstName, lastName });
+      console.log("Attempting to create donation checkout...", { 
+        amount: amountNumber, 
+        donationType, 
+        paymentMethod, 
+        email, 
+        firstName, 
+        lastName 
+      });
       
       const { data, error } = await supabase.functions.invoke('create-donation-checkout', {
         body: { 
           amount: amountNumber.toString(), 
           donationType, 
+          paymentMethod,
           email, 
           firstName, 
           lastName 
@@ -271,16 +308,55 @@ const Donation = () => {
                             render={({ field }) => (
                               <FormItem>
                                 <FormLabel>Payment Method</FormLabel>
-                                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                                  <FormControl>
-                                    <SelectTrigger>
-                                      <SelectValue placeholder="Select payment method" />
-                                    </SelectTrigger>
-                                  </FormControl>
-                                  <SelectContent>
-                                    <SelectItem value="card">Credit/Debit Card</SelectItem>
-                                  </SelectContent>
-                                </Select>
+                                <FormControl>
+                                  <RadioGroup
+                                    onValueChange={field.onChange}
+                                    defaultValue={field.value}
+                                    className="grid grid-cols-1 gap-4"
+                                  >
+                                    <FormItem className="flex items-center space-x-3 space-y-0 p-4 border rounded-lg hover:bg-gray-50 transition-colors">
+                                      <FormControl>
+                                        <RadioGroupItem value="card" />
+                                      </FormControl>
+                                      <div className="flex items-center space-x-3 flex-1">
+                                        {getPaymentMethodIcon("card")}
+                                        <div>
+                                          <FormLabel className="font-medium">Credit/Debit Card</FormLabel>
+                                          <p className="text-sm text-gray-600">Visa, Mastercard, American Express</p>
+                                        </div>
+                                      </div>
+                                    </FormItem>
+                                    
+                                    <FormItem className="flex items-center space-x-3 space-y-0 p-4 border rounded-lg hover:bg-gray-50 transition-colors">
+                                      <FormControl>
+                                        <RadioGroupItem value="bank_transfer" />
+                                      </FormControl>
+                                      <div className="flex items-center space-x-3 flex-1">
+                                        {getPaymentMethodIcon("bank_transfer")}
+                                        <div>
+                                          <FormLabel className="font-medium">Bank Transfer</FormLabel>
+                                          <p className="text-sm text-gray-600">Direct bank transfer or EFT</p>
+                                        </div>
+                                      </div>
+                                    </FormItem>
+                                    
+                                    <FormItem className="flex items-center space-x-3 space-y-0 p-4 border rounded-lg hover:bg-gray-50 transition-colors">
+                                      <FormControl>
+                                        <RadioGroupItem value="digital_wallet" />
+                                      </FormControl>
+                                      <div className="flex items-center space-x-3 flex-1">
+                                        {getPaymentMethodIcon("digital_wallet")}
+                                        <div>
+                                          <FormLabel className="font-medium">Digital Wallet</FormLabel>
+                                          <p className="text-sm text-gray-600">Apple Pay, Google Pay, PayPal</p>
+                                        </div>
+                                      </div>
+                                    </FormItem>
+                                  </RadioGroup>
+                                </FormControl>
+                                <FormDescription>
+                                  {getPaymentMethodDescription(selectedPaymentMethod)}
+                                </FormDescription>
                                 <FormMessage />
                               </FormItem>
                             )}
@@ -432,3 +508,4 @@ const Donation = () => {
 };
 
 export default Donation;
+
