@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -19,7 +19,9 @@ import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "@/hooks/use-toast";
-import { supabase } from "@/lib/supabase-client";
+import { supabase, isSupabaseConfigured } from "@/lib/supabase-client";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { AlertCircle } from "lucide-react";
 
 const donationFormSchema = z.object({
   amount: z.string().min(1, "Please select or enter an amount"),
@@ -37,7 +39,14 @@ const donationFormSchema = z.object({
 
 const Donation = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [configError, setConfigError] = useState<string | null>(null);
   
+  useEffect(() => {
+    if (!isSupabaseConfigured()) {
+      setConfigError("Donation system is not properly configured. Please contact the administrator.");
+    }
+  }, []);
+
   const form = useForm<z.infer<typeof donationFormSchema>>({
     resolver: zodResolver(donationFormSchema),
     defaultValues: {
@@ -52,29 +61,43 @@ const Donation = () => {
   });
 
   async function onSubmit(values: z.infer<typeof donationFormSchema>) {
+    if (!isSupabaseConfigured()) {
+      toast({
+        title: "Configuration Error",
+        description: "Donation system is not properly configured. Please contact the administrator.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     try {
       setIsSubmitting(true);
 
       const { amount, donationType, email, firstName, lastName } = values;
 
+      console.log("Attempting to create donation checkout...");
       const { data, error } = await supabase.functions.invoke('create-donation-checkout', {
         body: { amount, donationType, email, firstName, lastName }
       });
 
       if (error) {
-        throw new Error(error.message);
+        console.error("Supabase function error:", error);
+        throw new Error(error.message || "Failed to create checkout session");
       }
 
       if (data?.url) {
+        console.log("Redirecting to checkout:", data.url);
         window.location.href = data.url;
       } else {
-        throw new Error("No checkout URL returned");
+        throw new Error("No checkout URL returned from server");
       }
     } catch (error) {
       console.error("Donation error:", error);
+      const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
+      
       toast({
         title: "Error processing donation",
-        description: "There was a problem processing your donation. Please try again.",
+        description: `There was a problem processing your donation: ${errorMessage}. Please try again or contact support.`,
         variant: "destructive",
       });
     } finally {
@@ -109,6 +132,16 @@ const Donation = () => {
         <section className="py-16 bg-white">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
+              {configError && (
+                <div className="mb-8">
+                  <Alert variant="destructive">
+                    <AlertCircle className="h-4 w-4" />
+                    <AlertDescription>{configError}</AlertDescription>
+                  </Alert>
+                </div>
+              )}
+
+              {/* Why Your Support Matters section */}
               <div className="bg-gray-50 p-8 rounded-lg shadow-sm mb-12">
                 <h2 className="text-2xl font-bold text-[#d4a760] mb-4">Why Your Support Matters</h2>
                 <p className="text-gray-700 mb-4">
@@ -163,7 +196,6 @@ const Donation = () => {
                                         className="pl-8"
                                         {...field}
                                         onChange={(e) => {
-                                          // Only allow numbers and decimal points
                                           if (/^\d*\.?\d*$/.test(e.target.value) || e.target.value === '') {
                                             field.onChange(e);
                                           }
@@ -299,7 +331,7 @@ const Donation = () => {
                           <Button 
                             type="submit" 
                             className="w-full" 
-                            disabled={isSubmitting}
+                            disabled={isSubmitting || !!configError}
                           >
                             {isSubmitting ? "Processing..." : "Proceed to Payment"}
                           </Button>
