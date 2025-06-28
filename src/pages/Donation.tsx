@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -74,11 +75,25 @@ const Donation = () => {
       setIsSubmitting(true);
 
       const { amount, donationType, email, firstName, lastName } = values;
+      const amountNumber = parseFloat(amount);
 
-      console.log("Attempting to create donation checkout...");
+      if (isNaN(amountNumber) || amountNumber <= 0) {
+        throw new Error("Please enter a valid amount");
+      }
+
+      console.log("Attempting to create donation checkout...", { amount: amountNumber, donationType, email, firstName, lastName });
+      
       const { data, error } = await supabase.functions.invoke('create-donation-checkout', {
-        body: { amount, donationType, email, firstName, lastName }
+        body: { 
+          amount: amountNumber.toString(), 
+          donationType, 
+          email, 
+          firstName, 
+          lastName 
+        }
       });
+
+      console.log("Supabase function response:", { data, error });
 
       if (error) {
         console.error("Supabase function error:", error);
@@ -87,13 +102,21 @@ const Donation = () => {
 
       if (data?.url) {
         console.log("Redirecting to checkout:", data.url);
-        window.location.href = data.url;
+        // Open Stripe checkout in a new tab
+        window.open(data.url, '_blank');
       } else {
+        console.error("No checkout URL returned:", data);
         throw new Error("No checkout URL returned from server");
       }
     } catch (error) {
       console.error("Donation error:", error);
-      const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
+      let errorMessage = "Unknown error occurred";
+      
+      if (error instanceof Error) {
+        errorMessage = error.message;
+      } else if (typeof error === 'string') {
+        errorMessage = error;
+      }
       
       toast({
         title: "Error processing donation",
