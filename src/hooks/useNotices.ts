@@ -3,10 +3,10 @@ import { useState, useEffect } from "react";
 import { Notice, NoticeFormData } from "@/types/notices";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useAdminAuth } from "@/contexts/AdminAuthContext";
 
 export const useNotices = () => {
   const [notices, setNotices] = useState<Notice[]>([]);
-  const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [showAddNoticeModal, setShowAddNoticeModal] = useState(false);
@@ -20,44 +20,12 @@ export const useNotices = () => {
     location: ""
   });
   const { toast } = useToast();
+  const { user, login, logout, isAuthenticated, loading: authLoading } = useAdminAuth();
 
-  // Check user authentication status
+  // Load notices on mount
   useEffect(() => {
-    const checkUserAuth = async () => {
-      try {
-        const { data, error } = await supabase.auth.getSession();
-        
-        if (error) {
-          console.error("Error getting session:", error);
-          setIsAdmin(false);
-        } else {
-          setIsAdmin(!!data.session);
-        }
-      } catch (error) {
-        console.error("Exception checking auth:", error);
-        setIsAdmin(false);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    // Set up auth state listener
-    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
-      console.log("Auth state changed:", event, session);
-      setIsAdmin(!!session);
-      
-      if (event === 'SIGNED_IN') {
-        setShowLoginModal(false);
-        setAuthError(null);
-      }
-    });
-
-    checkUserAuth();
+    setLoading(false);
     fetchNotices();
-
-    return () => {
-      authListener?.subscription?.unsubscribe();
-    };
   }, []);
 
   // Set form data when editing a notice
@@ -105,24 +73,12 @@ export const useNotices = () => {
     setAuthError(null);
     
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email,
-        password
-      });
-      
-      if (error) {
-        console.error("Login error:", error);
-        setAuthError(error.message);
-        return;
-      }
-      
-      if (data.session) {
-        setIsAdmin(true);
+      const success = await login(email, password);
+      if (success) {
         setShowLoginModal(false);
-        toast({
-          title: "Login Successful",
-          description: "You are now logged in as an admin.",
-        });
+        setAuthError(null);
+      } else {
+        setAuthError("Invalid email or password.");
       }
     } catch (error: any) {
       console.error("Exception during login:", error);
@@ -130,22 +86,8 @@ export const useNotices = () => {
     }
   };
 
-  const handleLogout = async () => {
-    try {
-      const { error } = await supabase.auth.signOut();
-      
-      if (error) {
-        console.error("Logout error:", error);
-      }
-      
-      setIsAdmin(false);
-      toast({
-        title: "Logged Out",
-        description: "You have been logged out successfully.",
-      });
-    } catch (error) {
-      console.error("Exception during logout:", error);
-    }
+  const handleLogout = () => {
+    logout();
   };
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -169,9 +111,7 @@ export const useNotices = () => {
     }
     
     try {
-      const { data: sessionData } = await supabase.auth.getSession();
-      
-      if (!sessionData.session) {
+      if (!isAuthenticated || !user) {
         toast({
           variant: "destructive",
           title: "Authentication Required",
@@ -218,7 +158,7 @@ export const useNotices = () => {
             time: formData.time || null,
             description: formData.description || null,
             location: formData.location || null,
-            created_by: sessionData.session.user.id
+            created_by: user.id
           });
           
         if (error) {
@@ -268,9 +208,7 @@ export const useNotices = () => {
     }
     
     try {
-      const { data: sessionData } = await supabase.auth.getSession();
-      
-      if (!sessionData.session) {
+      if (!isAuthenticated || !user) {
         toast({
           variant: "destructive",
           title: "Authentication Required",
@@ -346,8 +284,8 @@ export const useNotices = () => {
 
   return {
     notices,
-    isAdmin,
-    loading,
+    isAdmin: isAuthenticated,
+    loading: loading || authLoading,
     showLoginModal,
     setShowLoginModal,
     showAddNoticeModal,
