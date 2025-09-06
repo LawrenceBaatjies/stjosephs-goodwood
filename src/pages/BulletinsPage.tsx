@@ -4,87 +4,25 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import AdminBulletinPanel from "@/components/bulletins/AdminBulletinPanel";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { FileText, Download, Calendar } from "lucide-react";
+import { FileText, Download, Calendar, Loader2, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
 import { useToast } from "@/hooks/use-toast";
+import { useBulletins } from "@/hooks/useBulletins";
+import { useAdminAuth } from "@/contexts/AdminAuthContext";
 
-type Bulletin = {
-  id: number;
-  title: string;
-  date: Date;
-  description: string;
-  fileUrl: string;
-};
-
-const bulletins: Bulletin[] = [
-  {
-    id: 1,
-    title: "Pope Leo XIV Inauguration Mass",
-    date: new Date("2025-05-18"),
-    description: "Please keep the Holy Father in your prayers.",
-    fileUrl: "#",
-  },
-  {
-    id: 2,
-    title: "Condolences",
-    date: new Date("2025-01-15"),
-    description: "We Extend our sympathy to  Celeste Harvey and her family on the loss of her sister, Bernadette Figueria. MHDSRIP.",
-    fileUrl: "#",
-  },
-  {
-    id: 3,
-    title: "Catechesis For adults and Youth",
-    date: new Date("2025-01-20"),
-    description: "Catechisis has begun an St Joseph's and will continue every Monday and Thursday at 19:30 PM All is welcome.",
-    fileUrl: "#",
-  },
-  {
-    id: 4,
-    title: "Retouvaille",
-    date: new Date("2025-05-23"),
-    description: "Hope for a better marriage. The next Cape Town weekend is on the 23 May 2025, cost per couple R 2,500 (accommodation, meals,program & materials).",
-    fileUrl: "#",
-  },
-  {
-    id: 5,
-    title: "First Communion Program",
-    date: new Date("2025-05-04"),
-    description: "Information about First Communion celebrations and schedule of preparation classes.",
-    fileUrl: "#",
-  },
-  {
-    id: 6,
-    title: "Parish Fundraiser Details",
-    date: new Date("2025-05-10"),
-    description: "Information about the upcoming parish fundraiser including volunteer opportunities.",
-    fileUrl: "#",
-  },
-  {
-    id: 7,
-    title: "Sunday Bulletin - Pentecost",
-    date: new Date("2025-05-18"),
-    description: "Weekly bulletin with Mass times, announcements, and Pentecost celebration details.",
-    fileUrl: "#",
-  },
-  {
-    id: 8,
-    title: "Parish Monthly Newsletter - May",
-    date: new Date("2025-05-01"),
-    description: "Monthly newsletter with parish news, upcoming events, and spiritual reflections.",
-    fileUrl: "#",
-  },
-];
 
 const BulletinsPage = () => {
   const [filterType, setFilterType] = React.useState<"all" | "recent">("recent");
   const { toast } = useToast();
+  const { bulletins, loading, deleteBulletin } = useBulletins();
+  const { isAuthenticated } = useAdminAuth();
 
-  const addToCalendar = (bulletin: Bulletin) => {
+  const addToCalendar = (bulletin: { id: string; title: string; description: string | null; date: string }) => {
     // Create calendar event data
     const eventTitle = bulletin.title;
-    const eventDetails = bulletin.description;
-    const eventDate = format(bulletin.date, "yyyyMMdd");
+    const eventDetails = bulletin.description || '';
+    const eventDate = format(new Date(bulletin.date), "yyyyMMdd");
     
     // Create .ics file content
     const icsContent = `BEGIN:VCALENDAR
@@ -117,12 +55,18 @@ END:VCALENDAR`;
   };
 
   const filteredBulletins = filterType === "recent" 
-    ? bulletins.filter((bulletin) => bulletin.date >= new Date(Date.now() - 30 * 24 * 60 * 60 * 1000))
+    ? bulletins.filter((bulletin) => new Date(bulletin.date) >= new Date(Date.now() - 30 * 24 * 60 * 60 * 1000))
     : bulletins;
 
   const sortedBulletins = [...filteredBulletins].sort((a, b) => 
-    b.date.getTime() - a.date.getTime()
+    new Date(b.date).getTime() - new Date(a.date).getTime()
   );
+
+  const handleDelete = async (bulletinId: string, fileName: string) => {
+    if (confirm('Are you sure you want to delete this bulletin?')) {
+      await deleteBulletin(bulletinId, fileName);
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -180,45 +124,66 @@ END:VCALENDAR`;
             </div>
 
             {/* Bulletins Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {sortedBulletins.map((bulletin) => (
-                <Card key={bulletin.id} className="overflow-hidden">
-                  <CardHeader className="bg-gray-50">
-                    <div className="flex items-center space-x-3">
-                      <div className="rounded-full bg-[#d4a760] bg-opacity-10 p-2">
-                        <FileText className="h-5 w-5 text-[#d4a760]" />
+            {loading ? (
+              <div className="flex justify-center items-center py-12">
+                <Loader2 className="h-10 w-10 animate-spin text-[#d4a760]" />
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {sortedBulletins.map((bulletin) => (
+                  <Card key={bulletin.id} className="overflow-hidden">
+                    <CardHeader className="bg-gray-50">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-3">
+                          <div className="rounded-full bg-[#d4a760] bg-opacity-10 p-2">
+                            <FileText className="h-5 w-5 text-[#d4a760]" />
+                          </div>
+                          <div>
+                            <CardTitle className="text-lg text-[#d4a760]">{bulletin.title}</CardTitle>
+                            <CardDescription className="pt-1">
+                              {format(new Date(bulletin.date), "MMMM d, yyyy")}
+                            </CardDescription>
+                          </div>
+                        </div>
+                        {isAuthenticated && (
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => handleDelete(bulletin.id, bulletin.file_name)}
+                            className="text-red-600 hover:text-red-800 hover:bg-red-50"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        )}
                       </div>
-                      <CardTitle className="text-lg text-[#d4a760]">{bulletin.title}</CardTitle>
-                    </div>
-                    <CardDescription className="pt-2">
-                      {format(bulletin.date, "MMMM d, yyyy")}
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="pt-6">
-                    <p className="text-gray-600">{bulletin.description}</p>
-                  </CardContent>
-                  <CardFooter className="bg-gray-50 flex justify-between pt-4">
-                    <Button 
-                      variant="outline" 
-                      size="sm" 
-                      className="text-gray-700 flex items-center"
-                      onClick={() => addToCalendar(bulletin)}
-                    >
-                      <Calendar className="h-4 w-4 mr-2" />
-                      Add to Calendar
-                    </Button>
-                    <Button
-                      variant="default"
-                      size="sm"
-                      className="bg-[#d4a760] hover:bg-[#c09550] flex items-center"
-                    >
-                      <Download className="h-4 w-4 mr-2" />
-                      Download
-                    </Button>
-                  </CardFooter>
-                </Card>
-              ))}
-            </div>
+                    </CardHeader>
+                    <CardContent className="pt-6">
+                      <p className="text-gray-600">{bulletin.description || 'No description available'}</p>
+                    </CardContent>
+                    <CardFooter className="bg-gray-50 flex justify-between pt-4">
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="text-gray-700 flex items-center"
+                        onClick={() => addToCalendar(bulletin)}
+                      >
+                        <Calendar className="h-4 w-4 mr-2" />
+                        Add to Calendar
+                      </Button>
+                      <Button
+                        variant="default"
+                        size="sm"
+                        className="bg-[#d4a760] hover:bg-[#c09550] flex items-center"
+                        onClick={() => window.open(bulletin.file_url, '_blank')}
+                      >
+                        <Download className="h-4 w-4 mr-2" />
+                        Download
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                ))}
+              </div>
+            )}
 
             {sortedBulletins.length === 0 && (
               <div className="text-center py-12">

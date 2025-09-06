@@ -9,10 +9,12 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { AlertCircle, Upload, Plus } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { useToast } from '@/hooks/use-toast';
+import { useBulletins } from '@/hooks/useBulletins';
 
 const AdminBulletinPanel = () => {
   const { user, login, logout, isAuthenticated, loading: authLoading } = useAdminAuth();
   const { toast } = useToast();
+  const { uploadBulletin } = useBulletins();
   const [showLoginDialog, setShowLoginDialog] = useState(false);
   const [showUploadDialog, setShowUploadDialog] = useState(false);
   const [loginForm, setLoginForm] = useState({ email: '', password: '' });
@@ -71,16 +73,14 @@ const AdminBulletinPanel = () => {
     setUploading(true);
     
     try {
-      // For now, just simulate upload success
-      // In a real implementation, you'd upload to Supabase storage
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await uploadBulletin(
+        selectedFile,
+        uploadForm.title,
+        uploadForm.description,
+        uploadForm.date
+      );
       
-      toast({
-        title: "Bulletin uploaded successfully",
-        description: `${uploadForm.title} has been uploaded.`
-      });
-      
-      // Reset form
+      // Reset form on success
       setUploadForm({
         title: '',
         description: '',
@@ -88,12 +88,11 @@ const AdminBulletinPanel = () => {
       });
       setSelectedFile(null);
       setShowUploadDialog(false);
+      
+      // Trigger page refresh to show new bulletin
+      setTimeout(() => window.location.reload(), 1000);
     } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Upload failed",
-        description: "Failed to upload bulletin. Please try again."
-      });
+      // Error handling is done in the hook
     } finally {
       setUploading(false);
     }
