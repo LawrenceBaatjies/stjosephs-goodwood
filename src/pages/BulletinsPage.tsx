@@ -26,14 +26,14 @@ const bulletins: Bulletin[] = [
   {
     id: 2,
     title: "Condolences",
-    date: new Date("MHDSRIP"),
+    date: new Date("2025-01-15"),
     description: "We Extend our sympathy to  Celeste Harvey and her family on the loss of her sister, Bernadette Figueria. MHDSRIP.",
     fileUrl: "#",
   },
   {
     id: 3,
     title: "Catechesis For adults and Youth",
-    date: new Date("Weekly"),
+    date: new Date("2025-01-20"),
     description: "Catechisis has begun an St Joseph's and will continue every Monday and Thursday at 19:30 PM All is welcome.",
     fileUrl: "#",
   },
