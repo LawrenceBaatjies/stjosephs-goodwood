@@ -30,38 +30,6 @@ export const AdminAuthProvider = ({ children }: { children: ReactNode }) => {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
-  // Initialize admin user if none exists
-  const initializeAdminUser = async () => {
-    try {
-      const { data: existingAdmins, error: queryError } = await supabase
-        .from("admin_users")
-        .select("*")
-        .limit(1);
-
-      if (queryError) {
-        console.error("Error checking for admin users:", queryError);
-        return;
-      }
-
-      if (!existingAdmins || existingAdmins.length === 0) {
-        const { error: insertError } = await supabase
-          .from("admin_users")
-          .insert([
-            {
-              email: "admin@parish.com",
-              password_hash: "admin123"
-            }
-          ]);
-
-        if (insertError) {
-          console.error("Error creating default admin user:", insertError);
-        }
-      }
-    } catch (error) {
-      console.error("Error initializing admin user:", error);
-    }
-  };
-
   const login = async (email: string, password: string): Promise<boolean> => {
     setLoading(true);
     
@@ -137,8 +105,6 @@ export const AdminAuthProvider = ({ children }: { children: ReactNode }) => {
   };
 
   useEffect(() => {
-    initializeAdminUser();
-    
     // Check for existing session
     const storedUser = localStorage.getItem('admin_user');
     if (storedUser) {

@@ -4,7 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { AlertCircle } from "lucide-react";
-import { isSupabaseConfigured } from "@/lib/supabase-client";
+// Removed isSupabaseConfigured import since it's not needed
 import DonationHero from "@/components/donation/DonationHero";
 import DonationForm from "@/components/donation/DonationForm";
 import DonationSidebar from "@/components/donation/DonationSidebar";
@@ -13,9 +13,8 @@ const Donation = () => {
   const [configError, setConfigError] = useState<string | null>(null);
   
   useEffect(() => {
-    if (!isSupabaseConfigured()) {
-      setConfigError("Donation system is not properly configured. Please contact the administrator.");
-    }
+    // Supabase is configured through main client - no need to check
+    // setConfigError can be removed if no longer needed
   }, []);
 
   return (

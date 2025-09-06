@@ -9,7 +9,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@/components/ui/input";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { toast } from "@/hooks/use-toast";
-import { supabase, isSupabaseConfigured } from "@/lib/supabase-client";
+import { supabase } from "@/integrations/supabase/client";
 import AmountSelector from "./AmountSelector";
 import PaymentMethodSelector from "./PaymentMethodSelector";
 
@@ -50,14 +50,7 @@ const DonationForm = ({ configError }: DonationFormProps) => {
   const selectedPaymentMethod = form.watch("paymentMethod");
 
   async function onSubmit(values: z.infer<typeof donationFormSchema>) {
-    if (!isSupabaseConfigured()) {
-      toast({
-        title: "Configuration Error",
-        description: "Donation system is not properly configured. Please contact the administrator.",
-        variant: "destructive",
-      });
-      return;
-    }
+    // Supabase is properly configured through main client
 
     try {
       setIsSubmitting(true);
