@@ -2,10 +2,12 @@
 import React from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import AdminBulletinPanel from "@/components/bulletins/AdminBulletinPanel";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { FileText, Download, Calendar } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
+import { useToast } from "@/hooks/use-toast";
 
 type Bulletin = {
   id: number;
@@ -76,6 +78,43 @@ const bulletins: Bulletin[] = [
 
 const BulletinsPage = () => {
   const [filterType, setFilterType] = React.useState<"all" | "recent">("recent");
+  const { toast } = useToast();
+
+  const addToCalendar = (bulletin: Bulletin) => {
+    // Create calendar event data
+    const eventTitle = bulletin.title;
+    const eventDetails = bulletin.description;
+    const eventDate = format(bulletin.date, "yyyyMMdd");
+    
+    // Create .ics file content
+    const icsContent = `BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//St. Joseph's Parish//Bulletin Event//EN
+BEGIN:VEVENT
+UID:${bulletin.id}-${Date.now()}@parish.com
+DTSTAMP:${format(new Date(), "yyyyMMdd'T'HHmmss'Z'")}
+DTSTART:${eventDate}T090000Z
+SUMMARY:${eventTitle}
+DESCRIPTION:${eventDetails}
+END:VEVENT
+END:VCALENDAR`;
+
+    // Create and download .ics file
+    const blob = new Blob([icsContent], { type: 'text/calendar' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${eventTitle.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.ics`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    toast({
+      title: "Calendar event created",
+      description: `${eventTitle} has been added to your calendar.`
+    });
+  };
 
   const filteredBulletins = filterType === "recent" 
     ? bulletins.filter((bulletin) => bulletin.date >= new Date(Date.now() - 30 * 24 * 60 * 60 * 1000))
@@ -111,6 +150,7 @@ const BulletinsPage = () => {
         {/* Bulletins Section */}
         <section className="py-16 bg-white">
           <div className="container mx-auto px-4">
+            <AdminBulletinPanel />
             {/* Filter Toggle */}
             <div className="flex justify-center mb-8">
               <div className="inline-flex rounded-md shadow-sm" role="group">
@@ -162,6 +202,7 @@ const BulletinsPage = () => {
                       variant="outline" 
                       size="sm" 
                       className="text-gray-700 flex items-center"
+                      onClick={() => addToCalendar(bulletin)}
                     >
                       <Calendar className="h-4 w-4 mr-2" />
                       Add to Calendar

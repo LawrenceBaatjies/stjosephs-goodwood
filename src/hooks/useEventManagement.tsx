@@ -77,7 +77,7 @@ export const useEventManagement = (
 
   // Add new event (admin only)
   const addEvent = async (selectedDate: Date | null): Promise<void> => {
-    if (!user || !selectedDate || !newEvent.title) {
+    if (!user || !selectedDate || !newEvent.title.trim()) {
       toast({
         variant: "destructive",
         title: "Error",
@@ -90,29 +90,33 @@ export const useEventManagement = (
     
     try {
       const eventPayload = {
-        title: newEvent.title,
-        description: newEvent.description,
+        title: newEvent.title.trim(),
+        description: newEvent.description?.trim() || null,
         date: format(selectedDate, "yyyy-MM-dd"),
-        time: "00:00",
-        category: newEvent.category,
+        time: "09:00", // Default time
+        category: newEvent.category || "Other",
         created_by: user.id,
         status: "approved"
       };
 
-      // For adding events, we need to match the database schema exactly
-      const { error } = await supabase
+      console.log("Adding event with payload:", eventPayload);
+
+      const { data, error } = await supabase
         .from("calendar_events")
-        .insert([eventPayload as any]);
+        .insert([eventPayload])
+        .select();
 
       if (error) {
-        console.error("Error adding event:", error);
+        console.error("Supabase error adding event:", error);
         toast({
           variant: "destructive",
-          title: "Error",
-          description: "Failed to add event. Please try again.",
+          title: "Failed to add event",
+          description: `Database error: ${error.message}`,
         });
         return;
       }
+
+      console.log("Event added successfully:", data);
 
       // Reset form and reload events
       setNewEvent({
@@ -121,7 +125,7 @@ export const useEventManagement = (
         category: "Other",
       });
       
-      loadEvents();
+      await loadEvents();
       
       toast({
         title: "Event Added",
@@ -129,6 +133,11 @@ export const useEventManagement = (
       });
     } catch (error) {
       console.error("Error in addEvent:", error);
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "An unexpected error occurred while adding the event.",
+      });
     } finally {
       setLoading(false);
     }
