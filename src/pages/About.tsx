@@ -147,40 +147,13 @@ const About = () => {
                   </div>
                 </div>
                 
-                {/* Parish Secretary */}
-                <div className="flex flex-col md:flex-row gap-8 items-start">
-                  <div className="w-full md:w-1/4">
-                    <div className="aspect-square bg-gray-200 rounded-full overflow-hidden">
-                      <img 
-                        src="lovable-uploads/ludwe-jayiya.jpg" 
-                        alt="Father Ludwe Jayiya"
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  </div>
-                  <div className="w-full md:w-3/4">
-                    <h3 className="text-2xl font-semibold text-[#d4a760]">Fr. Ludwe Jayiya - (18 February 2006)</h3>
-                    <p className="text-church-red font-medium mb-4">Chaplain at the Goodwood Prison</p>
-                    <div className="prose">
-                      <p>
-                        Fr. Ludwe Jayiyahas been the parish priest at St Joseph's since 2018. He was ordained in 2005 and has 
-                        served in several parishes across the Archdiocese of Adelaide. Fr. John has a particular interest 
-                        in youth ministry and social justice.
-                      </p>
-                      {/* <p>
-                        "I am blessed to serve in such a vibrant and welcoming community. St Joseph's has a rich history 
-                        and a bright future as we continue to grow in faith together."
-                      </p> */}
-                    </div>
-                    <br />
-                    <br />
-                    <h3 className="text-2xl font-semibold text-[#d4a760]">Pat Lindgren  - (Chairperson -  P P C)</h3>
+               <div >
+                 <h3 className="text-2xl font-semibold text-[#d4a760]">Pat Lindgren  - (Chairperson -  P P C)</h3>
                     <p>Contact: 083 274 6620</p>
                     <br />
                     <h3 className="text-2xl font-semibold text-[#d4a760]">Mauricio De Feria  - (Chairperson - P F C)</h3>
                     <p>Contact: 083 643 0945</p>
-                  </div>
-                </div>
+               </div>
               </div>
             </div>
           </div>
