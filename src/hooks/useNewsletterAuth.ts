@@ -67,50 +67,38 @@ export const useNewsletterAuth = () => {
     try {
       setAuthError(null);
       
-      // First, try to create default admin user if none exist
-      await createDefaultAdminUser();
-      
-      // Query admin_users table
-      const { data: adminUsers, error: queryError } = await supabase
-        .from('admin_users')
-        .select('id, email, password_hash')
-        .eq('email', email);
+      // Call edge function to verify login with bcrypt
+      const { data, error } = await supabase.functions.invoke('verify-admin-login', {
+        body: { email, password }
+      });
 
-      if (queryError) {
-        console.error('Query error:', queryError);
+      if (error) {
+        console.error('Function invocation error:', error);
         setAuthError('Login failed. Please try again.');
         return;
       }
 
-      if (!adminUsers || adminUsers.length === 0) {
-        setAuthError('Invalid email or password.');
+      if (!data?.success) {
+        setAuthError(data?.error || 'Invalid email or password.');
         return;
       }
 
-      const adminUser = adminUsers[0];
+      const user: AdminUser = {
+        id: data.user.id,
+        email: data.user.email
+      };
       
-      // For now, we'll do a simple password check
-      // In production, you'd want to hash the password and compare
-      if (password === 'admin123') {
-        const user: AdminUser = {
-          id: adminUser.id,
-          email: adminUser.email
-        };
-        
-        setAdminUser(user);
-        setIsAuthenticated(true);
-        setShowLoginModal(false);
-        
-        // Store in localStorage for persistence
-        localStorage.setItem('newsletter_admin', JSON.stringify(user));
-        
-        toast({
-          title: "Login Successful",
-          description: "You are now logged in as an admin.",
-        });
-      } else {
-        setAuthError('Invalid email or password.');
-      }
+      setAdminUser(user);
+      setIsAuthenticated(true);
+      setShowLoginModal(false);
+      
+      // Store in localStorage for persistence
+      localStorage.setItem('newsletter_admin', JSON.stringify(user));
+      
+      toast({
+        title: "Login Successful",
+        description: "You are now logged in as an admin.",
+      });
     } catch (err: any) {
       console.error('Login error:', err);
       setAuthError(err.message || 'Failed to login');
