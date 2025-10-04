@@ -1,5 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import * as bcrypt from "https://deno.land/x/bcrypt@v0.4.1/mod.ts";
+import * as bcrypt from "https://esm.sh/bcryptjs@2.4.3";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const corsHeaders = {
@@ -76,7 +76,7 @@ serve(async (req) => {
     const adminUser = adminUsers[0];
     
     // Verify password with bcrypt
-    const passwordMatch = await bcrypt.compare(password, adminUser.password_hash);
+    const passwordMatch = bcrypt.compareSync(password, adminUser.password_hash);
     
     if (!passwordMatch) {
       return new Response(
